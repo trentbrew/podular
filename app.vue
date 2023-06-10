@@ -8,7 +8,7 @@ nuxtApp.hook("page:finish", () => {
 
 <template>
   <Html>
-    <Head><Title>Zakia Rowlett</Title></Head>
+    <Head><Title>PODULAR</Title></Head>
     <div>
       <NuxtLayout />
     </div>

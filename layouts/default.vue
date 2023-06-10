@@ -1,9 +1,9 @@
 <script setup>
-import WIP from "@/pages/wip.vue";
+// import WIP from "@/pages/wip.vue";
 </script>
 
 <template>
   <div>
-    <WIP />
+    <router-view />
   </div>
 </template>

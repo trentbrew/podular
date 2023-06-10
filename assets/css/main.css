@@ -1,10 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa&display=swap");
+
 /* ------------ variables ------------ */
 
 :root {
-  --base: #fefce5;
+  --base: #fff;
 }
 
 /* ------------ global ------------ */
+
+* {
+  font-family: "Comfortaa", cursive;
+}
 
 body {
   background: var(--base);
@@ -122,12 +128,4 @@ body {
   90% {
     background-position: -20% 20%;
   }
-}
-
-/* ------------ fonts ------------ */
-
-@font-face {
-  font-family: "Fantastique Mono";
-  src: url("../fonts/fantastique-mono.otf") format("otf");
-  font-weight: 500;
 }
