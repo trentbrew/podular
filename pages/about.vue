@@ -2,7 +2,8 @@
 const transitions = reactive({
   scroll: {
     logo: {
-      brightness: 100,
+      brightness: 0,
+      rotation: 0,
     },
     noise: {
       size: 10,
@@ -29,10 +30,11 @@ function handleScroll(e) {
   transitions.scroll.noise.size =
     e.value > e.viewportHeight ? 4 : 14 - 10 * (e.value / e.viewportHeight); // 10% -> 4%
   transitions.scroll.topbar.opacity = e.value > e.viewportHeight ? 100 : 0;
-  transitions.scroll.hero.opacity = 1 - (e.value / e.viewportHeight) * 0.8;
-  transitions.scroll.hero.scale = 1.32 - e.value / 2500;
+  transitions.scroll.hero.opacity = 1 - (e.value / e.viewportHeight) * 0.9;
+  transitions.scroll.hero.scale = 1.32 - e.value / 4000;
   transitions.scroll.hero.blur = e.value / 30;
   transitions.scroll.logo.brightness = 100 - e.value / 10;
+  // transitions.scroll.logo.rotation = e.value / 10;
 }
 
 function handlePeek(e) {
@@ -60,7 +62,11 @@ function peekaboo(id) {
       viewBox="0 0 401 399"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      :style="`filter: brightness(${transitions.scroll.logo.brightness}%);`"
+      :style="`
+        will-change: filter transform;
+        filter: brightness(${transitions.scroll.logo.brightness}%);
+        transform: rotate(${transitions.scroll.logo.rotation}deg);
+      `"
     >
       <path
         fill-rule="evenodd"
@@ -103,7 +109,7 @@ function peekaboo(id) {
     </section>
 
     <section
-      class="flexy justify-center items-start w-full mt-[100vh] p-[15vw]"
+      class="flexy justify-center items-start w-full mt-[150vh] p-[15vw]"
     >
       <h1 class="text-[72px] font-bold mb-8">Picture this...</h1>
       <!-- <p class="text-lg pb-[72px] font-bold">
