@@ -5,14 +5,7 @@
 <template>
   <main class="fixed overflow-hidden flex justify-center items-center">
     <div class="z-[-1]">
-      <GradientMesh class="fixed top-0 left-0 opacity-[0.92] saturate-200" />
-      <video
-        autoplay
-        loop
-        muted
-        src="../assets/videos/1.mp4"
-        class="object-cover w-screen h-screen"
-      />
+      <GradientMesh class="fixed top-0 left-0 opacity-[0.92] saturate-200" />>
     </div>
     <section class="absolute w-full flex justify-center item-center">
       <h1>Bientôt disponible</h1>
