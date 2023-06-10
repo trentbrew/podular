@@ -1,7 +1,3 @@
-<script setup>
-// const video = require("@/assets/video/1.mp4");
-</script>
-
 <template>
   <main class="fixed overflow-hidden flex justify-center items-center">
     <div class="z-[-1]">
