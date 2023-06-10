@@ -16,6 +16,10 @@ const transitions = reactive({
       scale: 1.32,
       blur: 0,
     },
+    about: {
+      alpha: 0,
+      brightness: 0,
+    },
   },
   peek: {
     hr1: {
@@ -34,7 +38,7 @@ function handleScroll(e) {
   transitions.scroll.hero.scale = 1.32 - e.value / 4000;
   transitions.scroll.hero.blur = e.value / 30;
   transitions.scroll.logo.brightness = 100 - e.value / 10;
-  // transitions.scroll.logo.rotation = e.value / 10;
+  transitions.scroll.about.brightness = e.value / 100;
 }
 
 function handlePeek(e) {
@@ -121,9 +125,14 @@ function peekaboo(id) {
       <div
         id="hr1"
         v-peek="handlePeek"
-        class="bg-green-500 rounded-sm duration-[1.5s] delay-100 h-[100vh] ease-expo"
+        class="rounded-sm duration-[3s] delay-100 h-[100vh] ease-expo bg-[url(/assets/images/renders/about.jpg)] bg-cover bg-fixed"
         :class="peekaboo('hr1')"
-      ></div>
+      >
+        <div
+          class="w-full h-full"
+          :style="`filter: brightness(${transitions.scroll.about.brightness})`"
+        ></div>
+      </div>
     </section>
 
     <section></section>
