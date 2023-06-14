@@ -1,4 +1,6 @@
 <script setup>
+const emit = defineEmits(["update"]);
+
 const props = defineProps({
   duration: {
     type: Number,
@@ -17,18 +19,23 @@ const state = reactive({
 });
 
 window.addEventListener("wheel", function (event) {
+  var direction = "";
   if (state.isScrolling) return;
   const delta = Math.sign(event.deltaY);
-  console.log(state.currentSection, state.sections.length - 1);
   if (delta > 0 && state.currentSection < state.sections.length - 1) {
+    emit("update", {
+      activeSection: state.currentSection + 1,
+    });
     scrollToSection(state.currentSection + 1);
   } else if (delta < 0 && state.currentSection > 0) {
+    emit("update", {
+      activeSection: state.currentSection - 1,
+    });
     scrollToSection(state.currentSection - 1);
   }
 });
 
 function scrollToSection(index) {
-  console.log("scrollToSection", index);
   const targetSection = state.sections[index];
   const targetPosition = targetSection.offsetTop;
   const startPosition = window.pageYOffset;
@@ -46,8 +53,8 @@ function scrollToSection(index) {
     if (progress < duration) {
       window.requestAnimationFrame(scrollStep);
     } else {
-      state.currentSection = index;
       state.isScrolling = false;
+      state.currentSection = index;
     }
   };
 
