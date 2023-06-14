@@ -2,6 +2,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.directive("scroll", {
     mounted(el, binding) {
       window.addEventListener("scroll", (e) => {
+        e.preventDefault();
         const target = e.target.scrollingElement;
         const height = target.scrollHeight;
         const value = Math.floor(target.scrollTop);
