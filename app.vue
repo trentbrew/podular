@@ -7,7 +7,7 @@ nuxtApp.hook("page:finish", () => {
 </script>
 
 <template>
-  <Html>
+  <Html data-theme="business">
     <Head><Title>PODULAR</Title></Head>
     <div>
       <NuxtLayout />

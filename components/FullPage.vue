@@ -1,4 +1,6 @@
 <script setup>
+const router = useRouter();
+
 const emit = defineEmits(["update"]);
 
 const props = defineProps({
@@ -19,7 +21,6 @@ const state = reactive({
 });
 
 window.addEventListener("wheel", function (event) {
-  var direction = "";
   if (state.isScrolling) return;
   const delta = Math.sign(event.deltaY);
   if (delta > 0 && state.currentSection < state.sections.length - 1) {
@@ -27,13 +28,21 @@ window.addEventListener("wheel", function (event) {
       activeSection: state.currentSection + 1,
     });
     scrollToSection(state.currentSection + 1);
+    updateHash(state.sections[state.currentSection + 1].id);
   } else if (delta < 0 && state.currentSection > 0) {
     emit("update", {
       activeSection: state.currentSection - 1,
     });
     scrollToSection(state.currentSection - 1);
+    updateHash(state.sections[state.currentSection - 1].id);
   }
 });
+
+function updateHash(hash) {
+  setTimeout(() => {
+    router.push({ hash: `#${hash}`, params: { savePosition: true } });
+  }, props.duration);
+}
 
 function scrollToSection(index) {
   const targetSection = state.sections[index];
@@ -61,6 +70,18 @@ function scrollToSection(index) {
   state.isScrolling = true;
   window.requestAnimationFrame(scrollStep);
 }
+
+function scrollById(id) {
+  updateHash(id);
+  const index = Array.from(state.sections).findIndex((s) => s.id === id);
+  emit("update", {
+    activeSection: index,
+  });
+  state.currentSection = index;
+  scrollToSection(index);
+}
+
+defineExpose({ scrollById });
 
 const timing = {
   linear: (t, b, c, d) => {

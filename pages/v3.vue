@@ -1,4 +1,8 @@
 <script setup>
+const router = useRouter();
+
+const fullpage = ref(null);
+
 const state = reactive({
   active: 0,
   progress: 0,
@@ -13,17 +17,30 @@ function handleScroll(e) {
 
 function handleNewSection(e) {
   state.active = e.activeSection;
+  console.log(state.active);
+}
+
+function goTo(section) {
+  fullpage.value.scrollById(section);
 }
 </script>
 
 <template>
   <main v-scroll="handleScroll">
     <progress
-      class="fixed top-0 left-0 progress progress-primary w-full z-50"
+      class="fixed top-0 left-0 progress progress-neutral invert w-full z-50"
       :value="state.progress"
       max="100"
     ></progress>
-    <FullPage @update="handleNewSection" :duration="1400">
+
+    <button
+      @click="goTo('contact')"
+      class="absolute left-0 top-0 right-0 bottom-0 m-auto w-fit btn"
+    >
+      contact
+    </button>
+
+    <FullPage ref="fullpage" @update="handleNewSection" :duration="1400">
       <section
         id="home"
         class="fixed top-0 left-0 flex flex-col justify-center items-center -z-50"
@@ -33,20 +50,22 @@ function handleNewSection(e) {
           loop
           muted
           src="../assets/videos/landing.mov"
-          class="object-cover w-screen h-screen duration-[1800ms]"
+          class="object-cover w-screen h-screen duration-[2200ms]"
           :class="`
             ${
               state.active === 0
-                ? 'scale-[1.3]'
-                : 'scale-[1] -translate-y-[30vh] blur-[60px] brightness-[0.7] saturate-200'
+                ? 'scale-[1.4]'
+                : 'scale-[1] -translate-y-[60vh] blur-[40px] brightness-[0.6] saturate-200'
             }
           `"
         />
       </section>
-      <section id="about" class="mt-[100vh]">about</section>
+      <section id="about" class="mt-[100vh] opacity-50">about</section>
       <section id="features">features</section>
       <section id="showroom">showroom</section>
-      <section id="contact">contact</section>
+      <section id="contact">
+        <button @click="goTo('about')" class="w-fit btn">about</button>
+      </section>
     </FullPage>
   </main>
 </template>
