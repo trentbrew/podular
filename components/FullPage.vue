@@ -6,7 +6,7 @@ const props = defineProps({
     type: Number,
     default: 1200,
   },
-  easing: {
+  ease: {
     type: String,
     default: "easeInOutQuart",
   },
@@ -48,7 +48,7 @@ function scrollToSection(index) {
     const progress = timestamp - startTimestamp;
     window.scrollTo(
       0,
-      timing[props.easing](progress, startPosition, distance, duration)
+      timing[props.ease](progress, startPosition, distance, duration)
     );
     if (progress < duration) {
       window.requestAnimationFrame(scrollStep);
@@ -82,6 +82,7 @@ const timing = {
     return c * (-Math.pow(2, (-10 * t) / d) + 1) + b;
   },
   easeInOutCirc: (t, b, c, d) => {
+    // cubic-bezier(0.85, 0, 0.15, 1)
     t /= d / 2;
     if (t < 1) return (-c / 2) * (Math.sqrt(1 - t * t) - 1) + b;
     t -= 2;
