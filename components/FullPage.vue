@@ -154,20 +154,11 @@ onMounted(() => {
 body {
   overflow: hidden;
 }
-
-#fullscreen {
-  background: black;
-}
 section {
   height: 100vh;
   width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
-  color: white;
-}
-section:nth-child(even) {
-  background-color: #212121;
 }
 </style>

@@ -13,14 +13,12 @@ function goTo(section) {
 }
 
 function handleScroll(e) {
-  let scrollTop = e.target.scrollTop;
-  let scrollHeight = e.target.scrollHeight;
-  let clientHeight = e.target.clientHeight;
-  state.progress = (scrollTop / (scrollHeight - clientHeight)) * 100;
+  state.progress = e.progress;
 }
 
 function handleNewSection(e) {
   state.active = e.activeSection;
+  console.log(state.active);
 }
 </script>
 
@@ -32,14 +30,12 @@ function handleNewSection(e) {
       max="100"
     ></progress>
 
-    <button
-      @click="goTo('contact')"
-      class="absolute left-0 top-0 right-0 bottom-0 m-auto w-fit btn"
+    <FullPage
+      ref="fullpage"
+      @update="handleNewSection"
+      :duration="1000"
+      ease="easeInOutCubic"
     >
-      contact
-    </button>
-
-    <FullPage ref="fullpage" @update="handleNewSection" :duration="1400">
       <section
         id="home"
         class="fixed top-0 left-0 flex flex-col justify-center items-center -z-50"
@@ -49,22 +45,38 @@ function handleNewSection(e) {
           loop
           muted
           src="../assets/videos/landing.mov"
-          class="object-cover w-screen h-screen duration-[2200ms]"
+          class="object-cover w-screen h-screen duration-[1600ms]"
           :class="`
             ${
               state.active === 0
-                ? 'scale-[1.4]'
-                : 'scale-[1] -translate-y-[60vh] blur-[40px] brightness-[0.6] saturate-200'
+                ? 'scale-[1.2]'
+                : 'scale-[1] -translate-y-[10vh] blur-[24px] brightness-[0.6] saturate-200'
             }
           `"
         />
       </section>
-      <section id="about" class="mt-[100vh] opacity-50">about</section>
-      <section id="features">features</section>
-      <section id="showroom">showroom</section>
-      <section id="contact">
-        <button @click="goTo('about')" class="w-fit btn">about</button>
+      <section
+        id="about"
+        class="mt-[150vh] flex justify-center items-center bg-white"
+      >
+        <!-- <Intro /> -->
+        <!-- <div
+          class="bg-black w-[100px] h-[100px] duration-[5s]"
+          :class="`
+          ${state.active == 0 ? 'translate-y-[180vh] scale-[10]' : ''}
+          ${state.active == 1 ? '-translate-y-[140vh] scale-[30]' : ''}
+          ${
+            state.active == 2
+              ? 'translate-x-[75vw] translate-y-[100vh] scale-[40]'
+              : ''
+          }
+          ${state.active == 3 ? 'scale-[1]' : ''}`"
+        ></div> -->
+        about
       </section>
+      <section id="features" class="bg-white">features</section>
+      <section id="showroom" class="bg-white">showroom</section>
+      <section id="contact" class="bg-white">contact</section>
     </FullPage>
   </main>
 </template>

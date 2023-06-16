@@ -14,8 +14,9 @@
 }
 
 body {
-  background: var(--base);
   scroll-behavior: smooth;
+  box-sizing: border-box;
+  background: black;
 }
 
 .fullscreen {

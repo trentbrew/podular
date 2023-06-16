@@ -8,6 +8,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         const value = Math.floor(target.scrollTop);
         const viewportHeight = target.clientHeight;
         const viewportWidth = target.clientWidth;
+        const progress = (value / (height - viewportHeight)) * 100;
         binding.value({
           target,
           el,
@@ -15,6 +16,7 @@ export default defineNuxtPlugin((nuxtApp) => {
           value,
           viewportHeight,
           viewportWidth,
+          progress,
         });
       });
     },
