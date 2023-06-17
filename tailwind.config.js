@@ -8,9 +8,6 @@ module.exports = {
     "./nuxt.config.{js,ts}",
     "./app.vue",
   ],
-  fontFamily: {
-    mono: "Fantastique Mono, monospace",
-  },
   theme: {
     extend: {},
   },

@@ -21,7 +21,7 @@ onMounted(() => {
   }, 3500);
   setTimeout(() => {
     state.wordmarkReady = true;
-  }, 4800);
+  }, 4500);
   setTimeout(() => {
     state.next = true;
   }, 5000);
@@ -49,8 +49,12 @@ function handleClick() {
   >
     <div
       id="wordmark"
-      class="absolute duration-[300ms] translate-x-[75px]"
-      :class="state.wordmarkReady ? 'opacity-1' : 'opacity-[0]'"
+      class="absolute duration-[800ms]"
+      :class="
+        state.wordmarkReady
+          ? 'opacity-1 translate-x-[75px]'
+          : 'opacity-[0] translate-x-[115px]'
+      "
     >
       <svg
         width="500"
@@ -236,9 +240,7 @@ main {
   align-items: center;
   text-align: center;
   display: flex;
-  font-size: 1.5em;
   color: rgb(88 199 250 / 0%);
-  font-family: cursive;
   transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
 }
 

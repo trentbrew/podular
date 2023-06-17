@@ -8,6 +8,7 @@ const state = reactive({
   ready: false,
   active: 0,
   progress: 0,
+  direction: "down",
 });
 
 function goTo(section) {
@@ -20,11 +21,26 @@ function handleScroll(e) {
 
 function handleNewSection(e) {
   state.active = e.activeSection;
-  console.log(state.active);
+  state.direction = e.direction;
+  console.log(state.direction);
 }
 
 function handleIntroReady(e) {
   state.ready = true;
+}
+
+function parallax(index) {
+  const fx = "filter: brightness(0.6);";
+  const bgy = "background-size: 130%; background-position:";
+  if (state.active < index) {
+    return `${fx} ${bgy} 50% 0%`;
+  }
+  if (state.active == index) {
+    return `${bgy} 50% 50%`;
+  }
+  if (state.active > index) {
+    return `${fx} ${bgy} 50% 100%`;
+  }
 }
 </script>
 
@@ -37,12 +53,12 @@ function handleIntroReady(e) {
     ></progress> -->
 
     <div
-      class="duration-[2s]"
+      class="duration-[1s]"
       :class="`
     ${
       state.active != 0
-        ? 'scale-[0.6] opacity-0 blur-2xl translate-y-[-100px]'
-        : 'delay-[1s]'
+        ? 'scale-[0.9] opacity-0 translate-y-[-20px]'
+        : 'delay-[1200ms]'
     }
     `"
     >
@@ -52,9 +68,9 @@ function handleIntroReady(e) {
     <FullPage
       ref="fullpage"
       @update="handleNewSection"
-      :duration="1000"
+      :duration="1200"
       :disable="!state.ready"
-      ease="easeInOutQuad"
+      ease="easeInOutCubic"
     >
       <section
         id="home"
@@ -70,7 +86,7 @@ function handleIntroReady(e) {
             ${
               state.active === 0
                 ? 'scale-[1.2]'
-                : 'scale-[1] -translate-y-[10vh] blur-[24px] brightness-[0]'
+                : 'scale-[1] -translate-y-[5vh] brightness-[0.6]'
             }
           `"
         />
@@ -79,11 +95,24 @@ function handleIntroReady(e) {
         id="about"
         class="mt-[100vh] flex justify-center items-center bg-white"
       >
-        about
+        <div
+          class="bg-[url('/assets/images/renders/about.jpg')] bg-no-repeat bg-fixed w-screen h-screen duration-[2s]"
+          :style="parallax(1)"
+        ></div>
       </section>
-      <section id="features" class="bg-white">features</section>
-      <section id="showroom" class="bg-white">showroom</section>
-      <section id="contact" class="bg-white">contact</section>
+      <section id="features">
+        <div
+          class="bg-[url('/assets/images/renders/features.jpg')] bg-no-repeat bg-fixed w-screen h-screen duration-[2s]"
+          :style="parallax(2)"
+        ></div>
+      </section>
+      <section id="showroom">
+        <div
+          class="bg-[url('/assets/images/renders/showroom.jpg')] bg-no-repeat bg-fixed w-screen h-screen duration-[2s]"
+          :style="parallax(3)"
+        ></div>
+      </section>
+      <section id="contact">contact</section>
     </FullPage>
   </main>
 </template>

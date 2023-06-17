@@ -22,6 +22,7 @@ const state = reactive({
   sections: [],
   currentSection: 0,
   isScrolling: false,
+  direction: "diown",
 });
 
 window.addEventListener("wheel", function (event) {
@@ -30,12 +31,14 @@ window.addEventListener("wheel", function (event) {
   if (delta > 0 && state.currentSection < state.sections.length - 1) {
     emit("update", {
       activeSection: state.currentSection + 1,
+      direction: "down",
     });
     scrollToSection(state.currentSection + 1);
     updateHash(state.sections[state.currentSection + 1].id);
   } else if (delta < 0 && state.currentSection > 0) {
     emit("update", {
       activeSection: state.currentSection - 1,
+      direction: "up",
     });
     scrollToSection(state.currentSection - 1);
     updateHash(state.sections[state.currentSection - 1].id);
