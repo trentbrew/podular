@@ -42,25 +42,64 @@ function parallax(index) {
     return `${fx} ${bgy} 50% 150%`;
   }
 }
+
+function animate(index, inactive, active) {
+  if (state.active === index) return active;
+  else return inactive;
+}
 </script>
 
 <template>
+  <div
+    class="fixed bottom-16 right-16 z-50 duration-[500ms]"
+    :class="
+      state.active > 0
+        ? 'translate-y-[0px] opacity-1 delay-[300ms]'
+        : 'translate-y-[32px] opacity-0'
+    "
+  >
+    <svg
+      width="100"
+      height="100"
+      viewBox="0 0 135 135"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M134.77 74.0625L101.618 74.0625C101.618 74.0948 101.618 74.1271 101.618 74.1594C101.618 88.9889 89.5963 101.01 74.7669 101.01C74.7345 101.01 74.7022 101.01 74.6699 101.01V134.162C74.7022 134.162 74.7345 134.162 74.7669 134.162C107.906 134.162 134.77 107.298 134.77 74.1594C134.77 74.1271 134.77 74.0948 134.77 74.0625Z"
+        fill="white"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M60.0998 0C26.9076 0 0 26.9076 0 60.0998C0 93.292 26.9076 120.2 60.0998 120.2C93.292 120.2 120.2 93.292 120.2 60.0998C120.2 26.9076 93.292 0 60.0998 0ZM60.0998 33.2054C45.2464 33.2054 33.2054 45.2464 33.2054 60.0998C33.2054 74.9532 45.2464 86.9942 60.0998 86.9942C74.9532 86.9942 86.9942 74.9532 86.9942 60.0998C86.9942 45.2464 74.9532 33.2054 60.0998 33.2054ZM120.2 60.0027H86.9941C86.9942 60.0351 86.9942 60.0674 86.9942 60.0998C86.9942 74.9532 74.9532 86.9942 60.0998 86.9942C60.0674 86.9942 60.0351 86.9942 60.0027 86.9941V120.2C60.0351 120.2 60.0674 120.2 60.0998 120.2C93.292 120.2 120.2 93.292 120.2 60.0998C120.2 60.0674 120.2 60.0351 120.2 60.0027Z"
+        fill="white"
+      />
+    </svg>
+  </div>
+
   <main v-scroll="handleScroll">
-    <progress
-      class="fixed top-0 left-0 progress progress-neutral grayscale w-full z-50"
-      :value="state.progress"
-      max="100"
-    ></progress>
+    <div
+      v-show="state.ready"
+      class="fixed m-auto left-0 top-0 bg-transparent h-[8px] rounded-full w-screen z-50 flex justify-start"
+    >
+      <div
+        class="bg-white h-full rounded-full"
+        :style="`width: ${state.progress}%`"
+      ></div>
+    </div>
 
     <div
       class="duration-[1s]"
-      :class="`
-    ${
-      state.active != 0
-        ? 'scale-[0.9] opacity-0 translate-y-[-20px]'
-        : 'delay-[1200ms]'
-    }
-    `"
+      :class="
+        animate(
+          0,
+          'scale-[0.9] opacity-0 translate-y-[-20px]',
+          'delay-[1200ms]'
+        )
+      "
     >
       <Intro v-if="!state.debug" @ready="handleIntroReady" />
     </div>
@@ -82,37 +121,59 @@ function parallax(index) {
           muted
           src="../assets/videos/landing.mov"
           class="object-cover w-screen h-screen duration-[1600ms]"
-          :class="`
-            ${
-              state.active === 0
-                ? 'scale-[1.2]'
-                : 'scale-[1] -translate-y-[5vh] brightness-[0.6]'
-            }
-          `"
+          :class="
+            animate(
+              0,
+              'scale-[1] -translate-y-[5vh] brightness-[0.6]',
+              'scale-[1.2]'
+            )
+          "
         />
       </section>
-      <section
-        id="about"
-        class="flex flex-col justify-center items-center bg-white"
-      >
+      <section id="about" class="flex bg-white">
         <div
-          class="bg-[url('/assets/images/renders/about.jpg')] bg-no-repeat bg-fixed duration-[2s] h-screen w-screen brightness-50"
+          class="bg-[url('/assets/images/renders/about.jpg')] bg-no-repeat bg-cover bg-fixed duration-[4s] h-screen w-screen flex items-end justify-start"
           :style="parallax(1)"
-        ></div>
-        <!-- <div
-          class="bg-white w-screen duration-[3s]"
-          :class="state.active === 1 ? 'delay-[2s] h-[50vh]' : 'h-[100vh]'"
-        ></div> -->
+          :class="animate(1, 'brightness-[0]', 'brightness-[1]')"
+        >
+          <div
+            class="bg-white w-[50vw] h-fit rounded-3xl m-12 p-12 flex flex-col justify-start items-start duration-[1.2s]"
+            :class="
+              animate(1, 'translate-x-[0px]', 'translate-x-[0px] delay-[0.9s]')
+            "
+          >
+            <div class="font-bold text-3xl mb-6">
+              The perfect space solution
+            </div>
+            <!-- <div
+              class="bg-black h-[2px] duration-[4s] mb-8 delay-[0.8s]"
+              :class="animate(1, 'w-[0vw]', 'w-[42vw]')"
+            ></div> -->
+            <div class="flex flex-col gap-3">
+              <span>
+                Podular offers chic and customizable modular pods, providing a
+                quick and effortless space solution to enhance both customer and
+                worker experiences for pop-up food and beverage services.
+              </span>
+              <button
+                @click="goTo('features')"
+                class="w-fit bg-black text-white py-2 px-4 mt-4 rounded-full hover:bg-white hover:text-black border-2 border-black duration-[200ms]"
+              >
+                Explore features
+              </button>
+            </div>
+          </div>
+        </div>
       </section>
       <section id="features">
         <div
-          class="bg-[url('/assets/images/renders/features.jpg')] bg-no-repeat bg-fixed w-screen h-screen duration-[2s]"
+          class="bg-[url('/assets/images/renders/features.jpg')] bg-no-repeat bg-fixed w-screen h-screen duration-[4s]"
           :style="parallax(2)"
         ></div>
       </section>
       <section id="showroom">
         <div
-          class="bg-[url('/assets/images/renders/showroom.jpg')] bg-no-repeat bg-fixed w-screen h-screen duration-[2s]"
+          class="bg-[url('/assets/images/renders/showroom.jpg')] bg-no-repeat bg-fixed w-screen h-screen duration-[4s]"
           :style="parallax(3)"
         ></div>
       </section>
