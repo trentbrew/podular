@@ -22,6 +22,7 @@ function handleScroll(e) {
 function handleNewSection(e) {
   state.active = e.activeSection;
   state.direction = e.direction;
+  console.log(state.active);
   console.log(state.direction);
 }
 
@@ -198,6 +199,14 @@ function animate(index, inactive, active) {
           class="bg-[url('/assets/images/renders/showroom.jpg')] bg-no-repeat bg-fixed w-screen h-screen duration-[4s]"
           :style="parallax(3)"
         ></div>
+        <ul id="show-list" class="absolute">
+          <li id="access" class="hoverable show"></li>
+          <div class="show" id="access2"></div>
+          <li id="electrical" class="hoverable show"></li>
+          <div class="show" id="electrical2"></div>
+          <li id="scale" class="hoverable show"></li>
+          <div class="show" id="scale2"></div>
+        </ul>
       </section>
       <section id="contact" class="bg-black text-white">contact</section>
     </FullPage>
@@ -205,25 +214,42 @@ function animate(index, inactive, active) {
 </template>
 
 <style lang="scss">
-#feat-list > div {
-  @apply animate-ping;
+@keyframes bubble-enter {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
-.feat {
+#feat-list,
+#show-list {
+  animation: bubble-enter 2s ease forwards;
+}
+
+#feat-list > div {
+  @apply animate-ping;
+  z-index: 10;
+}
+
+#show-list > div {
+  @apply animate-ping;
+  z-index: 10;
+}
+
+.feat,
+.show {
   position: absolute;
-  background: #ffffffbb;
+  background: #ffffff;
   height: 32px;
   width: 32px;
   border-radius: 100%;
   z-index: 100;
 }
 
-.feat::before {
-  @apply animate-ping;
-}
-
-#access,
-#access2 {
+#feat-list #access,
+#feat-list #access2 {
   top: -50px;
   right: -480px;
 }
@@ -262,5 +288,23 @@ function animate(index, inactive, active) {
 #wheels2 {
   bottom: -300px;
   right: -290px;
+}
+
+#show-list #access,
+#show-list #access2 {
+  top: -400px;
+  left: -600px;
+}
+
+#electrical,
+#electrical2 {
+  bottom: -75px;
+  right: -200px;
+}
+
+#scale,
+#scale2 {
+  bottom: -30px;
+  left: -500px;
 }
 </style>
