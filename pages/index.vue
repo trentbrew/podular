@@ -175,16 +175,23 @@ function animate(index, inactive, active) {
         <div
           class="bg-[url('/assets/images/renders/features.jpg')] bg-no-repeat bg-fixed w-screen h-screen duration-[4s] z-[-1]"
           :style="parallax(2)"
-        >
-          <ul>
-            <li id="access" class="feat">access</li>
-            <li id="led" class="feat">led</li>
-            <li id="sink" class="feat">sink</li>
-            <li id="storage" class="feat">storage</li>
-            <li id="stove" class="feat">stove</li>
-            <li id="utility" class="feat">utility</li>
-          </ul>
-        </div>
+        ></div>
+        <ul id="feat-list" class="absolute">
+          <li id="access" class="hoverable feat"></li>
+          <div class="feat" id="access2"></div>
+          <li id="led" class="hoverable feat"></li>
+          <div class="feat" id="led2"></div>
+          <li id="sink" class="hoverable feat"></li>
+          <div class="feat" id="sink2"></div>
+          <li id="storage" class="hoverable feat"></li>
+          <div class="feat" id="storage2"></div>
+          <li id="stove" class="hoverable feat"></li>
+          <div class="feat" id="stove2"></div>
+          <li id="utility" class="hoverable feat"></li>
+          <div class="feat" id="utility2"></div>
+          <li id="wheels" class="hoverable feat"></li>
+          <div class="feat" id="wheels2"></div>
+        </ul>
       </section>
       <section id="showroom">
         <div
@@ -198,24 +205,62 @@ function animate(index, inactive, active) {
 </template>
 
 <style lang="scss">
+#feat-list > div {
+  @apply animate-ping;
+}
+
 .feat {
   position: absolute;
-  background: red;
-  height: 24px;
-  width: 24px;
+  background: #ffffffbb;
+  height: 32px;
+  width: 32px;
   border-radius: 100%;
-  z-index: 150;
+  z-index: 100;
 }
 
-#access {
-  background: yellow !important;
-  top: 50vh;
-  right: 40vw;
+.feat::before {
+  @apply animate-ping;
 }
 
-#led {
-  background: blue !important;
-  top: 40vh;
-  right: 20vw;
+#access,
+#access2 {
+  top: -50px;
+  right: -480px;
+}
+
+#led,
+#led2 {
+  bottom: -385px;
+  right: -500px;
+}
+
+#storage,
+#storage2 {
+  bottom: 0px;
+  left: -75px;
+}
+
+#sink,
+#sink2 {
+  top: -200px;
+  left: -360px;
+}
+
+#stove,
+#stove2 {
+  top: -170px;
+  right: -270px;
+}
+
+#utility,
+#utility2 {
+  top: -50px;
+  right: -260px;
+}
+
+#wheels,
+#wheels2 {
+  bottom: -300px;
+  right: -290px;
 }
 </style>
