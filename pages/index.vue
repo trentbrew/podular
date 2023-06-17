@@ -126,7 +126,7 @@ function animate(index, inactive, active) {
           autoplay
           loop
           muted
-          src="../assets/videos/landing.mov"
+          src="../assets/videos/landing.mp4"
           class="object-cover w-screen h-screen duration-[1600ms]"
           :class="
             animate(
