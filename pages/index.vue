@@ -50,6 +50,7 @@ function animate(index, inactive, active) {
 </script>
 
 <template>
+  <Cursor />
   <div
     class="fixed bottom-16 right-16 z-50 duration-[500ms]"
     :class="
@@ -115,6 +116,11 @@ function animate(index, inactive, active) {
         id="home"
         class="fixed top-0 left-0 flex flex-col justify-center items-center -z-50"
       >
+        <div
+          class="absolute w-screen h-screen bg-transparent z-[100] flex justify-center items-end"
+        >
+          <!-- <Arrow class="scale-[1.5] translate-y-[60px]" /> -->
+        </div>
         <video
           autoplay
           loop
@@ -157,7 +163,7 @@ function animate(index, inactive, active) {
               </span>
               <button
                 @click="goTo('features')"
-                class="w-fit bg-black text-white py-2 px-4 mt-4 rounded-full hover:bg-white hover:text-black border-2 border-black duration-[200ms]"
+                class="hoverable w-fit bg-black text-white py-2 px-4 mt-4 rounded-full hover:bg-white hover:text-black border-2 border-black duration-[200ms]"
               >
                 Explore features
               </button>
@@ -167,9 +173,18 @@ function animate(index, inactive, active) {
       </section>
       <section id="features">
         <div
-          class="bg-[url('/assets/images/renders/features.jpg')] bg-no-repeat bg-fixed w-screen h-screen duration-[4s]"
+          class="bg-[url('/assets/images/renders/features.jpg')] bg-no-repeat bg-fixed w-screen h-screen duration-[4s] z-[-1]"
           :style="parallax(2)"
-        ></div>
+        >
+          <ul>
+            <li id="access" class="feat">access</li>
+            <li id="led" class="feat">led</li>
+            <li id="sink" class="feat">sink</li>
+            <li id="storage" class="feat">storage</li>
+            <li id="stove" class="feat">stove</li>
+            <li id="utility" class="feat">utility</li>
+          </ul>
+        </div>
       </section>
       <section id="showroom">
         <div
@@ -181,3 +196,26 @@ function animate(index, inactive, active) {
     </FullPage>
   </main>
 </template>
+
+<style lang="scss">
+.feat {
+  position: absolute;
+  background: red;
+  height: 24px;
+  width: 24px;
+  border-radius: 100%;
+  z-index: 150;
+}
+
+#access {
+  background: yellow !important;
+  top: 50vh;
+  right: 40vw;
+}
+
+#led {
+  background: blue !important;
+  top: 40vh;
+  right: 20vw;
+}
+</style>
