@@ -33,24 +33,24 @@ function parallax(index) {
   const fx = "filter: brightness(0.6);";
   const bgy = "background-size: 130%; background-position:";
   if (state.active < index) {
-    return `${fx} ${bgy} 50% 0%`;
+    return `${fx} ${bgy} 50% -50%`;
   }
   if (state.active == index) {
     return `${bgy} 50% 50%`;
   }
   if (state.active > index) {
-    return `${fx} ${bgy} 50% 100%`;
+    return `${fx} ${bgy} 50% 150%`;
   }
 }
 </script>
 
 <template>
   <main v-scroll="handleScroll">
-    <!-- <progress
-      class="fixed top-0 left-0 progress progress-neutral invert w-full z-50"
+    <progress
+      class="fixed top-0 left-0 progress progress-neutral grayscale w-full z-50"
       :value="state.progress"
       max="100"
-    ></progress> -->
+    ></progress>
 
     <div
       class="duration-[1s]"
@@ -93,12 +93,16 @@ function parallax(index) {
       </section>
       <section
         id="about"
-        class="mt-[100vh] flex justify-center items-center bg-white"
+        class="flex flex-col justify-center items-center bg-white"
       >
         <div
-          class="bg-[url('/assets/images/renders/about.jpg')] bg-no-repeat bg-fixed w-screen h-screen duration-[2s]"
+          class="bg-[url('/assets/images/renders/about.jpg')] bg-no-repeat bg-fixed duration-[2s] h-screen w-screen brightness-50"
           :style="parallax(1)"
         ></div>
+        <!-- <div
+          class="bg-white w-screen duration-[3s]"
+          :class="state.active === 1 ? 'delay-[2s] h-[50vh]' : 'h-[100vh]'"
+        ></div> -->
       </section>
       <section id="features">
         <div
@@ -112,7 +116,7 @@ function parallax(index) {
           :style="parallax(3)"
         ></div>
       </section>
-      <section id="contact">contact</section>
+      <section id="contact" class="bg-black text-white">contact</section>
     </FullPage>
   </main>
 </template>
