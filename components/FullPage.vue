@@ -12,6 +12,10 @@ const props = defineProps({
     type: String,
     default: "easeInOutQuart",
   },
+  disable: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const state = reactive({
@@ -21,7 +25,7 @@ const state = reactive({
 });
 
 window.addEventListener("wheel", function (event) {
-  if (state.isScrolling) return;
+  if (state.isScrolling || props.disable) return;
   const delta = Math.sign(event.deltaY);
   if (delta > 0 && state.currentSection < state.sections.length - 1) {
     emit("update", {

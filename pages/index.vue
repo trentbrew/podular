@@ -4,6 +4,8 @@ const router = useRouter();
 const fullpage = ref(null);
 
 const state = reactive({
+  debug: false,
+  ready: false,
   active: 0,
   progress: 0,
 });
@@ -20,6 +22,10 @@ function handleNewSection(e) {
   state.active = e.activeSection;
   console.log(state.active);
 }
+
+function handleIntroReady(e) {
+  state.ready = true;
+}
 </script>
 
 <template>
@@ -30,12 +36,24 @@ function handleNewSection(e) {
       max="100"
     ></progress> -->
 
-    <Intro />
+    <div
+      class="duration-[2s]"
+      :class="`
+    ${
+      state.active != 0
+        ? 'scale-[0.6] opacity-0 blur-2xl translate-y-[-100px]'
+        : 'delay-[1s]'
+    }
+    `"
+    >
+      <Intro v-if="!state.debug" @ready="handleIntroReady" />
+    </div>
 
     <FullPage
       ref="fullpage"
       @update="handleNewSection"
       :duration="1000"
+      :disable="!state.ready"
       ease="easeInOutQuad"
     >
       <section
@@ -52,7 +70,7 @@ function handleNewSection(e) {
             ${
               state.active === 0
                 ? 'scale-[1.2]'
-                : 'scale-[1] -translate-y-[10vh] blur-[24px] brightness-[0.6] saturate-200'
+                : 'scale-[1] -translate-y-[10vh] blur-[24px] brightness-[0]'
             }
           `"
         />

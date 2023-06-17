@@ -1,4 +1,6 @@
 <script setup>
+const emit = defineEmits(["ready"]);
+
 const state = reactive({
   init: false,
   clicked: false,
@@ -16,13 +18,16 @@ onMounted(() => {
   setTimeout(() => {
     state.ready = true;
     state.clicked = true;
-  }, 3900);
+  }, 3500);
   setTimeout(() => {
     state.wordmarkReady = true;
   }, 4800);
   setTimeout(() => {
     state.next = true;
   }, 5000);
+  setTimeout(() => {
+    emit("ready", true);
+  }, 6000);
 });
 
 function handleClick() {
@@ -37,14 +42,14 @@ function handleClick() {
       ${
         !state.next
           ? 'pointer-events-none'
-          : '!scale-[0.9] translate-y-[-225px]'
+          : '!duration-[1.5s] !scale-[0.9] translate-y-[-225px]'
       }
       ${!state.init ? 'scale-[16]' : 'scale-[1.5]'}
     `"
   >
     <div
       id="wordmark"
-      class="absolute duration-[500ms] translate-x-[75px]"
+      class="absolute duration-[300ms] translate-x-[75px]"
       :class="state.wordmarkReady ? 'opacity-1' : 'opacity-[0]'"
     >
       <svg
@@ -116,9 +121,6 @@ function handleClick() {
       id="step2"
       v-show="state.clicked"
       class="absolute w-[118px] h-[118px] nudge"
-      :class="`
-      ${state.ready ? 'translate-x-[-300px]' : 'translate-x-[0px]'}
-      `"
     >
       <div class="absolute">
         <svg
@@ -200,7 +202,7 @@ main {
     transform: translateX(0px);
   }
   100% {
-    transform: translateX(-300px);
+    transform: translateX(-286px);
   }
 }
 
@@ -260,11 +262,5 @@ main {
   100% {
     --rotate: 360deg;
   }
-}
-
-#wordmark svg path {
-  stroke-dasharray: 0;
-  stroke-dashoffset: 0;
-  animation: drawPath 3s ease forwards;
 }
 </style>
