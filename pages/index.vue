@@ -9,6 +9,10 @@ const state = reactive({
   active: 0,
   progress: 0,
   direction: "down",
+  offset: {
+    features: [0, 0],
+    showroom: [0, 0],
+  },
 });
 
 function goTo(section) {
@@ -30,18 +34,19 @@ function handleIntroReady(e) {
   state.ready = true;
 }
 
+function syncParallax(index) {
+  if (state.active < index) return ["50vw", "-50vh"];
+  if (state.active == index) return ["50vw", "50vh"];
+  if (state.active > index) return ["50vw", "150vh"];
+  return "";
+}
+
 function parallax(index) {
   const fx = "filter: brightness(0.6);";
   const bgy = "background-size: 130%; background-position:";
-  if (state.active < index) {
-    return `${fx} ${bgy} 50% -50%`;
-  }
-  if (state.active == index) {
-    return `${bgy} 50% 50%`;
-  }
-  if (state.active > index) {
-    return `${fx} ${bgy} 50% 150%`;
-  }
+  if (state.active < index) return `${fx} ${bgy} 50% -50%`;
+  if (state.active == index) return `${bgy} 50% 50%`;
+  if (state.active > index) return `${fx} ${bgy} 50% 150%`;
 }
 
 function animate(index, inactive, active) {
@@ -53,16 +58,16 @@ function animate(index, inactive, active) {
 <template>
   <Cursor />
   <div
-    class="fixed bottom-16 right-16 z-50 duration-[500ms]"
+    class="fixed bottom-[140px] right-16 z-50 duration-[500ms]"
     :class="
-      state.active > 0
+      state.active == 1
         ? 'translate-y-[0px] opacity-1 delay-[300ms]'
         : 'translate-y-[32px] opacity-0'
     "
   >
     <svg
-      width="100"
-      height="100"
+      width="80"
+      height="80"
       viewBox="0 0 135 135"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -82,8 +87,19 @@ function animate(index, inactive, active) {
     </svg>
   </div>
 
-  <main v-scroll="handleScroll">
+  <div
+    class="bg-white/20 backdrop-saturate-150 backdrop-blur-2xl h-[80px] w-full fixed bottom-0 left-0 z-50 duration-[1.5s]"
+    :class="state.ready ? 'translate-y-[0px]' : 'translate-y-[100px]'"
+  >
     <div
+      class="absolute m-auto left-0 bottom-[80px] h-[4px] w-screen z-50 flex justify-start bg-white/50"
+    >
+      <div class="bg-white h-[4px]" :style="`width: ${state.progress}%`"></div>
+    </div>
+  </div>
+
+  <main v-scroll="handleScroll">
+    <!-- <div
       v-show="state.ready"
       class="fixed m-auto left-0 top-0 bg-transparent h-[8px] rounded-full w-screen z-50 flex justify-start"
     >
@@ -91,7 +107,7 @@ function animate(index, inactive, active) {
         class="bg-white h-full rounded-full"
         :style="`width: ${state.progress}%`"
       ></div>
-    </div>
+    </div> -->
 
     <div
       class="duration-[1s]"
@@ -119,52 +135,55 @@ function animate(index, inactive, active) {
       >
         <div
           class="absolute w-screen h-screen bg-transparent z-[100] flex justify-center items-end"
-        >
-          <!-- <Arrow class="scale-[1.5] translate-y-[60px]" /> -->
-        </div>
+        ></div>
         <video
           autoplay
           loop
           muted
           src="../assets/videos/landing.mp4"
-          class="object-cover w-screen h-screen duration-[1600ms]"
+          class="object-cover w-screen h-screen duration-[2.5s]"
           :class="
             animate(
               0,
-              'scale-[1] -translate-y-[5vh] brightness-[0.6]',
-              'scale-[1.2]'
+              'scale-[1.5] -translate-y-[20vh] brightness-[0.4]',
+              'scale-[1]'
             )
           "
         />
       </section>
-      <section id="about" class="flex bg-white">
+      <section id="about" class="flex">
         <div
           class="bg-[url('/assets/images/renders/about.jpg')] bg-no-repeat bg-cover bg-fixed duration-[4s] h-screen w-screen flex items-end justify-start"
           :style="parallax(1)"
           :class="animate(1, 'brightness-[0]', 'brightness-[1]')"
         >
           <div
-            class="bg-white w-[50vw] h-fit rounded-3xl m-12 p-12 flex flex-col justify-start items-start duration-[1.2s]"
+            class="w-[100vw] p-16 pb-[150px] flex flex-col justify-end items-start duration-[2s]"
+            style="background: linear-gradient(transparent, black)"
             :class="
-              animate(1, 'translate-x-[0px]', 'translate-x-[0px] delay-[0.9s]')
+              animate(
+                1,
+                'opacity-0 h-[30vh] delay-[5s]',
+                'opacity-1 h-[100vh] delay-[1.2s]'
+              )
             "
           >
-            <div class="font-bold text-3xl mb-6">
+            <div class="font-bold text-4xl text-white mb-6">
               The perfect space solution
             </div>
             <!-- <div
-              class="bg-black h-[2px] duration-[4s] mb-8 delay-[0.8s]"
-              :class="animate(1, 'w-[0vw]', 'w-[42vw]')"
+              class="bg-white h-[1px] duration-[2s] mb-8 delay-[1.7s]"
+              :class="animate(1, 'w-[0vw]', 'w-[50vw]')"
             ></div> -->
-            <div class="flex flex-col gap-3">
-              <span>
+            <div class="flex flex-col gap-3 text-white">
+              <span class="text-lg max-w-[50vw] opacity-60">
                 Podular offers chic and customizable modular pods, providing a
                 quick and effortless space solution to enhance both customer and
                 worker experiences for pop-up food and beverage services.
               </span>
               <button
                 @click="goTo('features')"
-                class="hoverable w-fit bg-black text-white py-2 px-4 mt-4 rounded-full hover:bg-white hover:text-black border-2 border-black duration-[200ms]"
+                class="hoverable w-fit bg-white font-bold text-black py-2 px-4 mt-6 rounded-full hover:bg-black hover:text-white border-2 border-white duration-[200ms]"
               >
                 Explore features
               </button>
@@ -173,26 +192,32 @@ function animate(index, inactive, active) {
         </div>
       </section>
       <section id="features">
-        <div
-          class="bg-[url('/assets/images/renders/features.jpg')] bg-no-repeat bg-fixed w-screen h-screen duration-[4s] z-[-1]"
-          :style="parallax(2)"
-        ></div>
-        <ul id="feat-list" class="absolute">
+        <!-- <div
+          class="bg-[url('/assets/images/renders/features.jpg')] bg-no-repeat bg-cover bg-center bg-fixed w-screen h-screen duration-[5s] z-[-1]"
+        ></div> -->
+        <div class="w-screen h-screen bg-black"></div>
+        <!-- <ul id="feat-list" class="absolute">
           <li id="access" class="hoverable feat"></li>
           <div class="feat" id="access2"></div>
+
           <li id="led" class="hoverable feat"></li>
           <div class="feat" id="led2"></div>
+
           <li id="sink" class="hoverable feat"></li>
           <div class="feat" id="sink2"></div>
+
           <li id="storage" class="hoverable feat"></li>
           <div class="feat" id="storage2"></div>
+
           <li id="stove" class="hoverable feat"></li>
           <div class="feat" id="stove2"></div>
+
           <li id="utility" class="hoverable feat"></li>
           <div class="feat" id="utility2"></div>
+
           <li id="wheels" class="hoverable feat"></li>
           <div class="feat" id="wheels2"></div>
-        </ul>
+        </ul> -->
       </section>
       <section id="showroom">
         <div
@@ -216,16 +241,13 @@ function animate(index, inactive, active) {
 <style lang="scss">
 @keyframes bubble-enter {
   0% {
+    transform: scale(0);
     opacity: 0;
   }
   100% {
+    transform: scale(1);
     opacity: 1;
   }
-}
-
-#feat-list,
-#show-list {
-  animation: bubble-enter 2s ease forwards;
 }
 
 #feat-list > div {
@@ -242,67 +264,107 @@ function animate(index, inactive, active) {
 .show {
   position: absolute;
   background: #ffffff;
-  height: 32px;
-  width: 32px;
+  height: 36px;
+  width: 36px;
   border-radius: 100%;
   z-index: 100;
 }
 
-#feat-list #access,
+#feat-list #access {
+  top: -50px;
+  right: -480px;
+}
+
 #feat-list #access2 {
   top: -50px;
   right: -480px;
 }
 
-#led,
+#led {
+  bottom: -385px;
+  right: -500px;
+}
+
 #led2 {
   bottom: -385px;
   right: -500px;
 }
 
-#storage,
+#storage {
+  bottom: 0px;
+  left: -75px;
+}
+
 #storage2 {
   bottom: 0px;
   left: -75px;
 }
 
-#sink,
+#sink {
+  top: -200px;
+  left: -360px;
+}
+
 #sink2 {
   top: -200px;
   left: -360px;
 }
 
-#stove,
+#stove {
+  top: -170px;
+  right: -270px;
+}
+
 #stove2 {
   top: -170px;
   right: -270px;
 }
 
-#utility,
+#utility {
+  top: -50px;
+  right: -260px;
+}
+
 #utility2 {
   top: -50px;
   right: -260px;
 }
 
-#wheels,
+#wheels {
+  bottom: -300px;
+  right: -290px;
+}
+
 #wheels2 {
   bottom: -300px;
   right: -290px;
 }
 
-#show-list #access,
+#show-list #access {
+  top: -400px;
+  left: -600px;
+}
+
 #show-list #access2 {
   top: -400px;
   left: -600px;
 }
 
-#electrical,
+#electrical {
+  bottom: -75px;
+  right: -200px;
+}
+
 #electrical2 {
   bottom: -75px;
   right: -200px;
 }
 
-#scale,
+#scale {
+  bottom: -30px;
+  left: -500px;
+}
+
 #scale2 {
   bottom: -30px;
   left: -500px;
