@@ -351,7 +351,7 @@ function closeMenu() {
               )
             "
           >
-            <div class="font-bold text-4xl text-white mb-6 podular-sans">
+            <div class="font-bold text-5xl text-white mb-6 podular-sans">
               the perfect space solution
             </div>
 
