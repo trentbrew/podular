@@ -5,6 +5,9 @@ const fullpage = ref(null);
 
 const state = reactive({
   debug: false,
+  menu: {
+    hover: false,
+  },
   ready: false,
   active: 0,
   progress: 0,
@@ -13,6 +16,10 @@ const state = reactive({
     features: [0, 0],
     showroom: [0, 0],
   },
+});
+
+onMounted(() => {
+  if (state.debug) state.ready = true;
 });
 
 function goTo(section) {
@@ -53,14 +60,36 @@ function animate(index, inactive, active) {
   if (state.active === index) return active;
   else return inactive;
 }
+
+function handleMenuMouseOver() {
+  state.menu.hover = true;
+}
+
+function handleMenuMouseLeave() {
+  state.menu.hover = false;
+}
 </script>
 
 <template>
   <Cursor />
+  <!-- INTRO -->
   <div
-    class="fixed bottom-[140px] right-16 z-50 duration-[500ms]"
+    @click="state.active > 0 ? goTo('home') : () => {}"
+    class="fixed top-0 left-0 origin-top-left duration-[1.8s] z-50"
+    style="transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1)"
     :class="
-      state.active == 1
+      state.active > 0
+        ? 'scale-[0.4] translate-x-[-130px] translate-y-[-40px] hoverable'
+        : ''
+    "
+  >
+    <Intro @ready="handleIntroReady" />
+  </div>
+  <!-- LOGO -->
+  <!-- <div
+    class="fixed bottom-12 right-16 z-50 duration-[500ms]"
+    :class="
+      state.active > 0
         ? 'translate-y-[0px] opacity-1 delay-[300ms]'
         : 'translate-y-[32px] opacity-0'
     "
@@ -85,43 +114,30 @@ function animate(index, inactive, active) {
         fill="white"
       />
     </svg>
-  </div>
-
+  </div> -->
+  <!-- MENU -->
   <div
-    class="bg-white/20 backdrop-saturate-150 backdrop-blur-2xl h-[80px] w-full fixed bottom-0 left-0 z-50 duration-[1.5s]"
-    :class="state.ready ? 'translate-y-[0px]' : 'translate-y-[100px]'"
+    @mouseover="handleMenuMouseOver"
+    @mouseleave="handleMenuMouseLeave"
+    class="bg-white rounded-full h-[160px] w-[160px] fixed right-[-80px] top-[-80px] z-50 duration-[1.2s] hover:scale-[14] hover:translate-y-[50vh]"
+    style="transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1)"
+  ></div>
+  <main
+    v-scroll="handleScroll"
+    class="duration-[1.2s]"
+    :class="state.menu.hover ? 'brightness-[0.2] blur-lg saturate-200' : ''"
+    style="transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1)"
   >
-    <div
-      class="absolute m-auto left-0 bottom-[80px] h-[4px] w-screen z-50 flex justify-start bg-white/50"
-    >
-      <div class="bg-white h-[4px]" :style="`width: ${state.progress}%`"></div>
-    </div>
-  </div>
-
-  <main v-scroll="handleScroll">
+    <!-- PROGRESS -->
     <!-- <div
       v-show="state.ready"
-      class="fixed m-auto left-0 top-0 bg-transparent h-[8px] rounded-full w-screen z-50 flex justify-start"
+      class="fixed m-auto left-0 top-0 bg-transparent h-[6px] rounded-full w-screen z-50 flex justify-start"
     >
       <div
         class="bg-white h-full rounded-full"
         :style="`width: ${state.progress}%`"
       ></div>
     </div> -->
-
-    <div
-      class="duration-[1s]"
-      :class="
-        animate(
-          0,
-          'scale-[0.9] opacity-0 translate-y-[-20px]',
-          'delay-[1200ms]'
-        )
-      "
-    >
-      <Intro v-if="!state.debug" @ready="handleIntroReady" />
-    </div>
-
     <FullPage
       ref="fullpage"
       @update="handleNewSection"
@@ -129,6 +145,7 @@ function animate(index, inactive, active) {
       :disable="!state.ready"
       ease="easeInOutCubic"
     >
+      <!-- LANDING PAGE -->
       <section
         id="home"
         class="fixed top-0 left-0 flex flex-col justify-center items-center -z-50"
@@ -151,14 +168,18 @@ function animate(index, inactive, active) {
           "
         />
       </section>
-      <section id="about" class="flex">
+      <!-- ABOUT PAGE -->
+      <section id="about" class="flex mt-[100vh]">
         <div
           class="bg-[url('/assets/images/renders/about.jpg')] bg-no-repeat bg-cover bg-fixed duration-[4s] h-screen w-screen flex items-end justify-start"
           :style="parallax(1)"
           :class="animate(1, 'brightness-[0]', 'brightness-[1]')"
         >
           <div
-            class="w-[100vw] p-16 pb-[150px] flex flex-col justify-end items-start duration-[2s]"
+            class="absolute w-screen h-screen backdrop-brightness-[0.75] z-[-1]"
+          ></div>
+          <div
+            class="w-[100vw] p-16 pb-12 flex flex-col justify-end items-start duration-[2s]"
             style="background: linear-gradient(transparent, black)"
             :class="
               animate(
@@ -171,10 +192,7 @@ function animate(index, inactive, active) {
             <div class="font-bold text-4xl text-white mb-6">
               The perfect space solution
             </div>
-            <!-- <div
-              class="bg-white h-[1px] duration-[2s] mb-8 delay-[1.7s]"
-              :class="animate(1, 'w-[0vw]', 'w-[50vw]')"
-            ></div> -->
+
             <div class="flex flex-col gap-3 text-white">
               <span class="text-lg max-w-[50vw] opacity-60">
                 Podular offers chic and customizable modular pods, providing a
@@ -191,6 +209,7 @@ function animate(index, inactive, active) {
           </div>
         </div>
       </section>
+      <!-- FEATURES PAGE -->
       <section id="features">
         <!-- <div
           class="bg-[url('/assets/images/renders/features.jpg')] bg-no-repeat bg-cover bg-center bg-fixed w-screen h-screen duration-[5s] z-[-1]"
@@ -233,6 +252,7 @@ function animate(index, inactive, active) {
           <div class="show" id="scale2"></div>
         </ul>
       </section>
+      <!-- CONTACT PAGE -->
       <section id="contact" class="bg-black text-white">contact</section>
     </FullPage>
   </main>

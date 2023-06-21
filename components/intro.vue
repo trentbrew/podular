@@ -201,7 +201,6 @@ main {
 }
 
 @keyframes nudge {
-  // translate left 300px
   0% {
     transform: translateX(0px);
   }
