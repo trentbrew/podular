@@ -75,13 +75,19 @@ function handleMenuMouseLeave() {
   <!-- INTRO -->
   <div
     @click="state.active > 0 ? goTo('home') : () => {}"
-    class="fixed top-0 left-0 origin-top-left duration-[1.8s] z-50"
-    style="transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1)"
-    :class="
-      state.active > 0
-        ? 'scale-[0.4] translate-x-[-130px] translate-y-[-40px] hoverable'
+    class="fixed top-0 left-0 origin-top-left z-50 duration-[1.4s]"
+    :style="`${
+      state.menu.hover
+        ? 'transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1)'
+        : 'transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1)'
+    }`"
+    :class="`${
+      state.active > 0 || state.menu.hover
+        ? `scale-[0.4] translate-x-[-130px] translate-y-[-40px] hoverable z-[100] pointer-events-none delay-[0ms] ${
+            state.menu.hover ? '!duration-[1.2s]' : ''
+          }`
         : ''
-    "
+    }`"
   >
     <Intro @ready="handleIntroReady" />
   </div>
@@ -117,16 +123,29 @@ function handleMenuMouseLeave() {
   </div> -->
   <!-- MENU -->
   <div
-    @mouseover="handleMenuMouseOver"
-    @mouseleave="handleMenuMouseLeave"
-    class="bg-white rounded-full h-[160px] w-[160px] fixed right-[-80px] top-[-80px] z-50 duration-[1.2s] hover:scale-[14] hover:translate-y-[50vh]"
-    style="transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1)"
-  ></div>
+    class="w-screen h-screen fixed top-0 left-0 z-50 duration-[1.4s]"
+    :class="
+      state.menu.hover
+        ? '!bg-black/75 backdrop-blur backdrop-saturate-200'
+        : 'bg-transparent'
+    "
+  >
+    <div
+      @mouseover="handleMenuMouseOver"
+      @mouseleave="handleMenuMouseLeave"
+      class="bg-white rounded-full h-[160px] w-[160px] fixed right-[-80px] top-[-80px] duration-[1.2s] hover:scale-[12] hover:translate-y-[50vh]"
+      style="transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1)"
+    >
+      <span class="text-3xl text-black absolute">About</span>
+      <span class="text-3xl text-black absolute">Features</span>
+      <span class="text-3xl text-black absolute">Showroom</span>
+      <span class="text-3xl text-black absolute">Contact</span>
+      <span class="text-3xl text-black absolute">Preorder</span>
+    </div>
+  </div>
   <main
     v-scroll="handleScroll"
-    class="duration-[1.2s]"
-    :class="state.menu.hover ? 'brightness-[0.2] blur-lg saturate-200' : ''"
-    style="transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1)"
+    style="transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1)"
   >
     <!-- PROGRESS -->
     <!-- <div
