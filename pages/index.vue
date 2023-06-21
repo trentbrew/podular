@@ -99,7 +99,7 @@ function closeMenu() {
   <!-- INTRO -->
   <div
     @click="state.active > 0 ? goTo('home') : () => {}"
-    class="fixed top-0 left-0 origin-top-left z-[110] duration-[1.4s]"
+    class="fixed top-0 left-0 origin-top-left z-[50] duration-[1.4s]"
     :style="`${
       state.menu.hover || state.menu.ghostHover
         ? 'transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1)'
@@ -201,18 +201,21 @@ function closeMenu() {
           state.menu.ghostHover = false;
         }
       "
-      class="flex flex-col h-full items-end justify-center text-3xl gap-12 text-right pr-40 translate-x-[-80px] z-[100]"
+      class="flex flex-col h-full items-center justify-center text-3xl gap-12 text-right pr-40 translate-x-[-80px] z-[50] duration-[200ms]"
       :class="
         state.menu.hover || state.menu.ghostHover
           ? 'opacity-1'
           : state.menu.lock
-          ? 'opacity-0 translate-x-[80px]'
+          ? 'opacity-0 translate-x-[200px] translate-y-[400px] scale-[0.3]'
           : 'hidden'
       "
-      style="transition: visibility 0s, opacity 0.5s ease"
     >
       <li
-        :class="state.active == 0 ? 'active-link' : 'inactive-link'"
+        :class="
+          state.active == 0 && !state.menu.lock
+            ? 'active-link'
+            : 'inactive-link'
+        "
         @click="goTo('home')"
         class="hoverable podular-sans menu-item"
         style="animation-delay: 0.3s"
@@ -220,7 +223,11 @@ function closeMenu() {
         home
       </li>
       <li
-        :class="state.active == 1 ? 'active-link' : 'inactive-link'"
+        :class="
+          state.active == 1 && !state.menu.lock
+            ? 'active-link'
+            : 'inactive-link'
+        "
         @click="goTo('about')"
         class="hoverable podular-sans menu-item"
         style="animation-delay: 0.4s"
@@ -228,7 +235,11 @@ function closeMenu() {
         about
       </li>
       <li
-        :class="state.active == 2 ? 'active-link' : 'inactive-link'"
+        :class="
+          state.active == 2 && !state.menu.lock
+            ? 'active-link'
+            : 'inactive-link'
+        "
         @click="goTo('features')"
         class="hoverable podular-sans menu-item"
         style="animation-delay: 0.5s"
@@ -236,7 +247,11 @@ function closeMenu() {
         features
       </li>
       <li
-        :class="state.active == 3 ? 'active-link' : 'inactive-link'"
+        :class="
+          state.active == 3 && !state.menu.lock
+            ? 'active-link'
+            : 'inactive-link'
+        "
         @click="goTo('showroom')"
         class="hoverable podular-sans menu-item"
         style="animation-delay: 0.6s"
@@ -244,7 +259,11 @@ function closeMenu() {
         showroom
       </li>
       <li
-        :class="state.active == 4 ? 'active-link' : 'inactive-link'"
+        :class="
+          state.active == 4 && !state.menu.lock
+            ? 'active-link'
+            : 'inactive-link'
+        "
         @click="goTo('contact')"
         class="hoverable podular-sans menu-item"
         style="animation-delay: 0.7s"
@@ -252,7 +271,11 @@ function closeMenu() {
         contact
       </li>
       <li
-        :class="state.active == 5 ? 'active-link' : 'inactive-link'"
+        :class="
+          state.active == 5 && !state.menu.lock
+            ? 'active-link'
+            : 'inactive-link'
+        "
         @click="goTo('preorder')"
         class="hoverable podular-sans menu-item"
         style="animation-delay: 0.8s"
@@ -269,7 +292,7 @@ function closeMenu() {
     <!-- PROGRESS -->
     <div
       v-show="state.ready"
-      class="fixed m-auto left-0 top-0 bg-transparent h-[4px] rounded-full w-screen z-50 flex justify-start"
+      class="fixed m-auto left-0 top-0 bg-black/50 h-[4px] rounded-full w-screen z-50 flex justify-start"
     >
       <div
         class="bg-white h-full rounded-full"
@@ -402,7 +425,7 @@ function closeMenu() {
 <style lang="scss">
 @keyframes menu-item-enter {
   0% {
-    transform: translateX(36px);
+    transform: translateX(80px);
     opacity: 0;
   }
   100% {
@@ -421,21 +444,23 @@ section {
 }
 
 .active-link {
-  @apply text-black flex items-center justify-end;
+  @apply text-white flex items-center justify-end;
 }
 
-.active-link::after {
+.active-link::before {
   content: "";
   position: absolute;
-  height: 12px;
-  width: 12px;
-  border-radius: 100%;
+  height: 80px;
+  width: 550px;
+  border-radius: 200px;
   background: black;
-  transform: translateX(48px);
+  right: -300px;
+  z-index: -1;
+  transition: 300ms;
 }
 
 .inactive-link {
-  @apply text-black;
+  @apply text-black duration-[300ms];
 }
 
 @keyframes bubble-enter {
