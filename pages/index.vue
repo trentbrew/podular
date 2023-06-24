@@ -346,7 +346,7 @@ function closeMenu() {
           :style="parallax(2)"
         ></div>
         <!-- <div class="w-screen h-screen bg-black"></div> -->
-        <!-- <ul id="feat-list" class="absolute">
+        <ul id="feat-list" class="absolute">
           <li id="access" class="hoverable feat"></li>
           <div class="feat" id="access2"></div>
 
@@ -367,7 +367,7 @@ function closeMenu() {
 
           <li id="wheels" class="hoverable feat"></li>
           <div class="feat" id="wheels2"></div>
-        </ul> -->
+        </ul>
       </section>
       <section id="showroom" :class="overlay()">
         <div
