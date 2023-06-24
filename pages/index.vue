@@ -27,7 +27,7 @@ onMounted(() => {
 watch(
   () => state.menu,
   (val) => {
-    console.log("menu state changed...", val);
+    // console.log("menu state changed...", val);
   }
 );
 
@@ -43,8 +43,6 @@ function handleScroll(e) {
 function handleNewSection(e) {
   state.active = e.activeSection;
   state.direction = e.direction;
-  console.log(state.active);
-  console.log(state.direction);
 }
 
 function handleIntroReady(e) {
@@ -107,7 +105,7 @@ function closeMenu() {
     }`"
     :class="`${
       state.active > 0 || state.menu.hover || state.menu.ghostHover
-        ? `scale-[0.4] translate-x-[-130px] translate-y-[-40px] hoverable z-[100] pointer-events-none delay-[0ms] ${
+        ? `scale-[0.4] translate-x-[-150px] translate-y-[-40px] hoverable z-[100] pointer-events-none delay-[0ms] ${
             state.menu.hover ? '!duration-[1.2s]' : ''
           }`
         : ''
@@ -115,36 +113,6 @@ function closeMenu() {
   >
     <Intro @ready="handleIntroReady" />
   </div>
-  <!-- LOGO -->
-  <!-- <div
-    class="fixed bottom-12 right-16 z-50 duration-[500ms]"
-    :class="
-      state.active > 0
-        ? 'translate-y-[0px] opacity-1 delay-[300ms]'
-        : 'translate-y-[32px] opacity-0'
-    "
-  >
-    <svg
-      width="80"
-      height="80"
-      viewBox="0 0 135 135"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M134.77 74.0625L101.618 74.0625C101.618 74.0948 101.618 74.1271 101.618 74.1594C101.618 88.9889 89.5963 101.01 74.7669 101.01C74.7345 101.01 74.7022 101.01 74.6699 101.01V134.162C74.7022 134.162 74.7345 134.162 74.7669 134.162C107.906 134.162 134.77 107.298 134.77 74.1594C134.77 74.1271 134.77 74.0948 134.77 74.0625Z"
-        fill="white"
-      />
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M60.0998 0C26.9076 0 0 26.9076 0 60.0998C0 93.292 26.9076 120.2 60.0998 120.2C93.292 120.2 120.2 93.292 120.2 60.0998C120.2 26.9076 93.292 0 60.0998 0ZM60.0998 33.2054C45.2464 33.2054 33.2054 45.2464 33.2054 60.0998C33.2054 74.9532 45.2464 86.9942 60.0998 86.9942C74.9532 86.9942 86.9942 74.9532 86.9942 60.0998C86.9942 45.2464 74.9532 33.2054 60.0998 33.2054ZM120.2 60.0027H86.9941C86.9942 60.0351 86.9942 60.0674 86.9942 60.0998C86.9942 74.9532 74.9532 86.9942 60.0998 86.9942C60.0674 86.9942 60.0351 86.9942 60.0027 86.9941V120.2C60.0351 120.2 60.0674 120.2 60.0998 120.2C93.292 120.2 120.2 93.292 120.2 60.0998C120.2 60.0674 120.2 60.0351 120.2 60.0027Z"
-        fill="white"
-      />
-    </svg>
-  </div> -->
   <!-- MENU -->
   <div
     class="w-[50vw] h-screen fixed top-0 right-0 z-50 duration-[1.4s] flex items-center justify-end"
@@ -373,10 +341,11 @@ function closeMenu() {
       </section>
       <!-- FEATURES PAGE -->
       <section id="features" :class="overlay()">
-        <!-- <div
-          class="bg-[url('/assets/images/renders/features.jpg')] bg-no-repeat bg-cover bg-center bg-fixed w-screen h-screen duration-[5s] z-[-1]"
-        ></div> -->
-        <div class="w-screen h-screen bg-black"></div>
+        <div
+          class="bg-[url('/assets/images/renders/features.jpg')] bg-no-repeat bg-fixed w-screen h-screen duration-[5s] z-[-1]"
+          :style="parallax(2)"
+        ></div>
+        <!-- <div class="w-screen h-screen bg-black"></div> -->
         <!-- <ul id="feat-list" class="absolute">
           <li id="access" class="hoverable feat"></li>
           <div class="feat" id="access2"></div>
