@@ -238,7 +238,7 @@ function closeMenu() {
       >
         contact
       </li>
-      <li
+      <!-- <li
         :class="
           state.active == 5 && !state.menu.lock
             ? 'active-link'
@@ -249,7 +249,7 @@ function closeMenu() {
         style="animation-delay: 0.8s"
       >
         preorder
-      </li>
+      </li> -->
     </ul>
   </div>
 
