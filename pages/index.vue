@@ -27,7 +27,7 @@ onMounted(() => {
 watch(
   () => state.menu,
   (val) => {
-    // console.log("menu state changed...", val);
+    console.log("menu state changed...", val);
   }
 );
 
