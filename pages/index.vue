@@ -3,6 +3,83 @@
 
   const fullpage = ref(null)
 
+  const pings = {
+    features: [
+      {
+        id: 'sink',
+        title: 'Sink',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+        coordinates: [15, 12],
+      },
+      {
+        id: 'storage',
+        title: 'Storage',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+        coordinates: [29, 15],
+      },
+      {
+        id: 'stove',
+        title: 'Stove',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+        coordinates: [40, 10],
+      },
+      {
+        id: 'utility',
+        title: 'Utility',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+        coordinates: [41, 14],
+      },
+      {
+        id: 'access',
+        title: 'Access',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+        coordinates: [49, 16],
+      },
+      {
+        id: 'wheels',
+        title: 'Wheels',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+        coordinates: [44, 24],
+      },
+      {
+        id: 'led',
+        title: 'LED',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+        coordinates: [52, 28],
+      },
+    ],
+    showroom: [
+      {
+        id: 'access',
+        title: 'Access',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+        coordinates: [7, 71],
+      },
+      {
+        id: 'electrical',
+        title: 'Electrical',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+        coordinates: [39, 57],
+      },
+      {
+        id: 'scale',
+        title: 'Scale',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+        coordinates: [18, 5],
+      },
+    ],
+  }
+
   const state = reactive({
     debug: false,
     menu: {
@@ -22,8 +99,7 @@
   })
 
   onMounted(() => {
-    console.clear()
-    console.log('home page mounted')
+    router.push({ hash: '' })
     if (state.debug) state.ready = true
   })
 
@@ -88,14 +164,14 @@
   }
 
   function handleMouseMove(e) {
-    console.log(
-      'screen',
-      window.innerWidth,
-      window.innerHeight,
-      'mouse',
-      e.clientX,
-      e.clientY
-    )
+    // console.log(
+    //   'screen',
+    //   window.innerWidth,
+    //   window.innerHeight,
+    //   'mouse',
+    //   e.clientX,
+    //   e.clientY
+    // )
     if (state.ready) {
       if ([2, 3].includes(state.active)) {
         if (
@@ -297,6 +373,7 @@
         :class="overlay()"
       >
         <Pannable
+          :pings="pings.features"
           class="duration-0"
           id="features"
           image="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/gcfp37v00ilzfl6/features_page_base_2_U0AoEhOwqX.jpg?token="
@@ -308,6 +385,7 @@
         :class="overlay()"
       >
         <Pannable
+          :pings="pings.showroom"
           class="duration-0"
           id="showroom"
           image="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/5uacn4j78hcehva/showroom_base_w4cqlt8g0p.jpg?token="
