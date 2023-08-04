@@ -25,8 +25,33 @@
   const tiles = ref(null)
   const pings = ref(null)
 
+  const renders = {
+    features: {
+      wheels:
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/nnxq334eo7ugkqk/feature_wheels_Xb2ZfzARu9.jpg?token=',
+      access:
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/7w2i7lflvnzfnsh/features_access_tmGnzqqtXi.jpg?token=',
+      led: 'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/3d6ll0pih6hq9gh/features_led_oxDTvGZY2O.jpg?token=',
+      sink: 'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/v4wim4knb84v7cm/features_sink_s7GXEY3pdf.jpg?token=',
+      storage:
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/72u2jwt7rthybus/features_storage_dli5uI7jxK.jpg?token=',
+      stove:
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/8beptzot2cxyygc/features_stove_5cOfcRcw3Q.jpg?token=',
+      utility:
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/gcpt2r759je29jc/features_utility_c33EUYBsGt.jpg?token=',
+    },
+    showroom: {
+      access:
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/jlqw9vqk2p4lf8b/showroom_access_5vUUE95LBu.jpg?token=',
+      electrical:
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/g62h0u6dh5h5qgl/showroom_electrical_9S5N1IaX52.jpg?token=',
+      scale:
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/p3dc6eqywawc6s1/showroom_scale_1JoRFquniq.jpg?token=',
+    },
+  }
+
   onMounted(() => {
-    console.log('pings: ', props.pings)
+    // console.log('pings: ', props.pings)
     tiles.value = document.querySelectorAll(`.${props.id}-tile`)
     const tile = tiles.value[0]
     tile.addEventListener('mouseover', e => {
@@ -43,28 +68,34 @@
   })
 
   function handlePingMouseEnter(e) {
+    console.log('entered ping')
     state.hoveringPing = true
   }
 
   function handlePingMouseLeave() {
+    console.log('left ping')
     state.hoveringPing = false
   }
 
   function handleMouseMove(e) {
-    console.log('hover src:', e.srcElement)
+    // console.log('hover src:', e.srcElement)
   }
 </script>
 
 <template>
   <div class="wrapper" @mousemove="handleMouseMove">
     <div class="tiles">
-      <div class="tile" data-scale="1.8" :class="`${props.id}-tile`">
+      <div class="tile" data-scale="1.6" :class="`${props.id}-tile`">
         <div class="photo" :style="`background-image: url(${props.image})`">
+          <div
+            class="bg-black w-full h-full absolute z-10 poitner-events-none duration-[600ms]"
+            :style="`opacity: ${state.hoveringPing ? 0.6 : 0};`"
+          ></div>
           <ul>
             <li
               v-for="(item, itemIndex) in props.pings"
               :key="itemIndex"
-              class="bg-white h-8 w-8 rounded-full absolute animate-ping z-50"
+              class="bg-white h-8 w-8 rounded-full absolute animate-ping"
               :class="`${props.id}-ping`"
               :style="`
               left: ${(item.coordinates[0] / 64) * 100}%;
@@ -77,13 +108,20 @@
               @mouseenter="handlePingMouseEnter"
               @mouseleave="handlePingMouseLeave"
               :key="itemIndex"
-              class="bg-white h-8 w-8 rounded-full absolute z-50 duration-1000 hover:scale-[6] hover:shadow-xl hoverable"
+              class="group bg-white h-8 w-8 rounded-[32px] absolute z-50 duration-[400ms] hover:w-16 hover:scale-[5] hover:!rounded-[4px] hover:shadow-xl hoverable bg-cover bg-no-repeat bg-center"
               :class="`${props.id}-ping`"
               :style="`
               left: ${(item.coordinates[0] / 64) * 100}%;
               top: ${(item.coordinates[1] / 36) * 100}%;
+              background-image: url(${renders[item.category][item.id]});
+              transition-timing-function: ease;
             `"
-            ></li>
+            >
+              <div
+                class="bg-white rounded-[32px] group-hover:!rounded-[4px] w-full h-full group-hover:!opacity-0 duration-[400ms]"
+                style="transition-timing-function: ease"
+              ></div>
+            </li>
           </ul>
         </div>
       </div>

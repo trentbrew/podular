@@ -8,6 +8,7 @@
       {
         id: 'sink',
         title: 'Sink',
+        category: 'features',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
         coordinates: [15, 12],
@@ -15,6 +16,7 @@
       {
         id: 'storage',
         title: 'Storage',
+        category: 'features',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
         coordinates: [29, 15],
@@ -22,6 +24,7 @@
       {
         id: 'stove',
         title: 'Stove',
+        category: 'features',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
         coordinates: [40, 10],
@@ -29,6 +32,7 @@
       {
         id: 'utility',
         title: 'Utility',
+        category: 'features',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
         coordinates: [41, 14],
@@ -36,6 +40,7 @@
       {
         id: 'access',
         title: 'Access',
+        category: 'features',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
         coordinates: [49, 16],
@@ -43,6 +48,7 @@
       {
         id: 'wheels',
         title: 'Wheels',
+        category: 'features',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
         coordinates: [44, 24],
@@ -50,6 +56,7 @@
       {
         id: 'led',
         title: 'LED',
+        category: 'features',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
         coordinates: [52, 28],
@@ -59,6 +66,7 @@
       {
         id: 'access',
         title: 'Access',
+        category: 'showroom',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
         coordinates: [7, 71],
@@ -66,6 +74,7 @@
       {
         id: 'electrical',
         title: 'Electrical',
+        category: 'showroom',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
         coordinates: [39, 57],
@@ -73,6 +82,7 @@
       {
         id: 'scale',
         title: 'Scale',
+        category: 'showroom',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
         coordinates: [18, 5],
