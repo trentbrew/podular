@@ -85,7 +85,11 @@
 <template>
   <div class="wrapper" @mousemove="handleMouseMove">
     <div class="tiles">
-      <div class="tile" data-scale="1.4" :class="`${props.id}-tile`">
+      <div
+        class="tile"
+        :data-scale="props.id == 'features' ? 1.1 : 1.3"
+        :class="`${props.id}-tile`"
+      >
         <div class="photo" :style="`background-image: url(${props.image})`">
           <div
             class="bg-black w-full h-full absolute z-10 poitner-events-none duration-[600ms]"
