@@ -1,4 +1,6 @@
 <script setup>
+  const router = useRouter()
+
   const props = defineProps({
     id: {
       type: String,
@@ -67,29 +69,27 @@
     })
   })
 
-  function handlePingMouseEnter(e) {
-    console.log('entered ping')
+  function handlePingMouseEnter(e, category, id) {
     state.hoveringPing = true
+    router.push({ hash: `#${category}_${id}` })
   }
 
-  function handlePingMouseLeave() {
-    console.log('left ping')
+  function handlePingMouseLeave(e, category) {
     state.hoveringPing = false
+    router.push({ hash: `#${category}` })
   }
 
-  function handleMouseMove(e) {
-    // console.log('hover src:', e.srcElement)
-  }
+  function handleMouseMove(e) {}
 </script>
 
 <template>
   <div class="wrapper" @mousemove="handleMouseMove">
     <div class="tiles">
-      <div class="tile" data-scale="1.6" :class="`${props.id}-tile`">
+      <div class="tile" data-scale="1.4" :class="`${props.id}-tile`">
         <div class="photo" :style="`background-image: url(${props.image})`">
           <div
             class="bg-black w-full h-full absolute z-10 poitner-events-none duration-[600ms]"
-            :style="`opacity: ${state.hoveringPing ? 0.6 : 0};`"
+            :style="`opacity: ${state.hoveringPing ? 0.7 : 0.2};`"
           ></div>
           <ul>
             <li
@@ -105,10 +105,10 @@
             <li
               v-for="(item, itemIndex) in props.pings"
               :id="`ping-zone-${itemIndex}`"
-              @mouseenter="handlePingMouseEnter"
-              @mouseleave="handlePingMouseLeave"
+              @mouseenter="e => handlePingMouseEnter(e, item.category, item.id)"
+              @mouseleave="e => handlePingMouseLeave(e, item.category)"
               :key="itemIndex"
-              class="group bg-white h-8 w-8 rounded-[32px] absolute z-50 duration-[400ms] hover:w-16 hover:scale-[5] hover:!rounded-[4px] hover:shadow-xl hoverable bg-cover bg-no-repeat bg-center"
+              class="group bg-white h-8 w-8 rounded-[32px] absolute z-50 duration-[400ms] hover:w-16 hover:scale-[6] hover:!rounded-[4px] hover:shadow-xl hoverable bg-cover bg-no-repeat bg-center"
               :class="`${props.id}-ping`"
               :style="`
               left: ${(item.coordinates[0] / 64) * 100}%;
@@ -118,7 +118,7 @@
             `"
             >
               <div
-                class="bg-white rounded-[32px] group-hover:!rounded-[4px] w-full h-full group-hover:!opacity-0 duration-[400ms]"
+                class="bg-white rounded-[32px] group-hover:!rounded-[4px] w-full h-full group-hover:!opacity-0 duration-[400ms] hoverable"
                 style="transition-timing-function: ease"
               ></div>
             </li>
@@ -149,14 +149,6 @@
     overflow: hidden;
   }
 
-  .title::after {
-    content: 'hi 👋🏾';
-    position: absolute;
-    background: red;
-    height: 200px;
-    width: 200px;
-  }
-
   .photo {
     position: absolute;
     width: 100%;
@@ -164,7 +156,7 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    transition: transform 1s ease;
+    transition: transform 3s ease;
   }
 
   .x {

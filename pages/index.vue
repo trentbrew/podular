@@ -1,5 +1,24 @@
 <script setup>
   const router = useRouter()
+  const route = useRoute()
+
+  const pingCategory = computed(() => {
+    return route.hash?.split('_')[0].substring(1) ?? ''
+  })
+
+  const pingContext = computed(() => {
+    return route.hash?.split('_')[1] ?? ''
+  })
+
+  const pingDescription = computed(() => {
+    if (pings[pingCategory.value]) {
+      const ping = pings[pingCategory.value].find(
+        ping => ping.id === pingContext.value
+      )
+      return ping?.description ?? ''
+    }
+    return ''
+  })
 
   const fullpage = ref(null)
 
@@ -64,12 +83,20 @@
     ],
     showroom: [
       {
+        id: 'scale',
+        title: 'Scale',
+        category: 'showroom',
+        coordinates: [9, 11],
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+      },
+      {
         id: 'access',
         title: 'Access',
         category: 'showroom',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
-        coordinates: [7, 71],
+        coordinates: [15, 18],
       },
       {
         id: 'electrical',
@@ -77,21 +104,14 @@
         category: 'showroom',
         description:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
-        coordinates: [39, 57],
-      },
-      {
-        id: 'scale',
-        title: 'Scale',
-        category: 'showroom',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
-        coordinates: [18, 5],
+        coordinates: [36, 20],
       },
     ],
   }
 
   const state = reactive({
     debug: false,
+    featureContext: null,
     menu: {
       hover: false,
       ghostHover: false,
@@ -159,8 +179,6 @@
   }
 
   function handleMenuMouseOver(e) {
-    // console.log('menu mouse over: ', e.target.id)
-    // console.log(e.clientX, e.clientY)
     state.menu.hover = true
   }
 
@@ -169,19 +187,9 @@
     state.menu.hover = false
   }
 
-  function handleMenuZoneMouseOver(e) {
-    // console.log('menu zone mouse over: ', e.target.id)
-  }
+  function handleMenuZoneMouseOver(e) {}
 
   function handleMouseMove(e) {
-    // console.log(
-    //   'screen',
-    //   window.innerWidth,
-    //   window.innerHeight,
-    //   'mouse',
-    //   e.clientX,
-    //   e.clientY
-    // )
     if (state.ready) {
       if ([2, 3].includes(state.active)) {
         if (
@@ -196,17 +204,17 @@
     }
   }
 
-  function overlay() {
-    return state.menu.hover || state.menu.ghostHover
-      ? 'blur-xl brightness-[0.4]'
-      : ''
-  }
-
   function closeMenu() {
     state.menu.lock = true
     setTimeout(() => {
       state.menu.lock = false
     }, 600)
+  }
+
+  function overlay() {
+    return state.menu.hover || state.menu.ghostHover
+      ? 'blur-xl brightness-[0.4]'
+      : ''
   }
 </script>
 
@@ -224,7 +232,7 @@
       }`"
       :class="`${
         state.active > 0 || state.menu.hover || state.menu.ghostHover
-          ? `scale-[0.4] left-[-100px] hoverable z-[100] pointer-events-none delay-[0ms] ${
+          ? `scale-[0.4] left-[-130px] top-[-30px] hoverable z-[100] pointer-events-none delay-[0ms] ${
               state.menu.hover ? '!duration-[1.2s]' : ''
             }`
           : ''
@@ -376,32 +384,7 @@
       </ul>
     </div>
     <!-- PANNING -->
-    <div class="h-screen w-full fixed left-0 top-0">
-      <div
-        v-show="state.active == 2"
-        class="w-full h-full absolute duration-1000"
-        :class="overlay()"
-      >
-        <Pannable
-          :pings="pings.features"
-          class="duration-0"
-          id="features"
-          image="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/gcfp37v00ilzfl6/features_page_base_2_U0AoEhOwqX.jpg?token="
-        />
-      </div>
-      <div
-        v-show="state.active == 3"
-        class="w-full h-full absolute duration-1000"
-        :class="overlay()"
-      >
-        <Pannable
-          :pings="pings.showroom"
-          class="duration-0"
-          id="showroom"
-          image="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/5uacn4j78hcehva/showroom_base_w4cqlt8g0p.jpg?token="
-        />
-      </div>
-    </div>
+    <div class="h-screen w-full fixed left-0 top-0"></div>
     <!-- MAIN -->
     <main
       v-scroll="handleScroll"
@@ -489,11 +472,67 @@
           </div>
         </section>
         <!-- FEATURES PAGE -->
-        <section id="features" :class="overlay()"></section>
-        <section id="showroom" :class="overlay()"></section>
+        <section
+          id="features"
+          :class="
+            overlay() + state.active != 2
+              ? ' brightness-[0.3]'
+              : ' brightness-1'
+          "
+        >
+          <div class="w-full h-full absolute duration-[2s]">
+            <Pannable
+              :pings="pings.features"
+              class="duration-0"
+              id="features"
+              image="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/gcfp37v00ilzfl6/features_page_base_2_U0AoEhOwqX.jpg?token="
+            />
+            <div
+              class="w-[100vw] p-16 pb-12 flex flex-col justify-end items-start duration-[2s] absolute bottom-0 left-0 pointer-events-none"
+            >
+              <div class="font-bold text-5xl text-white mb-6 podular-sans">
+                {{ pingContext }}
+              </div>
+              <div class="flex flex-col gap-3 text-white">
+                <span class="text-lg max-w-[50vw] opacity-60">
+                  {{ pingDescription }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section
+          id="showroom"
+          :class="
+            overlay() + state.active != 3
+              ? ' brightness-[0.3]'
+              : ' brightness-1'
+          "
+        >
+          <div class="w-full h-full absolute">
+            <Pannable
+              :pings="pings.showroom"
+              class="duration-0"
+              id="showroom"
+              image="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/5uacn4j78hcehva/showroom_base_w4cqlt8g0p.jpg?token="
+            />
+            <div
+              class="w-[100vw] p-16 pb-12 flex flex-col justify-end items-start duration-[2s] absolute bottom-0 left-0 pointer-events-none"
+            >
+              <div class="font-bold text-5xl text-white mb-6 podular-sans">
+                {{ pingContext }}
+              </div>
+              <div class="flex flex-col gap-3 text-white">
+                <span class="text-lg max-w-[50vw] opacity-60">
+                  {{ pingDescription }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
         <!-- CONTACT PAGE -->
         <section id="contact" class="bg-black text-white" :class="overlay()">
-          contact
+          <Profile />
         </section>
       </FullPage>
     </main>
