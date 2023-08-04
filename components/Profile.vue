@@ -12,23 +12,25 @@
     <div>
       <h1 class="text-5xl mb-4">Jasna Ostojich</h1>
       <P class="mb-2">Founder & Executive President</P>
-      <a href="mailto:info@cafebellas.com">
+      <a class="hoverable underline" href="mailto:info@cafebellas.com">
         <p class="mb-2">info@cafebellas.com</p>
       </a>
       <p class="mb-2">847.922.0061</p>
     </div>
     <div class="w-full h-full absolute flex flex-col justify-end items-start">
-      <div class="bg-white/10 w-full h-[88px] flex items-center pl-12">
+      <div class="bg-white/10 w-full h-[88px] flex items-center pl-12 z-[-1]">
         <span class="opacity-50">
           Renders by
-          <a class="underline" href="https://studiolafa.design">
+          <a class="underline hoverable" href="https://studiolafa.design">
             Lawan Alade-Fa
           </a>
         </span>
         &nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
         <span class="opacity-50">
           Web Design by
-          <a class="underline" href="https://trentbrew.com">Trent Brew</a>
+          <a class="underline hoverable" href="https://trentbrew.com">
+            Trent Brew
+          </a>
         </span>
       </div>
     </div>
