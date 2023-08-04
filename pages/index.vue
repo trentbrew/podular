@@ -113,6 +113,8 @@
     debug: false,
     featureContext: null,
     menu: {
+      zone: [160, 160],
+      open: false,
       hover: false,
       ghostHover: false,
       lock: false,
@@ -193,11 +195,13 @@
     if (state.ready) {
       if ([2, 3].includes(state.active)) {
         if (
-          e.clientX > window.innerWidth - 160 &&
-          e.clientY > window.innerHeight - 160
+          e.clientX > window.innerWidth - state.menu.zone[0] &&
+          e.clientY > window.innerHeight - state.menu.zone[1]
         ) {
+          state.menu.zone = [window.innerWidth / 2, window.innerHeight]
           state.menu.lock = false
         } else {
+          state.menu.zone = [160, 160]
           state.menu.lock = true
         }
       }
@@ -205,6 +209,7 @@
   }
 
   function closeMenu() {
+    state.menu.zone = [160, 160]
     state.menu.lock = true
     setTimeout(() => {
       state.menu.lock = false
