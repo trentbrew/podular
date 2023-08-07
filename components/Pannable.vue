@@ -1,6 +1,8 @@
 <script setup>
   const router = useRouter()
 
+  const emit = defineEmits(['ping'])
+
   const props = defineProps({
     id: {
       type: String,
@@ -18,6 +20,7 @@
   })
 
   const state = reactive({
+    clicked: false,
     hoveringPing: false,
     bufferHover: false,
     bufferLeave: false,
@@ -53,7 +56,6 @@
   }
 
   onMounted(() => {
-    // console.log('pings: ', props.pings)
     tiles.value = document.querySelectorAll(`.${props.id}-tile`)
     const tile = tiles.value[0]
     tile.addEventListener('mouseover', e => {
@@ -80,6 +82,11 @@
   }
 
   function handleMouseMove(e) {}
+
+  function handleClick(item) {
+    state.clicked = true
+    emit('ping', { src: renders[item.category][item.id] })
+  }
 </script>
 
 <template>
@@ -104,15 +111,16 @@
               :style="`
               left: ${(item.coordinates[0] / 64) * 100}%;
               top: ${(item.coordinates[1] / 36) * 100}%;
-            `"
+              `"
             ></li>
             <li
               v-for="(item, itemIndex) in props.pings"
               :id="`ping-zone-${itemIndex}`"
               @mouseenter="e => handlePingMouseEnter(e, item.category, item.id)"
               @mouseleave="e => handlePingMouseLeave(e, item.category)"
+              @click="handleClick(item)"
               :key="itemIndex"
-              class="group bg-white h-8 w-8 rounded-[32px] absolute z-50 duration-[400ms] hover:w-16 hover:scale-[6] hover:!rounded-[4px] hover:shadow-xl hoverable bg-cover bg-no-repeat bg-center"
+              class="group bg-white h-8 w-8 rounded-[32px] absolute z-50 duration-[300ms] hover:w-16 hover:scale-[6] hover:!rounded-[4px] hover:shadow-xl hoverable bg-cover bg-no-repeat bg-center active:scale-[5.6]"
               :class="`${props.id}-ping`"
               :style="`
               left: ${(item.coordinates[0] / 64) * 100}%;

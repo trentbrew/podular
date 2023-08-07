@@ -111,6 +111,10 @@
 
   const state = reactive({
     debug: false,
+    lightbox: {
+      active: false,
+      image: null,
+    },
     featureContext: null,
     menu: {
       zone: [160, 160],
@@ -221,6 +225,18 @@
       ? 'blur-xl brightness-[0.4]'
       : ''
   }
+
+  function handlePingClick(image) {
+    console.log('ping clicked!: ', image)
+    state.lightbox.image = image.src
+    state.lightbox.active = true
+  }
+
+  function closeLightbox() {
+    console.log('closing lightbox')
+    state.lightbox.active = false
+    state.lightbox.image = null
+  }
 </script>
 
 <template>
@@ -244,6 +260,27 @@
       }`"
     >
       <Intro @ready="handleIntroReady" />
+    </div>
+    <!-- LIGHTBOX -->
+    <div
+      v-show="state.lightbox.active"
+      class="hoverable shadow-lg z-[105] flex justify-center items-center rounded-full h-12 w-12 duration-150 fixed top-8 right-8"
+      @click="closeLightbox"
+    >
+      <Icon class="pointer-events-none invert" name="close" />
+    </div>
+    <div
+      class="h-screen w-full fixed top-0 left-0 z-[100] bg-black/90 backdrop-blur-lg flex justify-center items-center duration-300 pointer-events-none"
+      :class="state.lightbox.active ? 'opacity-1' : 'opacity-0'"
+    >
+      <div
+        class="bg-white h-[80%] aspect-video rounded-[16px] bg-cover bg-center bg-no-repeat duration-[600ms]"
+        :class="state.lightbox.active ? 'scale-1' : 'scale-[0.8]'"
+        :style="`background-image: url(${
+          state.lightbox.image ??
+          'http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcR0NrOJEpfjkM0zxD-aO9b-bWqW3mhY57jPMg3aSbxTYO__R4jOvx8T2Oa7Fm9yxXOGg4B_ns3SZaZGCiBOPQw'
+        })`"
+      ></div>
     </div>
     <!-- MENU -->
     <div
@@ -487,6 +524,7 @@
         >
           <div class="w-full h-full absolute duration-[2s]">
             <Pannable
+              @ping="handlePingClick"
               :pings="pings.features"
               class="duration-0"
               id="features"
@@ -516,6 +554,7 @@
         >
           <div class="w-full h-full absolute">
             <Pannable
+              @ping="handlePingClick"
               :pings="pings.showroom"
               class="duration-0"
               id="showroom"
