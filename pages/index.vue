@@ -230,17 +230,15 @@
   }
 
   function openLightbox(image) {
+    state.lightbox.image = image.src
+    state.lightbox.category = image.category
+    state.lightbox.context = image.id
+    state.lightbox.description = pings[image.category][image.id]
+    state.lightbox.active = true
     router.push({
       hash: `#${state.lightbox.category}_${image.id}`,
       query: { view: true },
     })
-    console.log('route', route)
-    console.log('route.fullPath: ', router.currentRoute.value.fullPath)
-    state.lightbox.image = image.src
-    state.lightbox.category = image.category
-    state.lightbox.active = true
-    state.lightbox.context = image.id
-    state.lightbox.description = pings[image.category][image.id]
   }
 
   function closeLightbox() {
@@ -285,8 +283,8 @@
           ? 'opacity-1'
           : 'opacity-0'
       "
-      class="w-[100vw] p-16 pb-12 flex flex-col justify-end items-start duration-[2s] fixed bottom-0 left-0 pointer-events-none z-[110]"
-      style="background: linear-gradient(transparent, #000000aa)"
+      class="w-[100vw] p-16 h-[50vh] pb-12 flex flex-col justify-end items-start duration-[2s] fixed bottom-0 left-0 pointer-events-none z-[110]"
+      style="background: linear-gradient(transparent, #000000dd)"
     >
       <div class="font-bold text-5xl text-white mb-6 podular-sans">
         {{ pingContext ?? state.lightbox.context }}
