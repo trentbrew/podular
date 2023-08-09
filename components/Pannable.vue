@@ -1,5 +1,6 @@
 <script setup>
   const router = useRouter()
+  const route = useRoute()
 
   const emit = defineEmits(['ping'])
 
@@ -25,6 +26,7 @@
     bufferHover: false,
     bufferLeave: false,
     hoverSrc: '',
+    view: false,
   })
 
   const tiles = ref(null)
@@ -71,21 +73,39 @@
     })
   })
 
+  watch(
+    () => route.query.view,
+    val => {
+      console.log(val)
+      state.view = val
+    }
+  )
+
   function handlePingMouseEnter(e, category, id) {
     state.hoveringPing = true
+    if (route.query.view) return
     router.push({ hash: `#${category}_${id}` })
   }
 
   function handlePingMouseLeave(e, category) {
     state.hoveringPing = false
+    if (route.query.view) return
     router.push({ hash: `#${category}` })
   }
 
-  function handleMouseMove(e) {}
-
   function handleClick(item) {
     state.clicked = true
-    emit('ping', { src: renders[item.category][item.id] })
+    emit('ping', {
+      src: renders[item.category][item.id],
+      category: item.category,
+      id: item.id,
+    })
+  }
+
+  function handleMouseMove() {
+    // if (!state.clicked && !state.hoveringPing) {
+    //   state.clicked = false
+    // }
   }
 </script>
 
@@ -100,8 +120,12 @@
         <div class="photo" :style="`background-image: url(${props.image})`">
           <div
             class="bg-black w-full h-full absolute z-10 poitner-events-none duration-[600ms]"
-            :style="`opacity: ${state.hoveringPing ? 0.7 : 0.2};`"
+            :style="`opacity: ${
+              state.hoveringPing && !state.view ? 0.7 : 0.2
+            };`"
           ></div>
+          <!-- <ul v-show="!route.fullPath.includes('view')"> -->
+          <!-- <ul :class="route.query.view === true ? '' : 'pointer-events-none'"> -->
           <ul>
             <li
               v-for="(item, itemIndex) in props.pings"
@@ -114,6 +138,7 @@
               `"
             ></li>
             <li
+              v-show="!state.view"
               v-for="(item, itemIndex) in props.pings"
               :id="`ping-zone-${itemIndex}`"
               @mouseenter="e => handlePingMouseEnter(e, item.category, item.id)"
@@ -123,11 +148,11 @@
               class="group bg-white h-8 w-8 rounded-[32px] absolute z-50 duration-[300ms] hover:w-16 hover:scale-[6] hover:!rounded-[4px] hover:shadow-xl hoverable bg-cover bg-no-repeat bg-center active:scale-[5.6]"
               :class="`${props.id}-ping`"
               :style="`
-              left: ${(item.coordinates[0] / 64) * 100}%;
-              top: ${(item.coordinates[1] / 36) * 100}%;
-              background-image: url(${renders[item.category][item.id]});
-              transition-timing-function: ease;
-            `"
+                left: ${(item.coordinates[0] / 64) * 100}%;
+                top: ${(item.coordinates[1] / 36) * 100}%;
+                background-image: url(${renders[item.category][item.id]});
+                transition-timing-function: ease;
+              `"
             >
               <div
                 class="bg-white rounded-[32px] group-hover:!rounded-[4px] w-full h-full group-hover:!opacity-0 duration-[400ms] hoverable"

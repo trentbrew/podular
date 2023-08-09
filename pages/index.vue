@@ -114,6 +114,9 @@
     lightbox: {
       active: false,
       image: null,
+      category: '',
+      context: '',
+      description: '',
     },
     featureContext: null,
     menu: {
@@ -226,16 +229,26 @@
       : ''
   }
 
-  function handlePingClick(image) {
-    console.log('ping clicked!: ', image)
+  function openLightbox(image) {
+    router.push({
+      hash: `#${state.lightbox.category}_${image.id}`,
+      query: { view: true },
+    })
+    console.log('route', route)
+    console.log('route.fullPath: ', router.currentRoute.value.fullPath)
     state.lightbox.image = image.src
+    state.lightbox.category = image.category
     state.lightbox.active = true
+    state.lightbox.context = image.id
+    state.lightbox.description = pings[image.category][image.id]
   }
 
   function closeLightbox() {
-    console.log('closing lightbox')
-    state.lightbox.active = false
+    router.push({ hash: `#${state.lightbox.category}` })
     state.lightbox.image = null
+    state.lightbox.active = false
+    state.lightbox.context = ''
+    state.lightbox.description = ''
   }
 </script>
 
@@ -263,8 +276,30 @@
     </div>
     <!-- LIGHTBOX -->
     <div
+      :class="
+        [2, 3].includes(state.active) &&
+        (pingContext.length ||
+          state.lightbox.context.length ||
+          pingContext?.length ||
+          pingDescription?.length)
+          ? 'opacity-1'
+          : 'opacity-0'
+      "
+      class="w-[100vw] p-16 pb-12 flex flex-col justify-end items-start duration-[2s] fixed bottom-0 left-0 pointer-events-none z-[110]"
+      style="background: linear-gradient(transparent, #000000aa)"
+    >
+      <div class="font-bold text-5xl text-white mb-6 podular-sans">
+        {{ pingContext ?? state.lightbox.context }}
+      </div>
+      <div class="flex flex-col gap-3 text-white">
+        <span class="text-lg max-w-[50vw] opacity-60">
+          {{ pingDescription ?? state.lightbox.description }}
+        </span>
+      </div>
+    </div>
+    <div
       v-show="state.lightbox.active"
-      class="hoverable shadow-lg z-[105] flex justify-center items-center rounded-full h-12 w-12 duration-150 fixed top-8 right-8"
+      class="hoverable shadow-lg z-[105] flex justify-center items-center rounded-full h-12 w-12 duration-150 fixed top-8 right-8 backdrop-invert backdrop-blur-xl"
       @click="closeLightbox"
     >
       <Icon class="pointer-events-none invert" name="close" />
@@ -274,7 +309,7 @@
       :class="state.lightbox.active ? 'opacity-1' : 'opacity-0'"
     >
       <div
-        class="bg-white h-[80%] aspect-video rounded-[16px] bg-cover bg-center bg-no-repeat duration-[600ms]"
+        class="bg-white h-screen w-screen rounded-[16px] bg-cover bg-center bg-no-repeat duration-[600ms]"
         :class="state.lightbox.active ? 'scale-1' : 'scale-[0.8]'"
         :style="`background-image: url(${
           state.lightbox.image ??
@@ -524,26 +559,15 @@
         >
           <div class="w-full h-full absolute duration-[2s]">
             <Pannable
-              @ping="handlePingClick"
+              @ping="openLightbox"
               :pings="pings.features"
               class="duration-0"
               id="features"
               image="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/gcfp37v00ilzfl6/features_page_base_2_U0AoEhOwqX.jpg?token="
             />
-            <div
-              class="w-[100vw] p-16 pb-12 flex flex-col justify-end items-start duration-[2s] absolute bottom-0 left-0 pointer-events-none"
-            >
-              <div class="font-bold text-5xl text-white mb-6 podular-sans">
-                {{ pingContext }}
-              </div>
-              <div class="flex flex-col gap-3 text-white">
-                <span class="text-lg max-w-[50vw] opacity-60">
-                  {{ pingDescription }}
-                </span>
-              </div>
-            </div>
           </div>
         </section>
+        <!-- SHOWROOM PAGE -->
         <section
           id="showroom"
           :class="
@@ -554,7 +578,7 @@
         >
           <div class="w-full h-full absolute">
             <Pannable
-              @ping="handlePingClick"
+              @ping="openLightbox"
               :pings="pings.showroom"
               class="duration-0"
               id="showroom"
