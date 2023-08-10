@@ -297,17 +297,17 @@
     </div>
     <div
       v-show="state.lightbox.active"
-      class="hoverable shadow-lg z-[105] flex justify-center items-center rounded-full h-12 w-12 duration-150 fixed top-8 right-8 backdrop-invert backdrop-blur-xl"
+      class="hoverable shadow-lg z-[105] flex justify-center items-center rounded-full h-12 w-12 duration-150 fixed top-8 right-8 bg-white"
       @click="closeLightbox"
     >
-      <Icon class="pointer-events-none invert" name="close" />
+      <Icon class="pointer-events-none" name="close" />
     </div>
     <div
-      class="h-screen w-full fixed top-0 left-0 z-[100] bg-black/90 backdrop-blur-lg flex justify-center items-center duration-300 pointer-events-none"
+      class="h-screen p-12 pb-36 w-full fixed top-0 left-0 z-[100] bg-black/90 backdrop-blur-lg flex justify-center items-center duration-300 pointer-events-none"
       :class="state.lightbox.active ? 'opacity-1' : 'opacity-0'"
     >
       <div
-        class="bg-white h-screen w-screen rounded-[16px] bg-cover bg-center bg-no-repeat duration-[600ms]"
+        class="bg-white h-full w-full rounded-[16px] bg-cover bg-center bg-no-repeat duration-[600ms]"
         :class="state.lightbox.active ? 'scale-1' : 'scale-[0.8]'"
         :style="`background-image: url(${
           state.lightbox.image ??
