@@ -34,26 +34,26 @@
 
   const renders = {
     features: {
-      wheels:
-        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/nnxq334eo7ugkqk/feature_wheels_Xb2ZfzARu9.jpg?token=',
+      latch:
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_latch_tGxZ6yXiQ2.jpg?token=',
       access:
-        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/7w2i7lflvnzfnsh/features_access_tmGnzqqtXi.jpg?token=',
-      led: 'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/3d6ll0pih6hq9gh/features_led_oxDTvGZY2O.jpg?token=',
-      sink: 'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/v4wim4knb84v7cm/features_sink_s7GXEY3pdf.jpg?token=',
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_access_gdAIvC8wII.jpg?token=',
+      led: 'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_led_C29MthT4O4.jpg?token=',
+      sink: 'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_sink_RMks1p836A.jpg?token=',
       storage:
-        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/72u2jwt7rthybus/features_storage_dli5uI7jxK.jpg?token=',
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_storage_tuoSPKJDmp.jpg?token=',
       stove:
-        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/8beptzot2cxyygc/features_stove_5cOfcRcw3Q.jpg?token=',
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_stove_k1RnImOdBk.jpg?token=',
       utility:
-        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/gcpt2r759je29jc/features_utility_c33EUYBsGt.jpg?token=',
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_utility_Or6A3Ycgwx.jpg?token=',
     },
     showroom: {
       access:
-        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/jlqw9vqk2p4lf8b/showroom_access_5vUUE95LBu.jpg?token=',
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/5uacn4j78hcehva/showroom_access_Dpz1zPmH4T.jpg?token=',
       electrical:
-        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/g62h0u6dh5h5qgl/showroom_electrical_9S5N1IaX52.jpg?token=',
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/5uacn4j78hcehva/showroom_electrical_3N9lcpKqbs.jpg?token=',
       scale:
-        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/p3dc6eqywawc6s1/showroom_scale_1JoRFquniq.jpg?token=',
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/5uacn4j78hcehva/showroom_scale_yuLw55agv3.jpg?token=',
     },
   }
 
@@ -101,16 +101,10 @@
       id: item.id,
     })
   }
-
-  function handleMouseMove() {
-    // if (!state.clicked && !state.hoveringPing) {
-    //   state.clicked = false
-    // }
-  }
 </script>
 
 <template>
-  <div class="wrapper" @mousemove="handleMouseMove">
+  <div class="wrapper">
     <div class="tiles">
       <div
         class="tile"
@@ -124,8 +118,6 @@
               state.hoveringPing && !state.view ? 0.7 : 0.2
             };`"
           ></div>
-          <!-- <ul v-show="!route.fullPath.includes('view')"> -->
-          <!-- <ul :class="route.query.view === true ? '' : 'pointer-events-none'"> -->
           <ul>
             <li
               v-for="(item, itemIndex) in props.pings"

@@ -29,7 +29,7 @@
         title: 'Sink',
         category: 'features',
         description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+          "Podular features a food-grade sink within the pod's workspace, complete with a splash guard to meet regulatory standards and ensure a hygienic environment.",
         coordinates: [15, 12],
       },
       {
@@ -37,7 +37,7 @@
         title: 'Storage',
         category: 'features',
         description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+          'The storage in Podular includes removable shelving with adjustable height functionality. This design ensures flexibility and optimal space utilization according to specific requirements. ',
         coordinates: [29, 15],
       },
       {
@@ -45,7 +45,7 @@
         title: 'Stove',
         category: 'features',
         description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+          'Popular features a two-burner induction cooktop, expandable with additional units for diverse cooking needs.',
         coordinates: [40, 10],
       },
       {
@@ -53,7 +53,7 @@
         title: 'Utility',
         category: 'features',
         description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+          'Podular incorporates a utility distribution for efficient resource allocation and management.',
         coordinates: [41, 14],
       },
       {
@@ -61,15 +61,15 @@
         title: 'Access',
         category: 'features',
         description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+          'Each Podular pod provides an accessible easy-to-move entry/exit section.',
         coordinates: [49, 16],
       },
       {
-        id: 'wheels',
-        title: 'Wheels',
+        id: 'latch',
+        title: 'Latch',
         category: 'features',
         description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+          'Easily unmount the access module to access the interior of the pod.',
         coordinates: [44, 24],
       },
       {
@@ -77,7 +77,7 @@
         title: 'LED',
         category: 'features',
         description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+          'Podular integrates contemporary LED lighting that can be remotely controlled to change colors, allowing for branding customization and creating a captivating ambiance.',
         coordinates: [52, 28],
       },
     ],
@@ -88,7 +88,7 @@
         category: 'showroom',
         coordinates: [9, 11],
         description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+          'The design of each Podular pod is meticulously crafted, taking into consideration the ratio and relationship between its elements. This design approach harmonizes with the principles of human body geometry, ensuring ergonomic comfort and aesthetic cohesion. Each Podular pod spans around 12 feet in diameter and stands at approximately 44 inches in height.',
       },
       {
         id: 'access',
@@ -303,7 +303,7 @@
       <Icon class="pointer-events-none" name="close" />
     </div>
     <div
-      class="h-screen p-12 pb-36 w-full fixed top-0 left-0 z-[100] bg-black/90 backdrop-blur-lg flex justify-center items-center duration-300 pointer-events-none"
+      class="h-screen w-full fixed top-0 left-0 z-[100] bg-black/90 backdrop-blur-lg flex justify-center items-center duration-300 pointer-events-none"
       :class="state.lightbox.active ? 'opacity-1' : 'opacity-0'"
     >
       <div
@@ -532,9 +532,10 @@
               </div>
               <div class="flex flex-col gap-3 text-white">
                 <span class="text-lg max-w-[50vw] opacity-60">
-                  Podular offers chic and customizable modular pods, providing a
-                  quick and effortless space solution to enhance both customer
-                  and worker experiences for pop-up food and beverage services.
+                  Podular presents a stylish and personalized modular pod,
+                  offering swift and uncomplicated spatial solutions that
+                  elevate the customer and employee experience in the food and
+                  beverage industry.
                 </span>
                 <button
                   @click="goTo('features')"
@@ -561,7 +562,7 @@
               :pings="pings.features"
               class="duration-0"
               id="features"
-              image="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/gcfp37v00ilzfl6/features_page_base_2_U0AoEhOwqX.jpg?token="
+              image="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_ao5Xejz8S5.jpg?token="
             />
           </div>
         </section>
