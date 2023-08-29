@@ -291,7 +291,7 @@
       </div>
       <div class="flex flex-col gap-3 text-white">
         <span class="text-lg max-w-[50vw] opacity-60">
-          {{ pingDescription ?? state.lightbox.description }}
+          {{ pingDescription ?? state.lightbox.description }}``
         </span>
       </div>
     </div>
@@ -443,7 +443,7 @@
         >
           contact
         </li>
-        <a href="#">
+        <!-- <a href="#">
           <li
             :class="
               state.active == 5 && !state.menu.lock
@@ -455,7 +455,7 @@
           >
             preorder
           </li>
-        </a>
+        </a> -->
       </ul>
     </div>
     <!-- PANNING -->
