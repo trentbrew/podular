@@ -68,8 +68,6 @@
         id: 'latch',
         title: 'Latch',
         category: 'features',
-        description:
-          'Easily unmount the access module to access the interior of the pod.',
         coordinates: [44, 24],
       },
       {
@@ -253,7 +251,8 @@
 <template>
   <div @mousemove="handleMouseMove">
     <Cursor />
-    <!-- INTRO -->
+
+    <!-- INTRO -------------------------------------------------------------->
     <div
       @click="state.active > 0 ? goTo('home') : () => {}"
       class="fixed top-0 left-0 origin-top-left z-[50] duration-[1.4s]"
@@ -272,7 +271,8 @@
     >
       <Intro @ready="handleIntroReady" />
     </div>
-    <!-- LIGHTBOX -->
+
+    <!-- LIGHTBOX -------------------------------------------------------------->
     <div
       :class="
         [2, 3].includes(state.active) &&
@@ -291,7 +291,7 @@
       </div>
       <div class="flex flex-col gap-3 text-white">
         <span class="text-lg max-w-[50vw] opacity-60">
-          {{ pingDescription ?? state.lightbox.description }}``
+          {{ pingDescription ?? state.lightbox.description }}
         </span>
       </div>
     </div>
@@ -315,7 +315,8 @@
         })`"
       ></div>
     </div>
-    <!-- MENU -->
+
+    <!-- MENU -------------------------------------------------------------->
     <div
       id="menu-zone"
       class="w-[50vw] h-screen fixed top-0 right-0 z-50 duration-[1.4s] flex items-center justify-end"
@@ -458,9 +459,11 @@
         </a> -->
       </ul>
     </div>
-    <!-- PANNING -->
+
+    <!-- PANNING -------------------------------------------------------------->
     <div class="h-screen w-full fixed left-0 top-0"></div>
-    <!-- MAIN -->
+
+    <!-- MAIN -------------------------------------------------------------->
     <main
       v-scroll="handleScroll"
       style="transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1)"
