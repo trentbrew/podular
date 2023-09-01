@@ -236,12 +236,10 @@
   }
 
   function closeMenu() {
-    console.log('closing menu...')
     state.menu.mobile.active = false
   }
 
   function openMenu() {
-    console.log('opening menu...')
     state.menu.mobile.active = true
   }
 
@@ -334,16 +332,20 @@
     <!-- NAVIGATION -------------------------------------------------------------->
 
     <div
-      v-if="isMobile && state.menu.mobile.active"
       id="mobile-menu-overlay"
-      class="fixed top-0 left-0 z-[150] w-screen h-screen bg-black/75 backdrop-blur-3xl backdrop-saturate-150 flex flex-col justify-center items-center"
+      style="transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1)"
+      class="fixed top-0 left-0 z-[150] w-screen h-screen bg-black/40 backdrop-blur-3xl backdrop-saturate-150 flex flex-col justify-center items-center duration-[1s]"
+      :class="
+        isMobile && state.menu.mobile.active
+          ? 'translate-y-[0vh]'
+          : 'pointer-events-none translate-y-[-105vh]'
+      "
     >
       <div
-        class="absolute top-0 left-0 w-full flex h-16 items-center justify-between pl-[20px] pr-4 box-border"
+        class="absolute top-0 left-0 w-full flex h-16 items-center justify-end pl-[20px] pr-4 box-border"
       >
-        <div class="flex gap-[18px]">
+        <!-- <div class="flex gap-[18px]">
           <svg
-            class="opacity-30"
             width="34"
             height="34"
             viewBox="0 0 1299 1292"
@@ -363,10 +365,10 @@
               fill="white"
             />
           </svg>
-          <!-- <span class="podular-sans text-2xl opacity-100 translate-y-[1px]">
+          <span class="podular-sans text-2xl opacity-100 translate-y-[1px]">
             podular
-          </span> -->
-        </div>
+          </span>
+        </div> -->
         <button
           @click="closeMenu"
           class="p-0 active:opacity-50 min-w-6 min-h-6 text-white"
