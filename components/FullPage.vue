@@ -65,7 +65,6 @@
     const threshold = 25
     state.touchEndY = event.changedTouches[0].clientY
     const delta = state.touchStartY - state.touchEndY
-    console.log(delta)
     if (Math.abs(delta) > threshold) handleScroll(delta)
   })
 

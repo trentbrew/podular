@@ -309,21 +309,23 @@
           ? 'opacity-100'
           : 'opacity-0'
       "
-      class="w-[100vw] p-16 h-[50vh] pb-12 flex flex-col justify-end items-start duration-[2s] fixed bottom-0 left-0 pointer-events-none z-[110]"
+      class="w-[100vw] p-8 pb-6 md:p-16 h-[50vh] md:pb-12 flex flex-col justify-end items-start duration-[2s] fixed bottom-0 left-0 pointer-events-none z-[110]"
       style="background: linear-gradient(transparent, #000000dd)"
     >
-      <div class="font-bold text-5xl text-white mb-6 podular-sans">
+      <div class="font-bold text-3xl md:text-5xl text-white mb-6 podular-sans">
         {{ pingContext ?? state.lightbox.context }}
       </div>
       <div class="flex flex-col gap-3 text-white">
-        <span class="text-lg max-w-[50vw] opacity-60">
+        <span
+          class="md:text-lg w-full md:max-w-[50vw] opacity-40 md:opacity-60"
+        >
           {{ pingDescription ?? state.lightbox.description }}
         </span>
       </div>
     </div>
     <div
       v-show="state.lightbox.active"
-      class="hoverable shadow-lg z-[105] flex justify-center items-center rounded-full h-10 w-10 duration-150 fixed top-8 right-8 bg-white text-black"
+      class="hoverable shadow-lg z-[105] flex justify-center items-center rounded-full h-10 w-10 duration-150 fixed top-4 right-4 md:top-8 md:right-8 bg-white text-black"
       @click="closeLightbox"
     >
       <Icon class="pointer-events-none" :size="18" name="close" />
@@ -568,9 +570,9 @@
         <div class="navbar-end pr-2">
           <a
             v-if="!isMobile"
-            class="scale-[1.08] translate-x-[-4px] btn btn-sm bg-white text-black hover:bg-transparent hover:border-white hoverable border-white border-[1.5px] hover:text-white rounded-full gap-1"
+            class="scale-[1.08] translate-x-[-4px] btn btn-sm btn-disabled bg-white/80 text-gray-500 hover:bg-transparent hover:border-white hoverable border-white/0 border-[1.5px] hover:text-white rounded-full gap-1"
           >
-            pre-order
+            pre-orders coming soon
             <!-- <Icon name="arrow_alt_right" /> -->
           </a>
           <button
@@ -595,7 +597,7 @@
     <!-- MAIN -------------------------------------------------------------->
 
     <div
-      class="fixed bottom-[18vh] left-0 justify-center md:justify-end md:bottom-12 md:right-16 md:left-auto z-[100] flex items-center gap-4 duration-[600ms] text-white w-full md:w-fit"
+      class="fixed bottom-[24vh] left-0 justify-center md:justify-end md:bottom-12 md:right-16 md:left-auto z-[100] flex items-center gap-4 duration-[600ms] text-white w-full md:w-fit delay-[400ms]"
       :class="
         (isMobile ? [0, 1, 2, 3] : [0, 1, 2, 3]).includes(state.active)
           ? 'opacity-0 pointer-events-none'
@@ -625,11 +627,11 @@
 
       <div
         v-show="state.ready && isMobile && state.active > 0"
-        class="fixed m-auto left-0 top-[62px] bg-transparent h-[2px] rounded-full w-screen z-50 flex justify-start duration-[2s]"
+        class="fixed m-auto left-0 top-[0px] bg-transparent h-[1px] rounded-full w-screen z-50 flex justify-start duration-[2s]"
         :class="state.progress >= 95 ? 'opacity-0' : 'opacity-1'"
       >
         <div
-          class="bg-white/20 h-full rounded-full"
+          class="bg-white h-full rounded-full"
           :style="`width: ${state.progress}%`"
         ></div>
       </div>
@@ -842,7 +844,7 @@
                 <br v-if="isMobile" />
                 solution
               </div>
-              <div class="flex flex-col gap-3 text-white w-full">
+              <div class="mt-4 flex flex-col gap-3 text-white w-full">
                 <span
                   class="md:text-lg md:max-w-[45vw] opacity-50 font-normal text-left text-[16px]"
                 >
@@ -853,7 +855,7 @@
                 </span>
                 <button
                   @click="goTo('features')"
-                  class="md:absolute md:bottom-8 md:right-8 hoverable justify-center flex gap-2 items-center w-fit md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-6 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"
+                  class="md:absolute md:bottom-8 md:right-8 hoverable justify-center flex gap-2 items-center w-fit md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-8 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"
                 >
                   <Icon
                     class="hoverable animate-bounce pointer-events-none md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
@@ -873,9 +875,11 @@
           id="features"
           class="bg-black md:bg-transparent"
           :class="
-            overlay() + state.active != 2
-              ? ' brightness-[0.3]'
-              : ' brightness-1'
+            !isMobile
+              ? overlay() + state.active != 2
+                ? ' brightness-[0.3]'
+                : ' brightness-1'
+              : ''
           "
         >
           <div v-if="!isMobile" class="w-full h-full absolute duration-[2s]">
@@ -910,8 +914,16 @@
             >
               <li
                 v-for="(item, itemIndex) in pings.features"
+                @click="
+                  openLightbox({
+                    src: item.image,
+                    category: 'features',
+                    id: item.id,
+                  })
+                "
                 :key="itemIndex"
                 class="w-full h-full flex justify-start items-center px-4 pb-4"
+                :class="state.lightbox.active ? 'pointer-events-none' : ''"
               >
                 <div
                   class="w-full h-full bg-no-repeat bg-cover bg-center brightness-[0.4] saturate-125 rounded-lg"
@@ -944,11 +956,14 @@
           id="showroom"
           class="bg-black md:bg-transparent"
           :class="
-            overlay() + state.active != 3
-              ? ' brightness-[0.3]'
-              : ' brightness-1'
+            !isMobile
+              ? overlay() + state.active != 3
+                ? ' brightness-[0.3]'
+                : ' brightness-1'
+              : ''
           "
         >
+          <!-- desktop -->
           <div v-if="!isMobile" class="w-full h-full absolute">
             <div
               @click="goTo('contact')"
@@ -958,7 +973,7 @@
                 class="hoverable animate-bounce pointer-events-none absolute md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
                 name="arrow_alt_down"
               />
-              <span class="hoverable pointer-events-none">contact us</span>
+              <span class="hoverable pointer-events-none">get in touch</span>
               <Icon
                 v-if="isMobile"
                 class="hoverable animate-bounce pointer-events-none absolute right-12 bottom-[34px]"
@@ -985,14 +1000,23 @@
               </div>
             </div>
           </div>
+          <!-- mobile -->
           <div v-else class="w-full h-full">
             <ul
               class="pt-4 w-full h-[calc(100vh-64px)] mt-[64px] bg-black flex flex-col"
             >
               <li
                 v-for="(item, itemIndex) in pings.showroom"
+                @click="
+                  openLightbox({
+                    src: item.image,
+                    category: 'features',
+                    id: item.id,
+                  })
+                "
                 :key="itemIndex"
                 class="w-full h-full flex justify-start items-center px-4 pb-4"
+                :class="state.lightbox.active ? 'pointer-events-none' : ''"
               >
                 <div
                   class="w-full h-full bg-no-repeat bg-cover bg-center brightness-[0.4] saturate-125 rounded-lg"
@@ -1069,7 +1093,7 @@
               <img
                 src="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/51arrah30qe27ve/contact_YOiKby9Gwc.png?token="
                 alt="Jasna Ostojich"
-                class="rounded-full object-cover w-[160px] h-[160px] border-2 border-white/10 md:text-left duration-[1.5s] delay-[1.4s]"
+                class="rounded-full mt-[-100px] md:m-auto object-cover w-[160px] h-[160px] border-2 border-white/10 md:text-left duration-[1.5s] delay-[1.4s]"
                 :class="
                   animate(4, 'opacity-0 scale-[0.9]', 'opacity-100 scale-[1]')
                 "
@@ -1124,15 +1148,13 @@
                   : 'opacity-100'
               "
             >
-              <div
-                class="flex items-center w-full justify-between px-16 text-sm"
-              >
+              <div class="flex items-center w-full justify-between px-16">
                 <div
                   class="w-full h-[120px] flex gap-[4px] md:gap-0 items-center justify-center md:justify-start flex-col md:flex-row"
                 >
                   <!-- wan -->
                   <span
-                    class="opacity-30 md:opacity-40 flex gap-2 items-center text-xs"
+                    class="opacity-30 md:opacity-40 flex gap-2 items-center text-xs md:text-base"
                   >
                     <Icon class="md:mr-1" name="cube" :size="16" />
                     3D Renders by
@@ -1145,7 +1167,7 @@
                   </span>
                   <!-- trent -->
                   <span
-                    class="ml-4 opacity-30 md:opacity-40 flex gap-2 items-center text-xs"
+                    class="ml-4 opacity-30 md:opacity-40 flex gap-2 items-center text-xs md:text-base"
                   >
                     <Icon class="md:mr-2" name="laptop" :size="16" />
                     Web Design by
