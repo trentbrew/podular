@@ -4,8 +4,6 @@
 
   const isMobile = window.innerWidth < 768
 
-  console.log('isMobile', isMobile)
-
   const pingCategory = computed(() => {
     return route.hash?.split('_')[0].substring(1) ?? ''
   })
@@ -153,10 +151,15 @@
     }
   )
 
-  function goTo(section) {
-    closeMenu()
-    console.log('state.active: ', state.active)
-    fullpage.value.scrollById(section)
+  function goTo(section, delayed) {
+    if (delayed) {
+      closeMenu()
+      setTimeout(() => {
+        fullpage.value.scrollById(section)
+      }, 400)
+    } else {
+      fullpage.value.scrollById(section)
+    }
   }
 
   function handleScroll(e) {
@@ -231,20 +234,12 @@
     // }
   }
 
-  function handleMenuClick(e) {
-    // state.menu.clicked = !state.menu.clicked
-  }
-
   function closeMenu() {
     state.menu.mobile.active = false
   }
 
   function openMenu() {
     state.menu.mobile.active = true
-  }
-
-  function handleMobileMenuClick() {
-    console.log('mobile menu clicked')
   }
 
   function overlay() {
@@ -334,11 +329,11 @@
     <div
       id="mobile-menu-overlay"
       style="transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1)"
-      class="fixed top-0 left-0 z-[150] w-screen h-screen bg-black/40 backdrop-blur-3xl backdrop-saturate-150 flex flex-col justify-center items-center duration-[1s]"
+      class="fixed top-0 left-0 z-[150] w-screen h-screen bg-black/50 backdrop-blur-3xl backdrop-contrast-150 flex flex-col justify-center items-center duration-[600ms]"
       :class="
         isMobile && state.menu.mobile.active
-          ? 'translate-y-[0vh]'
-          : 'pointer-events-none translate-y-[-105vh]'
+          ? 'translate-x-[0vh]'
+          : 'pointer-events-none translate-x-[105vw]'
       "
     >
       <div
@@ -385,7 +380,7 @@
               ? 'active-link'
               : 'inactive-link'
           "
-          @click="goTo('home')"
+          @click="goTo('home', true)"
           class="hoverable menu-item"
           style="animation-delay: 0.4s"
         >
@@ -397,7 +392,7 @@
               ? 'active-link'
               : 'inactive-link'
           "
-          @click="goTo('about')"
+          @click="goTo('about', true)"
           class="hoverable menu-item"
           style="animation-delay: 0.4s"
         >
@@ -409,7 +404,7 @@
               ? 'active-link'
               : 'inactive-link'
           "
-          @click="goTo('features')"
+          @click="goTo('features', true)"
           class="hoverable menu-item"
           style="animation-delay: 0.5s"
         >
@@ -421,7 +416,7 @@
               ? 'active-link'
               : 'inactive-link'
           "
-          @click="goTo('showroom')"
+          @click="goTo('showroom', true)"
           class="hoverable menu-item"
           style="animation-delay: 0.6s"
         >
@@ -433,15 +428,18 @@
               ? 'active-link'
               : 'inactive-link'
           "
-          @click="goTo('contact')"
+          @click="goTo('contact', true)"
           class="hoverable menu-item"
           style="animation-delay: 0.7s"
         >
           contact
         </li>
       </ul>
-      <div class="w-full p-4 box-border mt-auto font-bold">
-        <a href="#" class="btn w-full bg-white text-black rounded-xl text-xl">
+      <div class="w-full p-6 box-border mt-auto font-bold">
+        <a
+          href="#"
+          class="btn w-full bg-white/90 text-black rounded-full text-xl"
+        >
           pre-order
         </a>
       </div>
@@ -462,7 +460,9 @@
           <a
             class="duration-500 text-2xl text-white podular-sans translate-y-[-1px]"
             :class="
-              state.active > 0 ? 'opacity-100' : 'opacity-0 -translate-x-2'
+              state.active > 0
+                ? 'opacity-100 delay-[1s]'
+                : 'opacity-0 -translate-x-2'
             "
           >
             podular
@@ -595,15 +595,19 @@
       style="transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1)"
     >
       <!-- PROGRESS -->
-      <!-- <div
-        v-show="state.ready"
-        class="fixed m-auto left-0 top-0 bg-black/50 h-[4px] rounded-full w-screen z-50 flex justify-start"
+
+      <div
+        v-show="state.ready && isMobile && state.active > 0"
+        class="fixed m-auto left-0 top-[62px] bg-transparent h-[2px] rounded-full w-screen z-50 flex justify-start duration-[2s]"
+        :class="state.progress >= 95 ? 'opacity-0' : 'opacity-1'"
       >
         <div
-          class="bg-white h-full rounded-full"
+          class="bg-white/30 h-full rounded-full"
           :style="`width: ${state.progress}%`"
         ></div>
-      </div> -->
+      </div>
+
+      <!-- PAGES -->
 
       <FullPage
         ref="fullpage"
@@ -850,8 +854,8 @@
           >
             <div>
               <div
-                class="absolute z-[-1] translate-x-[-143px] translate-y-[-145px] duration-[8s] delay-[1.4s]"
-                :class="animate(4, 'opacity-0', 'opacity-[0.036]')"
+                class="absolute z-[-1] translate-x-[-143px] translate-y-[-145px] duration-[3s] delay-[200ms]"
+                :class="animate(4, 'opacity-0', 'opacity-[0.046]')"
               >
                 <svg
                   width="500"

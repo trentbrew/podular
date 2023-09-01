@@ -118,7 +118,7 @@
         </div>
       </div>
       <div
-        class="absolute w-screen h-screen scale-[3] duration-[3s] z-[-2] delay-[1s]"
+        class="absolute w-screen h-screen scale-[1] duration-[3s] z-[-2] delay-[900ms]"
         :class="`
       ${state.ready ? 'bg-transparent' : 'bg-black'}
       `"
@@ -147,7 +147,7 @@
   }
 
   .nudge {
-    animation: nudge 3s cubic-bezier(0.85, 0, 0.15, 1) forwards 200ms;
+    animation: nudge 3s cubic-bezier(0.85, 0, 0.15, 1) forwards 500ms;
   }
 
   @keyframes final {

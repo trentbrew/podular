@@ -130,8 +130,16 @@
   }
 
   function scrollById(id) {
-    updateHash(id)
-    const index = Array.from(state.sections).findIndex(s => s.id === id)
+    let index
+    let hash
+    if (typeof id !== 'string') {
+      index = id
+      hash = state.sections[id].id
+    } else {
+      hash = id
+      index = Array.from(state.sections).findIndex(s => s.id === id)
+    }
+    updateHash(hash)
     emit('update', {
       activeSection: index,
     })
