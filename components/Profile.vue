@@ -6,7 +6,7 @@
       <img
         src="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/51arrah30qe27ve/contact_YOiKby9Gwc.png?token="
         alt="Jasna Ostojich"
-        class="rounded-full object-cover w-[180px] h-[180px]"
+        class="rounded-full object-cover w-[140px] h-[14ß0px]"
       />
     </div>
     <div>
@@ -17,10 +17,12 @@
       </a>
       <p class="mb-2">847.922.0061</p>
     </div>
-    <div class="w-full h-full absolute flex flex-col justify-end items-start">
-      <div class="bg-white/10 w-full h-[88px] flex items-center pl-12 z-[-1]">
+    <div
+      class="w-full h-full absolute flex flex-col justify-end items-start z-[100]"
+    >
+      <div class="w-full h-[88px] flex items-center pl-12 z-[-1]">
         <span class="opacity-50">
-          Renders by
+          3D Renders by
           <a class="underline hoverable" href="https://studiolafa.design">
             Lawan Alade-Fa
           </a>

@@ -670,7 +670,11 @@
           </div>
         </section>
         <!-- CONTACT PAGE -->
-        <section id="contact" class="bg-black text-white" :class="overlay()">
+        <section
+          id="contact"
+          class="bg-black/60 backdrop-blur-lg text-white"
+          :class="overlay()"
+        >
           <Profile />
         </section>
       </FullPage>

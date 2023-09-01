@@ -215,7 +215,7 @@
   }
 
   .nudge {
-    animation: nudge 3s cubic-bezier(0.85, 0, 0.15, 1) forwards 400ms;
+    animation: nudge 3s cubic-bezier(0.85, 0, 0.15, 1) forwards 200ms;
   }
 
   @keyframes final {
