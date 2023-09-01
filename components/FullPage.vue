@@ -25,25 +25,48 @@
     direction: 'down',
     touchStartY: null,
     touchEndY: null,
+    wheel: null,
+    wheeling: false,
+    breaking: false,
   })
 
+  let wheelTimeout = null
+
+  watch(
+    () => state.wheel,
+    () => {
+      state.wheeling = true
+      if (wheelTimeout) clearTimeout(wheelTimeout)
+      wheelTimeout = setTimeout(() => {
+        state.wheeling = false
+      }, 500)
+      setTimeout(() => {
+        if (state.wheeling) state.breaking = true
+        else state.breaking = false
+      }, 800)
+    }
+  )
+
   // WHEEL EVENTS
-  window.addEventListener('wheel', function (event) {
-    if (state.isScrolling || props.disable) return
+  window.addEventListener('wheel', event => {
+    state.wheel = event
+    if (state.isScrolling || props.disable || state.breaking) return
     const delta = Math.sign(event.deltaY)
     handleScroll(delta)
   })
 
   // TOUCH EVENTS
   window.addEventListener('touchstart', event => {
+    console.log('touchstart', event)
     if (state.isScrolling || props.disable) return
     state.touchStartY = event.touches[0].clientY
   })
   window.addEventListener('touchend', event => {
     if (state.isScrolling || props.disable) return
+    const threshold = 20
     state.touchEndY = event.changedTouches[0].clientY
     const delta = state.touchStartY - state.touchEndY
-    handleScroll(delta)
+    if (Math.abs(delta) > threshold) handleScroll(delta)
   })
 
   // KEYBOARD EVENTS
@@ -56,6 +79,7 @@
     }
   })
 
+  // HANDLERS
   function handleScroll(delta) {
     if (delta > 0 && state.currentSection < state.sections.length - 1) {
       emit('update', {

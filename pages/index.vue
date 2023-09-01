@@ -882,11 +882,17 @@
             <div
               class="duration-[1.5s] delay-[1.8s]"
               :class="
-                animate(
-                  4,
-                  'opacity-0 translate-x-[-42px]',
-                  'opacity-100 translate-x-[0px]'
-                )
+                isMobile
+                  ? animate(
+                      4,
+                      'opacity-0 translate-y-[24px]',
+                      'opacity-100 translate-y-[0px]'
+                    )
+                  : animate(
+                      4,
+                      'opacity-0 translate-x-[-42px]',
+                      'opacity-100 translate-x-[0px]'
+                    )
               "
             >
               <h1 class="text-3xl md:text-5xl mb-4">Jasna Ostojich</h1>
@@ -926,13 +932,13 @@
                 class="flex items-center w-full justify-between px-16 text-sm"
               >
                 <div
-                  class="w-full h-[120px] flex items-center justify-center md:justify-start flex-col md:flex-row"
+                  class="w-full h-[120px] flex gap-[4px] md:gap-0 items-center justify-center md:justify-start flex-col md:flex-row"
                 >
                   <!-- wan -->
                   <span
-                    class="opacity-20 md:opacity-40 flex gap-2 items-center text-xs"
+                    class="opacity-30 md:opacity-40 flex gap-2 items-center text-xs"
                   >
-                    <Icon class="mr-1" name="cube" size="16" />
+                    <Icon class="md:mr-1" name="cube" size="16" />
                     3D Renders by
                     <a
                       class="underline hoverable"
@@ -943,9 +949,9 @@
                   </span>
                   <!-- trent -->
                   <span
-                    class="ml-4 opacity-20 md:opacity-40 flex gap-2 items-center"
+                    class="ml-4 opacity-30 md:opacity-40 flex gap-2 items-center text-xs"
                   >
-                    <Icon class="mr-2" name="laptop" size="16" />
+                    <Icon class="md:mr-2" name="laptop" size="16" />
                     Web Design by
                     <a class="underline hoverable" href="https://trentbrew.com">
                       Trent Brew
