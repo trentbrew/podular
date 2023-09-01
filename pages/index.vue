@@ -758,7 +758,7 @@
                 the perfect space solution
               </div>
               <div class="flex flex-col gap-3 text-white w-full">
-                <span class="text-lg max-w-[45vw] opacity-40">
+                <span class="text-lg max-w-[45vw] opacity-50 font-normal">
                   Podular presents a stylish and personalized modular pod,
                   offering swift and uncomplicated spatial solutions that
                   elevate the customer and employee experience in the food and
