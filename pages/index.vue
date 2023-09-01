@@ -180,6 +180,7 @@
   }
 
   function parallax(index) {
+    if (isMobile) return ''
     const fx = 'filter: brightness(0.6);'
     const bgy = `background-size: ${isMobile ? 'cover' : '130%'};`
     if (state.active < index)
@@ -565,23 +566,23 @@
     <!-- MAIN -------------------------------------------------------------->
 
     <div
-      class="fixed bottom-[20vh] left-0 justify-center md:justify-end md:bottom-12 md:right-16 md:left-auto z-[100] flex items-center gap-4 duration-[600ms] text-white w-full md:w-fit"
+      class="fixed bottom-[18vh] left-0 justify-center md:justify-end md:bottom-12 md:right-16 md:left-auto z-[100] flex items-center gap-4 duration-[600ms] text-white w-full md:w-fit"
       :class="
         (isMobile ? [0, 1, 2, 3] : [0, 2, 3]).includes(state.active)
           ? 'opacity-0'
           : 'opacity-100'
       "
     >
-      <a class="hoverable hover:opacity-100 md:opacity-50" href="#">
+      <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
         <Icon class="pointer-events-none" name="instagram" />
       </a>
-      <a class="hoverable hover:opacity-100 md:opacity-50" href="#">
+      <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
         <Icon class="pointer-events-none" name="facebook_alt" />
       </a>
-      <a class="hoverable hover:opacity-100 md:opacity-50" href="#">
+      <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
         <Icon class="pointer-events-none" name="twitter" />
       </a>
-      <a class="hoverable hover:opacity-100 md:opacity-50" href="#">
+      <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
         <Icon class="pointer-events-none" name="linkedin" />
       </a>
     </div>
@@ -838,7 +839,7 @@
           >
             <div>
               <div
-                class="absolute z-[-1] translate-x-[-143px] translate-y-[-145px] opacity-[0.07]"
+                class="absolute z-[-1] translate-x-[-143px] translate-y-[-145px] opacity-[0.036]"
               >
                 <svg
                   width="500"
@@ -890,19 +891,21 @@
               <p class="mb-2 text-lg md:text-xl">
                 Founder & Executive President
               </p>
-              <div class="flex flex-col mt-4">
+              <div
+                class="flex flex-col mt-6 justify-start items-center md:items-start"
+              >
                 <a
-                  class="hoverable underline flex items-center gap-4"
+                  class="hoverable underline flex gap-4 items-center justify-center"
                   href="mailto:info@cafebellas.com"
                 >
-                  <Icon name="mail" />
-                  <span class="hoverable opacity-60">info@cafebellas.com</span>
+                  <Icon name="mail" class="opacity-60 md:opacity-100" />
+                  <span class="hoverable opacity-50">info@cafebellas.com</span>
                 </a>
-                <span class="font-bold flex items-center justify-start gap-4">
-                  <Icon name="phone" />
+                <span class="font-bold flex justify-start gap-4 items-center">
+                  <Icon name="phone" class="opacity-60 md:opacity-100" />
                   <a
                     href="tel:+18479220061"
-                    class="my-2 underline hoverable opacity-60 font-normal"
+                    class="my-2 underline hoverable opacity-50 font-normal"
                   >
                     +1 (847) 922 0061
                   </a>
@@ -923,7 +926,11 @@
                 <div
                   class="w-full h-[120px] flex items-center justify-center md:justify-start flex-col md:flex-row"
                 >
-                  <span class="opacity-30 md:opacity-30">
+                  <!-- wan -->
+                  <span
+                    class="opacity-20 md:opacity-40 flex gap-2 items-center text-xs"
+                  >
+                    <Icon class="mr-1" name="cube" size="16" />
                     3D Renders by
                     <a
                       class="underline hoverable"
@@ -932,12 +939,11 @@
                       Lawan Alade-Fa
                     </a>
                   </span>
-                  <span v-if="!isMobile">&nbsp;&nbsp;&nbsp;</span>
-                  <span v-if="!isMobile" class="opacity-30 md:opacity-50">
-                    |
-                  </span>
-                  <span v-if="!isMobile">&nbsp;&nbsp;&nbsp;</span>
-                  <span class="opacity-30 md:opacity-30">
+                  <!-- trent -->
+                  <span
+                    class="ml-4 opacity-20 md:opacity-40 flex gap-2 items-center"
+                  >
+                    <Icon class="mr-2" name="laptop" size="16" />
                     Web Design by
                     <a class="underline hoverable" href="https://trentbrew.com">
                       Trent Brew

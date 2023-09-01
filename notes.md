@@ -43,27 +43,27 @@
 - [x] enable mobile scrolling
 - [x] enable keyboard scrolling
 - [x] remove custom cursor
-- [ ] reduce font sizes
+- [x] reduce font sizes
 
 `INTRO`
 
-- [ ] adjust logo transition sizing
+- [x] adjust logo transition sizing
 
 `MENU`
 
 - [x] fit navbar to screen
-- [ ] replace wordmark with hamburger
-- [ ] add nav dropdown
+- [x] replace wordmark with hamburger
+- [x] add nav dropdown
 
 `HOME PAGE`
 
 - [x] shrink landing logo
-- [ ] use vertical render (check with Lawan)
+- [ ] use vertical render (check with Lawan) 🟡
 
 `ABOUT PAGE`
 
 - [ ] reduce margins & padding
-- [ ] fullscreen background image
+- [x] fullscreen background image
 
 `FEATURES`
 
@@ -79,4 +79,4 @@
 
 `CONTACT`
 
-- [ ] center layout
+- [x] center layout
