@@ -76,7 +76,6 @@
   watch(
     () => route.query.view,
     val => {
-      console.log(val)
       state.view = val
     }
   )
@@ -137,13 +136,13 @@
               @mouseleave="e => handlePingMouseLeave(e, item.category)"
               @click="handleClick(item)"
               :key="itemIndex"
-              class="group bg-white h-8 w-8 rounded-[32px] absolute z-50 duration-[300ms] hover:w-16 hover:scale-[6] hover:!rounded-[4px] hover:shadow-xl hoverable bg-cover bg-no-repeat bg-center active:scale-[5.6]"
+              class="group bg-white h-8 w-8 rounded-[32px] absolute z-50 duration-[600ms] hover:w-16 hover:scale-[6] hover:!rounded-[4px] hover:shadow-xl hoverable bg-cover bg-no-repeat bg-center active:scale-[5.6]"
               :class="`${props.id}-ping`"
               :style="`
                 left: ${(item.coordinates[0] / 64) * 100}%;
                 top: ${(item.coordinates[1] / 36) * 100}%;
                 background-image: url(${renders[item.category][item.id]});
-                transition-timing-function: ease;
+                transition-timing-function: cubic-bezier(0.25, 1.1, 0.4, 1.1);
               `"
             >
               <div

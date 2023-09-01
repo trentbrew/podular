@@ -33,6 +33,8 @@
         description:
           "Podular features a food-grade sink within the pod's workspace, complete with a splash guard to meet regulatory standards and ensure a hygienic environment.",
         coordinates: [15, 12],
+        image:
+          'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_sink_RMks1p836A.jpg?token=',
       },
       {
         id: 'storage',
@@ -41,6 +43,8 @@
         description:
           'The storage in Podular includes removable shelving with adjustable height functionality. This design ensures flexibility and optimal space utilization according to specific requirements. ',
         coordinates: [29, 15],
+        image:
+          'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_storage_tuoSPKJDmp.jpg?token=',
       },
       {
         id: 'stove',
@@ -49,6 +53,8 @@
         description:
           'Popular features a two-burner induction cooktop, expandable with additional units for diverse cooking needs.',
         coordinates: [40, 10],
+        image:
+          'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_stove_k1RnImOdBk.jpg?token=',
       },
       {
         id: 'utility',
@@ -57,6 +63,8 @@
         description:
           'Podular incorporates a utility distribution for efficient resource allocation and management.',
         coordinates: [41, 14],
+        image:
+          'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_utility_Or6A3Ycgwx.jpg?token=',
       },
       {
         id: 'access',
@@ -65,6 +73,8 @@
         description:
           'Each Podular pod provides an accessible easy-to-move entry/exit section.',
         coordinates: [49, 16],
+        image:
+          'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_access_gdAIvC8wII.jpg?token=',
       },
       // {
       //   id: 'wheels',
@@ -79,6 +89,8 @@
         description:
           'Podular integrates contemporary LED lighting that can be remotely controlled to change colors, allowing for branding customization and creating a captivating ambiance.',
         coordinates: [52, 28],
+        image:
+          'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_led_C29MthT4O4.jpg?token=',
       },
     ],
     showroom: [
@@ -89,6 +101,8 @@
         coordinates: [9, 11],
         description:
           'The design of each Podular pod is meticulously crafted, taking into consideration the ratio and relationship between its elements. This design approach harmonizes with the principles of human body geometry, ensuring ergonomic comfort and aesthetic cohesion. Each Podular pod spans around 12 feet in diameter and stands at approximately 44 inches in height.',
+        image:
+          'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/5uacn4j78hcehva/showroom_scale_yuLw55agv3.jpg?token=',
       },
       {
         id: 'access',
@@ -97,12 +111,16 @@
         description:
           'Each Podular pod provides an accessible easy-to-move entry/exit section.',
         coordinates: [15, 18],
+        image:
+          'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/5uacn4j78hcehva/showroom_access_Dpz1zPmH4T.jpg?token=',
       },
       {
         id: 'electrical',
         title: 'Electrical',
         category: 'showroom',
         coordinates: [36, 20],
+        image:
+          'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/5uacn4j78hcehva/showroom_electrical_3N9lcpKqbs.jpg?token=',
       },
     ],
   }
@@ -182,8 +200,8 @@
     return ''
   }
 
-  function parallax(index) {
-    if (isMobile) return ''
+  function parallax(index, overrideMobile) {
+    if (isMobile && !overrideMobile) return ''
     const fx = 'filter: brightness(0.6);'
     const bgy = `background-size: ${isMobile ? 'cover' : '130%'};`
     if (state.active < index)
@@ -308,7 +326,7 @@
       class="hoverable shadow-lg z-[105] flex justify-center items-center rounded-full h-10 w-10 duration-150 fixed top-8 right-8 bg-white text-black"
       @click="closeLightbox"
     >
-      <Icon class="pointer-events-none" size="18" name="close" />
+      <Icon class="pointer-events-none" :size="18" name="close" />
     </div>
     <div
       class="h-screen w-full fixed top-0 left-0 z-[100] bg-black/90 backdrop-blur-lg flex justify-center items-center duration-300 pointer-events-none"
@@ -368,11 +386,11 @@
           @click="closeMenu"
           class="p-0 active:opacity-50 min-w-6 min-h-6 text-white"
         >
-          <Icon name="close" size="36" class="pointer-events-none" />
+          <Icon name="close" :size="24" class="pointer-events-none" />
         </button>
       </div>
       <ul
-        class="absolute text-3xl flex flex-col justify-center items-center gap-6"
+        class="absolute top-[30vh] text-3xl flex flex-col justify-center items-center gap-6"
       >
         <li
           :class="
@@ -381,7 +399,7 @@
               : 'inactive-link'
           "
           @click="goTo('home', true)"
-          class="hoverable menu-item"
+          class="hoverable menu-item podular-sans md:nunito"
           style="animation-delay: 0.4s"
         >
           home
@@ -393,7 +411,7 @@
               : 'inactive-link'
           "
           @click="goTo('about', true)"
-          class="hoverable menu-item"
+          class="hoverable menu-item podular-sans md:nunito"
           style="animation-delay: 0.4s"
         >
           about
@@ -405,7 +423,7 @@
               : 'inactive-link'
           "
           @click="goTo('features', true)"
-          class="hoverable menu-item"
+          class="hoverable menu-item podular-sans md:nunito"
           style="animation-delay: 0.5s"
         >
           features
@@ -417,7 +435,7 @@
               : 'inactive-link'
           "
           @click="goTo('showroom', true)"
-          class="hoverable menu-item"
+          class="hoverable menu-item podular-sans md:nunito"
           style="animation-delay: 0.6s"
         >
           showroom
@@ -429,7 +447,7 @@
               : 'inactive-link'
           "
           @click="goTo('contact', true)"
-          class="hoverable menu-item"
+          class="hoverable menu-item podular-sans md:nunito"
           style="animation-delay: 0.7s"
         >
           contact
@@ -438,9 +456,10 @@
       <div class="w-full p-6 box-border mt-auto font-bold">
         <a
           href="#"
-          class="btn w-full bg-white/90 text-black rounded-full text-xl"
+          class="btn w-full bg-white/90 text-black rounded-full text-2xl gap-2 podular-sans"
         >
           pre-order
+          <!-- <Icon name="open" /> -->
         </a>
       </div>
     </div>
@@ -458,14 +477,21 @@
       >
         <div class="navbar-start pl-[64px]">
           <a
-            class="duration-500 text-2xl text-white podular-sans translate-y-[-1px]"
+            class="duration-500 text-2xl text-white translate-y-[-1px]"
             :class="
-              state.active > 0
+              (state.active > 0 && !isMobile) || isMobile
                 ? 'opacity-100 delay-[1s]'
                 : 'opacity-0 -translate-x-2'
             "
           >
-            podular
+            <h1 v-if="!isMobile" class="podular-sans">podular</h1>
+            <div v-else>
+              <h1 v-show="state.active == 0" class="podular-sans">podular</h1>
+              <h1 v-show="state.active == 1" class="podular-sans">podular</h1>
+              <h1 v-show="state.active == 2" class="podular-sans">features</h1>
+              <h1 v-show="state.active == 3" class="podular-sans">showroom</h1>
+              <h1 v-show="state.active == 4" class="podular-sans">contact</h1>
+            </div>
           </a>
         </div>
         <div class="navbar-center hidden lg:flex">
@@ -542,9 +568,10 @@
         <div class="navbar-end pr-2">
           <a
             v-if="!isMobile"
-            class="btn btn-sm bg-white text-black hover:bg-transparent hover:border-white hoverable border-white border-[1.5px] hover:text-white rounded-full"
+            class="scale-[1.08] translate-x-[-4px] btn btn-sm bg-white text-black hover:bg-transparent hover:border-white hoverable border-white border-[1.5px] hover:text-white rounded-full gap-1"
           >
             pre-order
+            <!-- <Icon name="arrow_alt_right" /> -->
           </a>
           <button
             v-else
@@ -553,7 +580,7 @@
           >
             <Icon
               name="menu_alt"
-              size="36"
+              :size="36"
               class="scale-x-[-1] pointer-events-none"
             />
           </button>
@@ -563,15 +590,15 @@
 
     <!-- PANNING -------------------------------------------------------------->
 
-    <div class="h-screen w-full fixed left-0 top-0"></div>
+    <!-- <div class="h-screen w-full fixed left-0 top-0"></div> -->
 
     <!-- MAIN -------------------------------------------------------------->
 
     <div
       class="fixed bottom-[18vh] left-0 justify-center md:justify-end md:bottom-12 md:right-16 md:left-auto z-[100] flex items-center gap-4 duration-[600ms] text-white w-full md:w-fit"
       :class="
-        (isMobile ? [0, 1, 2, 3] : [0, 2, 3]).includes(state.active)
-          ? 'opacity-0'
+        (isMobile ? [0, 1, 2, 3] : [0, 1, 2, 3]).includes(state.active)
+          ? 'opacity-0 pointer-events-none'
           : 'opacity-100'
       "
     >
@@ -602,7 +629,7 @@
         :class="state.progress >= 95 ? 'opacity-0' : 'opacity-1'"
       >
         <div
-          class="bg-white/30 h-full rounded-full"
+          class="bg-white/20 h-full rounded-full"
           :style="`width: ${state.progress}%`"
         ></div>
       </div>
@@ -617,6 +644,16 @@
         ease="easeInOutCubic"
       >
         <!-- LANDING PAGE -->
+        <button
+          v-if="!isMobile"
+          @click="goTo('about')"
+          class="absolute bottom-6 right-6 hoverable justify-between flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-2 px-2 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"
+        >
+          <Icon
+            class="animate-bounce pointer-events-none md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
+            name="arrow_alt_down"
+          />
+        </button>
         <section
           id="home"
           class="fixed top-0 left-0 flex flex-col justify-center items-center -z-50"
@@ -626,22 +663,39 @@
             class="absolute bg-black/25 w-screen h-screen z-[100] flex justify-center items-end text-white"
           >
             <div
-              class="w-6 h-6 hoverable flex justify-center items-center absolute m-auto left-0 right-0 bottom-6"
+              class="w-6 h-6 hoverable flex justify-center items-center absolute m-auto left-0 right-0 md:right-auto md:left-8 md:opacity-60 bottom-4 md:bottom-6"
             >
               <Icon
-                :size="32"
+                v-if="isMobile"
+                :size="isMobile ? 24 : 32"
                 name="arrow_alt_down"
                 class="animate-bounce pointer-events-none"
+                :class="isMobile ? 'opacity-100' : ''"
               />
             </div>
+            <!-- <button
+              @click="goTo('about')"
+              class="md:absolute md:bottom-12 md:right-16 hoverable justify-center flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-6 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/20"
+            >
+              <Icon
+                class="animate-bounce pointer-events-none absolute md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
+                name="arrow_alt_down"
+              />
+              discover
+              <Icon
+                v-if="isMobile"
+                class="animate-bounce pointer-events-none absolute right-12 bottom-[34px]"
+                name="arrow_alt_down"
+              />
+            </button> -->
             <div
               id="wordmark"
               style="transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1)"
               class="absolute duration-[1.5s]"
               :class="
-                state.active > 0
+                state.active > 0 || isMobile
                   ? 'top-[-24vh] opacity-0 scale-[0.7]'
-                  : 'top-[24vh] opacity-100 scale-[1]'
+                  : 'top-[32vh] md:top-[24vh] opacity-100 scale-[1.25] md:scale-[1]'
               "
             >
               <svg
@@ -726,6 +780,22 @@
             </div>
           </div>
           <video
+            v-if="!isMobile || true"
+            autoplay
+            loop
+            muted
+            src="../assets/videos/landing.mp4"
+            class="w-screen h-screen duration-[2.5s] object-cover"
+            :class="
+              animate(
+                0,
+                'scale-[1.5] -translate-y-[20vh] brightness-[0.4]',
+                'scale-[1]'
+              )
+            "
+          />
+          <!-- <video
+            v-else
             autoplay
             loop
             muted
@@ -738,7 +808,7 @@
                 'scale-[1]'
               )
             "
-          />
+          /> -->
         </section>
         <!-- ABOUT PAGE -->
         <section id="about" class="flex mt-[100vh]" :class="overlay()">
@@ -751,8 +821,8 @@
               class="absolute w-screen h-screen backdrop-brightness-[0.75] z-[-1]"
             ></div>
             <div
-              class="w-[100vw] p-16 pb-12 flex flex-col justify-end items-start duration-[2s]"
-              style="background: linear-gradient(transparent, #000000dd)"
+              class="w-[100vw] p-8 md:p-12 pb-6 md:pb-12 flex flex-col justify-end items-start duration-[2s]"
+              style="background: linear-gradient(transparent, #000000ee)"
               :class="
                 animate(
                   1,
@@ -762,13 +832,19 @@
               "
             >
               <div
-                class="font-bold text-3xl md:text-4xl text-white mb-6 podular-sans text-center md:text-left"
+                class="font-bold text-5xl md:text-4xl text-white mb-6 podular-sans text-left"
               >
-                the perfect space solution
+                the
+                <br v-if="isMobile" />
+                perfect
+                <br v-if="isMobile" />
+                space
+                <br v-if="isMobile" />
+                solution
               </div>
               <div class="flex flex-col gap-3 text-white w-full">
                 <span
-                  class="md:text-lg md:max-w-[45vw] opacity-50 font-normal text-center md:text-left"
+                  class="md:text-lg md:max-w-[45vw] opacity-50 font-normal text-left text-[16px]"
                 >
                   Podular presents a stylish and personalized modular pod,
                   offering swift and uncomplicated spatial solutions that
@@ -777,13 +853,16 @@
                 </span>
                 <button
                   @click="goTo('features')"
-                  class="hoverable justify-center flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-8 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/20"
+                  class="md:absolute md:bottom-8 md:right-8 hoverable justify-center flex gap-2 items-center w-fit md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-6 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"
                 >
                   <Icon
-                    class="animate-bounce pointer-events-none"
+                    class="hoverable animate-bounce pointer-events-none md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
                     name="arrow_alt_down"
                   />
-                  explore features
+                  <span class="hoverable pointer-events-none">
+                    features & customization
+                  </span>
+                  <!-- <div class="w-6 h-6"></div> -->
                 </button>
               </div>
             </div>
@@ -800,6 +879,23 @@
           "
         >
           <div v-if="!isMobile" class="w-full h-full absolute duration-[2s]">
+            <div
+              @click="goTo('showroom')"
+              class="z-[10] md:absolute md:bottom-6 md:right-6 hoverable justify-center flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-6 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"
+            >
+              <Icon
+                class="hoverable animate-bounce pointer-events-none absolute md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
+                name="arrow_alt_down"
+              />
+              <span class="hoverable pointer-events-none">
+                explore the showroom
+              </span>
+              <Icon
+                v-if="isMobile"
+                class="hoverable animate-bounce pointer-events-none absolute right-12 bottom-[34px]"
+                name="arrow_alt_down"
+              />
+            </div>
             <Pannable
               @ping="openLightbox"
               :pings="pings.features"
@@ -808,7 +904,40 @@
               image="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_ao5Xejz8S5.jpg?token="
             />
           </div>
-          <div v-else>features mobile</div>
+          <div v-else class="w-full h-full">
+            <ul
+              class="pt-4 w-full h-[calc(100vh-64px)] mt-[64px] bg-black flex flex-col"
+            >
+              <li
+                v-for="(item, itemIndex) in pings.features"
+                :key="itemIndex"
+                class="w-full h-full flex justify-start items-center px-4 pb-4"
+              >
+                <div
+                  class="w-full h-full bg-no-repeat bg-cover bg-center brightness-[0.4] saturate-125 rounded-lg"
+                  :style="`background-image: url(${item.image});`"
+                ></div>
+                <span
+                  class="absolute left-0 w-full flex justify-center text-3xl text-white lowercase"
+                >
+                  {{ item.title }}
+                </span>
+              </li>
+              <li class="px-4 pb-4 w-full">
+                <button
+                  v-if="isMobile"
+                  @click="goTo('showroom')"
+                  class="hoverable justify-center flex gap-2 items-center w-full bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white"
+                >
+                  <Icon
+                    class="animate-bounce pointer-events-none left-10"
+                    name="arrow_alt_down"
+                  />
+                  <span class="">explore the showroom</span>
+                </button>
+              </li>
+            </ul>
+          </div>
         </section>
         <!-- SHOWROOM PAGE -->
         <section
@@ -821,6 +950,21 @@
           "
         >
           <div v-if="!isMobile" class="w-full h-full absolute">
+            <div
+              @click="goTo('contact')"
+              class="z-[10] md:absolute md:bottom-6 md:right-6 hoverable justify-center flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-6 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"
+            >
+              <Icon
+                class="hoverable animate-bounce pointer-events-none absolute md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
+                name="arrow_alt_down"
+              />
+              <span class="hoverable pointer-events-none">contact us</span>
+              <Icon
+                v-if="isMobile"
+                class="hoverable animate-bounce pointer-events-none absolute right-12 bottom-[34px]"
+                name="arrow_alt_down"
+              />
+            </div>
             <Pannable
               @ping="openLightbox"
               :pings="pings.showroom"
@@ -841,12 +985,50 @@
               </div>
             </div>
           </div>
-          <div v-else>showroom mobile</div>
+          <div v-else class="w-full h-full">
+            <ul
+              class="pt-4 w-full h-[calc(100vh-64px)] mt-[64px] bg-black flex flex-col"
+            >
+              <li
+                v-for="(item, itemIndex) in pings.showroom"
+                :key="itemIndex"
+                class="w-full h-full flex justify-start items-center px-4 pb-4"
+              >
+                <div
+                  class="w-full h-full bg-no-repeat bg-cover bg-center brightness-[0.4] saturate-125 rounded-lg"
+                  :style="`background-image: url(${item.image});`"
+                ></div>
+                <span
+                  class="absolute left-0 w-full flex justify-center text-3xl text-white lowercase"
+                >
+                  {{ item.title }}
+                </span>
+              </li>
+              <li class="px-4 pb-4 w-full">
+                <button
+                  v-if="isMobile"
+                  @click="goTo('contact')"
+                  class="hoverable justify-center flex gap-2 items-center w-full bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white"
+                >
+                  <Icon
+                    class="animate-bounce pointer-events-none left-10"
+                    name="arrow_alt_down"
+                  />
+                  <span class="">get in touch</span>
+                  <!-- <Icon
+                    name="wave"
+                    :size="18"
+                    class="pointer-events-none absolute right-10"
+                  /> -->
+                </button>
+              </li>
+            </ul>
+          </div>
         </section>
         <!-- CONTACT PAGE -->
         <section
           id="contact"
-          class="bg-black/40 backdrop-blur-md backdrop-saturate-150 text-white"
+          class="bg-black/40 backdrop-blur-sm backdrop-saturate-150 text-white"
           :class="overlay()"
         >
           <div
@@ -855,7 +1037,7 @@
             <div>
               <div
                 class="absolute z-[-1] translate-x-[-143px] translate-y-[-145px] duration-[3s] delay-[200ms]"
-                :class="animate(4, 'opacity-0', 'opacity-[0.046]')"
+                :class="animate(4, 'opacity-0', 'opacity-[0.0]')"
               >
                 <svg
                   width="500"
@@ -952,7 +1134,7 @@
                   <span
                     class="opacity-30 md:opacity-40 flex gap-2 items-center text-xs"
                   >
-                    <Icon class="md:mr-1" name="cube" size="16" />
+                    <Icon class="md:mr-1" name="cube" :size="16" />
                     3D Renders by
                     <a
                       class="underline hoverable"
@@ -965,7 +1147,7 @@
                   <span
                     class="ml-4 opacity-30 md:opacity-40 flex gap-2 items-center text-xs"
                   >
-                    <Icon class="md:mr-2" name="laptop" size="16" />
+                    <Icon class="md:mr-2" name="laptop" :size="16" />
                     Web Design by
                     <a class="underline hoverable" href="https://trentbrew.com">
                       Trent Brew
@@ -1046,7 +1228,7 @@
 
   .inactive-link {
     transition: 400ms;
-    color: rgba(white, 0.4);
+    color: rgba(white, 0.32);
   }
 
   .inactive-link:hover {

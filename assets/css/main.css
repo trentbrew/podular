@@ -22,6 +22,10 @@ body {
   box-sizing: border-box;
 }
 
+.nunito {
+  font-family: 'Nunito Sans', sans-serif;
+}
+
 .podular-sans {
   font-family: 'Podular', sans-serif;
 }
