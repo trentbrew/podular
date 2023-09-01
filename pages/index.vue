@@ -108,7 +108,21 @@
   }
 
   const state = reactive({
-    debug: false,
+    skipIntro: true,
+    ready: false,
+    active: 0,
+    progress: 0,
+    direction: 'down',
+    featureContext: null,
+    menu: {
+      zone: [160, 160],
+      active: false,
+      hover: false,
+      ghostHover: false,
+      lock: false,
+      ignore: false,
+      clicked: false,
+    },
     lightbox: {
       active: false,
       image: null,
@@ -116,19 +130,6 @@
       context: '',
       description: '',
     },
-    featureContext: null,
-    menu: {
-      zone: [160, 160],
-      open: false,
-      hover: false,
-      ghostHover: false,
-      lock: false,
-      ignore: false,
-    },
-    ready: false,
-    active: 0,
-    progress: 0,
-    direction: 'down',
     offset: {
       features: [0, 0],
       showroom: [0, 0],
@@ -137,7 +138,7 @@
 
   onMounted(() => {
     router.push({ hash: '' })
-    if (state.debug) state.ready = true
+    if (state.skipIntro) state.ready = true
   })
 
   watch(
@@ -161,7 +162,7 @@
     state.direction = e.direction
   }
 
-  function handleIntroReady(e) {
+  function handleIntroReady() {
     state.ready = true
   }
 
@@ -185,6 +186,10 @@
     else return inactive
   }
 
+  const activeMenu = computed(() => {
+    return state.menu.hover || state.menu.ghostHover
+  })
+
   function handleMenuMouseOver(e) {
     state.menu.hover = true
   }
@@ -193,8 +198,6 @@
     if (state.menu.ghostHover) return
     state.menu.hover = false
   }
-
-  function handleMenuZoneMouseOver(e) {}
 
   function handleMouseMove(e) {
     if (state.ready) {
@@ -213,6 +216,10 @@
     }
   }
 
+  function handleMenuClick(e) {
+    console.log('clicked menu', e)
+  }
+
   function closeMenu() {
     state.menu.zone = [160, 160]
     state.menu.lock = true
@@ -222,9 +229,7 @@
   }
 
   function overlay() {
-    return state.menu.hover || state.menu.ghostHover
-      ? 'blur-xl brightness-[0.4]'
-      : ''
+    return activeMenu.value ? 'blur-xl brightness-[0.4]' : ''
   }
 
   function openLightbox(image) {
@@ -253,26 +258,28 @@
     <Cursor />
 
     <!-- INTRO -------------------------------------------------------------->
+
     <div
       @click="state.active > 0 ? goTo('home') : () => {}"
       class="fixed top-0 left-0 origin-top-left z-[50] duration-[1.4s]"
       :style="`${
-        state.menu.hover || state.menu.ghostHover
+        activeMenu
           ? 'transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1)'
           : 'transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1)'
       }`"
       :class="`${
-        state.active > 0 || state.menu.hover || state.menu.ghostHover
+        state.active > 0 || activeMenu
           ? `scale-[0.4] left-[-130px] top-[-30px] hoverable z-[100] pointer-events-none delay-[0ms] ${
               state.menu.hover ? '!duration-[1.2s]' : ''
             }`
           : ''
       }`"
     >
-      <Intro @ready="handleIntroReady" />
+      <Intro @ready="handleIntroReady" :skip="state.skipIntro" />
     </div>
 
     <!-- LIGHTBOX -------------------------------------------------------------->
+
     <div
       :class="
         [2, 3].includes(state.active) &&
@@ -317,22 +324,23 @@
     </div>
 
     <!-- MENU -------------------------------------------------------------->
+
     <div
       id="menu-zone"
       class="w-[50vw] h-screen fixed top-0 right-0 z-50 duration-[1.4s] flex items-center justify-end"
       style="transition: width 0s"
       :class="state.menu.lock ? 'pointer-events-none' : ''"
-      @mouseover="handleMenuZoneMouseOver"
     >
       <div
         id="menu"
+        @click="handleMenuClick"
         @mouseover="handleMenuMouseOver"
         @mouseleave="handleMenuMouseLeave"
         class="bg-white rounded-full h-[160px] w-[160px] fixed right-[-80px] bottom-[-80px] duration-[1.2s] z-[50]"
         :class="
           !state.ready
             ? 'right-[-200px] bottom-[-200px]'
-            : state.menu.hover || state.menu.ghostHover
+            : activeMenu
             ? 'scale-[10] translate-y-[-50vh]'
             : ''
         "
@@ -345,20 +353,14 @@
       >
         <div
           class="menu-toggle z-[100] duration-1000"
-          :class="
-            state.menu.hover || state.menu.ghostHover
-              ? 'active'
-              : !state.ready
-              ? 'opacity-0'
-              : ''
-          "
+          :class="activeMenu ? 'active' : !state.ready ? 'opacity-0' : ''"
         >
           <div class="hamburger">
             <span></span>
             <span></span>
             <span></span>
           </div>
-          <div class="cross opacity-0">
+          <div class="cross">
             <span></span>
             <span></span>
           </div>
@@ -377,7 +379,7 @@
         "
         class="flex flex-col h-full items-center justify-center text-3xl gap-12 text-right pr-40 translate-x-[-80px] z-[50] duration-[200ms]"
         :class="
-          state.menu.hover || state.menu.ghostHover
+          activeMenu
             ? 'opacity-1'
             : state.menu.lock
             ? 'opacity-0 translate-x-[200px] translate-y-[400px] scale-[0.3]'
@@ -461,9 +463,11 @@
     </div>
 
     <!-- PANNING -------------------------------------------------------------->
+
     <div class="h-screen w-full fixed left-0 top-0"></div>
 
     <!-- MAIN -------------------------------------------------------------->
+
     <main
       v-scroll="handleScroll"
       style="transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1)"
@@ -606,10 +610,23 @@
         </section>
       </FullPage>
     </main>
+
+    <!-- / -->
   </div>
 </template>
 
 <style lang="scss">
+  @keyframes bubble-enter {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
   @keyframes menu-item-enter {
     0% {
       transform: translateX(80px);
@@ -648,17 +665,6 @@
 
   .inactive-link {
     @apply text-black duration-[300ms];
-  }
-
-  @keyframes bubble-enter {
-    0% {
-      transform: scale(0);
-      opacity: 0;
-    }
-    100% {
-      transform: scale(1);
-      opacity: 1;
-    }
   }
 
   #feat-list > div {
@@ -788,6 +794,7 @@
     cursor: pointer;
     position: relative;
   }
+
   .hamburger,
   .cross {
     position: absolute;
@@ -795,6 +802,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
+
   .hamburger span {
     display: block;
     width: 18px;
@@ -803,9 +811,11 @@
     overflow: hidden;
     position: relative;
   }
+
   .hamburger span:last-child {
     margin: 0;
   }
+
   .hamburger span:before,
   .hamburger span:after {
     content: '';
@@ -816,29 +826,37 @@
     transform: translateX(-200%);
     transition: transform ease 300ms;
   }
+
   .hamburger span:after {
     transform: translateX(0);
   }
+
   .hamburger span:nth-child(2):before,
   .hamburger span:nth-child(2):after {
     transition-delay: 75ms;
   }
+
   .hamburger span:last-child:before,
   .hamburger span:last-child:after {
     transition-delay: 150ms;
   }
+
   .menu-toggle:hover .hamburger span:before {
     transform: translateX(0);
   }
+
   .menu-toggle:hover .hamburger span:after {
     transform: translateX(200%);
   }
+
   .menu-toggle.active .hamburger span:before {
     transform: translateX(100%);
   }
+
   .menu-toggle.active .hamburger span:after {
     transform: translateX(200%);
   }
+
   .cross span {
     display: block;
     width: 18px;
@@ -847,13 +865,16 @@
     transform: translateY(50%) rotate(45deg) scaleX(0);
     transition: transform ease 200ms;
   }
+
   .cross span:last-child {
     transform: translateY(-50%) rotate(-45deg) scaleX(0);
   }
+
   .menu-toggle.active .cross span {
     transition-delay: 450ms;
     transform: translateY(50%) rotate(45deg) scaleX(1);
   }
+
   .menu-toggle.active .cross span:last-child {
     transform: translateY(-50%) rotate(-45deg) scaleX(1);
   }

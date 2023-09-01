@@ -1,42 +1,68 @@
 <script setup>
-const emit = defineEmits(["ready"]);
+  const emit = defineEmits(['ready'])
 
-const state = reactive({
-  init: false,
-  clicked: false,
-  hovering: false,
-  wordmarkReady: false,
-  ready: false,
-  next: false,
-});
+  const props = defineProps({
+    skip: {
+      type: Boolean,
+      default: false,
+    },
+  })
 
-onMounted(() => {
-  setTimeout(() => {
-    state.init = true;
-    state.hovering = true;
-  }, 400);
-  setTimeout(() => {
-    state.ready = true;
-    state.clicked = true;
-  }, 3500);
-  setTimeout(() => {
-    state.wordmarkReady = true;
-  }, 4500);
-  setTimeout(() => {
-    state.next = true;
-  }, 5000);
-  setTimeout(() => {
-    emit("ready", true);
-  }, 6000);
-});
+  const state = reactive({
+    skip: false,
+    init: false,
+    clicked: false,
+    hovering: false,
+    wordmarkReady: false,
+    ready: false,
+    next: false,
+  })
 
-function handleClick() {
-  state.clicked = true;
-}
+  onMounted(() => {
+    state.skip = props.skip
+    if (state.skip) {
+      state.init = true
+      state.hovering = true
+      state.ready = true
+      state.clicked = true
+      state.wordmarkReady = true
+      state.next = true
+      emit('ready', true)
+    } else {
+      setTimeout(() => {
+        state.init = true
+        state.hovering = true
+      }, 400)
+      setTimeout(() => {
+        state.ready = true
+        state.clicked = true
+      }, 3500)
+      setTimeout(() => {
+        state.wordmarkReady = true
+      }, 4500)
+      setTimeout(() => {
+        state.next = true
+      }, 5000)
+      setTimeout(() => {
+        emit('ready', true)
+      }, 6000)
+    }
+  })
 </script>
 
 <template>
+  <!-- <div
+    :class="
+      state.skip || state.ready
+        ? 'opacity-0 translate-y-[12px] pointer-events-none'
+        : 'opacity-1'
+    "
+    class="absolute hoverable duration-[1s] delay-[600ms] hover:text-white text-white/50 text-xl left-12 bottom-12 z-50"
+  >
+    skip
+  </div> -->
   <main
+    :style="state.skip ? 'transition-duration: 0s !important' : ''"
     class="w-screen h-screen flex flex-col justify-center items-center duration-[2.5s]"
     :class="`
       ${
@@ -45,15 +71,17 @@ function handleClick() {
           : '!duration-[1.5s] !scale-[0.9] translate-y-[-225px]'
       }
       ${!state.init ? 'scale-[16]' : 'scale-[1.5]'}
-    `"
+      `"
   >
     <div
       id="wordmark"
-      class="absolute duration-[800ms]"
+      class="absolute"
       :class="
-        state.wordmarkReady
+        state.skip
           ? 'opacity-1 translate-x-[75px]'
-          : 'opacity-[0] translate-x-[115px]'
+          : state.wordmarkReady
+          ? 'duration-[800ms] opacity-1 translate-x-[75px]'
+          : 'duration-[800ms] opacity-[0] translate-x-[115px]'
       "
     >
       <svg
@@ -111,7 +139,6 @@ function handleClick() {
 
     <div
       v-show="!state.clicked"
-      @click="handleClick"
       id="wrapper"
       class="group flex justify-center items-center w-[123px] h-[123px] cursor-pointer"
     >
@@ -124,7 +151,8 @@ function handleClick() {
     <div
       id="step2"
       v-show="state.clicked"
-      class="absolute w-[118px] h-[118px] nudge"
+      class="absolute w-[118px] h-[118px]"
+      :class="state.skip ? 'duration-0 translate-x-[-286px]' : 'nudge'"
     >
       <div class="absolute">
         <svg
@@ -142,7 +170,14 @@ function handleClick() {
           />
         </svg>
       </div>
-      <div class="absolute bottom-0 right-0 detatch">
+      <div
+        class="absolute bottom-0 right-0"
+        :class="
+          state.skip
+            ? 'duration-0 translate-x-[18px] translate-y-[18px]'
+            : 'detatch'
+        "
+      >
         <svg
           width="59"
           height="59"
@@ -160,108 +195,108 @@ function handleClick() {
       </div>
     </div>
     <div
-      class="absolute w-screen h-screen duration-[2s] z-[-2] bg-black"
+      class="absolute w-screen h-screen scale-[3] duration-[3s] z-[-2] delay-[1s]"
       :class="`
-    ${state.ready ? 'bg-transparent' : 'backdrop-blur-3xl'}
+    ${state.ready ? 'bg-transparent' : 'bg-black'}
     `"
     ></div>
   </main>
 </template>
 
 <style lang="scss">
-@property --rotate {
-  syntax: "<angle>";
-  initial-value: 132deg;
-  inherits: false;
-}
-
-#step2 {
-  transition: transform 1s;
-}
-
-main {
-  transition-timing-function: cubic-bezier(0.85, 0, 0.15, 1);
-}
-
-.detatch {
-  animation: detatch 4s cubic-bezier(0, 0.55, 0.45, 1) forwards;
-}
-
-.nudge {
-  animation: nudge 2s cubic-bezier(0.85, 0, 0.15, 1) forwards;
-}
-
-@keyframes final {
-  0% {
-    transform: scale(1);
+  @property --rotate {
+    syntax: '<angle>';
+    initial-value: 132deg;
+    inherits: false;
   }
-  100% {
-    transform: scale(1);
-  }
-}
 
-@keyframes nudge {
-  0% {
-    transform: translateX(0px);
+  #step2 {
+    transition: transform 1s;
   }
-  100% {
-    transform: translateX(-286px);
-  }
-}
 
-@keyframes rotate {
-  0% {
-    transform: rotate(90deg);
+  main {
+    transition-timing-function: cubic-bezier(0.85, 0, 0.15, 1);
   }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 
-@keyframes detatch {
-  0% {
-    transform: translate(0px, 0px);
+  .detatch {
+    animation: detatch 4s cubic-bezier(0, 0.55, 0.45, 1) forwards;
   }
-  100% {
-    transform: translate(18px, 18px);
+
+  .nudge {
+    animation: nudge 2s cubic-bezier(0.85, 0, 0.15, 1) forwards;
   }
-}
 
-:root {
-  --card-height: 120px;
-  --card-width: 120px;
-}
-
-.card {
-  position: relative;
-  border-radius: 100%;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  display: flex;
-  color: rgb(88 199 250 / 0%);
-  transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
-}
-
-.card::before {
-  content: "";
-  width: 118px;
-  height: 118px;
-  border-radius: 100%;
-  background-color: white;
-  background: white;
-  position: absolute;
-  z-index: -1;
-  animation: spin 2.5s linear infinite;
-  transition-duration: 1s;
-}
-
-@keyframes spin {
-  0% {
-    --rotate: 0deg;
+  @keyframes final {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1);
+    }
   }
-  100% {
-    --rotate: 360deg;
+
+  @keyframes nudge {
+    0% {
+      transform: translateX(0px);
+    }
+    100% {
+      transform: translateX(-286px);
+    }
   }
-}
+
+  @keyframes rotate {
+    0% {
+      transform: rotate(90deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes detatch {
+    0% {
+      transform: translate(0px, 0px);
+    }
+    100% {
+      transform: translate(18px, 18px);
+    }
+  }
+
+  :root {
+    --card-height: 120px;
+    --card-width: 120px;
+  }
+
+  .card {
+    position: relative;
+    border-radius: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    color: rgb(88 199 250 / 0%);
+    transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  .card::before {
+    content: '';
+    width: 118px;
+    height: 118px;
+    border-radius: 100%;
+    background-color: white;
+    background: white;
+    position: absolute;
+    z-index: -1;
+    animation: spin 2.5s linear infinite;
+    transition-duration: 1s;
+  }
+
+  @keyframes spin {
+    0% {
+      --rotate: 0deg;
+    }
+    100% {
+      --rotate: 360deg;
+    }
+  }
 </style>

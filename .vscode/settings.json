@@ -1,5 +1,5 @@
 {
   "nuxt.isNuxtApp": true,
-  "workbench.colorTheme": "Zen Dark",
+  "workbench.colorTheme": "GitHub Dark",
   "vue.codeActions.enabled": false
 }
