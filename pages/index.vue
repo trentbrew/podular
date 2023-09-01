@@ -106,7 +106,7 @@
   }
 
   const state = reactive({
-    skipIntro: false,
+    skipIntro: true,
     ready: false,
     active: 0,
     progress: 0,
@@ -316,68 +316,80 @@
 
     <!-- MENU -------------------------------------------------------------->
 
-    <div class="w-full fixed top-0 left-0 p-8 z-[40]">
-      <div
-        class="w-full flex justify-between items-center px-[12px] bg-white rounded-[80px]"
-      >
-        <div @click="goTo('home')" class="w-10 h-10 hoverable"></div>
-        <ul
-          id="nav"
-          class="pl-6 duration-[1s] text-xl w-full h-[72px] z-[20] flex gap-[28px] items-center justify-center"
-        >
-          <li
+    <div id="nav" class="w-full fixed top-0 left-0 p-8 z-[40]">
+      <div class="w-full flex justify-between items-center rounded-full">
+        <div @click="goTo('home')" class="w-28 h-20 hoverable"></div>
+        <div class="flex items-center">
+          <div
+            class="flex gap-8 px-10 py-4 mr-3 duration-[1.2s] rounded-full backdrop-blur-2xl backdrop-saturate-100"
             :class="
-              state.active == 1 && !state.menu.lock
-                ? 'active-link'
-                : 'inactive-link'
+              [1, 3].includes(state.active)
+                ? 'bg-white/0 border-[1.5px] border-white/[0.2]'
+                : 'bg-transparent border-[1.5px] border-white/[0.2]'
             "
-            @click="goTo('about')"
-            class="hoverable menu-item"
-            style="animation-delay: 0.4s"
           >
-            about
-          </li>
-          <li
-            :class="
-              state.active == 2 && !state.menu.lock
-                ? 'active-link'
-                : 'inactive-link'
-            "
-            @click="goTo('features')"
-            class="hoverable menu-item"
-            style="animation-delay: 0.5s"
-          >
-            features
-          </li>
-          <li
-            :class="
-              state.active == 3 && !state.menu.lock
-                ? 'active-link'
-                : 'inactive-link'
-            "
-            @click="goTo('showroom')"
-            class="hoverable menu-item"
-            style="animation-delay: 0.6s"
-          >
-            showroom
-          </li>
-          <li
-            :class="
-              state.active == 4 && !state.menu.lock
-                ? 'active-link'
-                : 'inactive-link'
-            "
-            @click="goTo('contact')"
-            class="hoverable menu-item"
-            style="animation-delay: 0.7s"
-          >
-            contact
-          </li>
-        </ul>
-        <div class="min-w-fit">
+            <ul
+              class="duration-[1s] text-lg w-full z-[20] flex gap-[28px] items-center justify-center left-0 top-[58px]"
+            >
+              <li
+                :class="
+                  state.active == 1 && !state.menu.lock
+                    ? 'active-link'
+                    : 'inactive-link'
+                "
+                @click="goTo('about')"
+                class="hoverable menu-item"
+                style="animation-delay: 0.4s"
+              >
+                about
+                <div class="link-indicator"></div>
+              </li>
+              <li
+                :class="
+                  state.active == 2 && !state.menu.lock
+                    ? 'active-link'
+                    : 'inactive-link'
+                "
+                @click="goTo('features')"
+                class="hoverable menu-item"
+                style="animation-delay: 0.5s"
+              >
+                features
+                <div class="link-indicator"></div>
+              </li>
+              <li
+                :class="
+                  state.active == 3 && !state.menu.lock
+                    ? 'active-link'
+                    : 'inactive-link'
+                "
+                @click="goTo('showroom')"
+                class="hoverable menu-item"
+                style="animation-delay: 0.6s"
+              >
+                showroom
+                <div class="link-indicator"></div>
+              </li>
+              <li
+                :class="
+                  state.active == 4 && !state.menu.lock
+                    ? 'active-link'
+                    : 'inactive-link'
+                "
+                @click="goTo('contact')"
+                class="hoverable menu-item"
+                style="animation-delay: 0.7s"
+              >
+                contact
+                <div class="link-indicator"></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- <div class="min-w-fit">
           <a
             href="#"
-            class="hoverable font-bold text-white bg-black flex items-center justify-center gap-1 rounded-full pr-4 pl-6 py-3 hover:bg-white hover:text-black duration-[300ms] border-2 border-black"
+            class="invert hoverable font-bold text-white bg-black flex items-center justify-center gap-1 rounded-full pr-4 pl-6 py-3 hover:bg-white hover:text-black duration-[300ms] border-2 border-black"
             style="animation-delay: 0.8s"
           >
             <span class="hoverable">pre-order</span>
@@ -386,148 +398,9 @@
               name="arrow_alt_right"
             />
           </a>
-        </div>
+        </div> -->
       </div>
     </div>
-
-    <!-- legacy menu -->
-
-    <!-- <div
-      id="menu-zone"
-      class="w-[50vw] h-screen fixed top-0 right-0 z-50 duration-[1.4s] flex items-center justify-end"
-      style="transition: width 0s"
-      :class="state.menu.lock ? 'pointer-events-none' : ''"
-    >
-      <div
-        id="menu"
-        @mouseover="handleMenuMouseOver"
-        @mouseleave="handleMenuMouseLeave"
-        class="bg-white rounded-full h-[160px] w-[160px] fixed right-[-80px] bottom-[-80px] duration-[1.2s] z-[50]"
-        :class="
-          !state.ready
-            ? 'right-[-200px] bottom-[-200px]'
-            : eagerMenu
-            ? 'scale-[1.5]'
-            : activeMenu
-            ? 'scale-[10] translate-y-[-50vh]'
-            : ''
-        "
-        style="transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1)"
-      ></div>
-      <div
-        class="absolute flex justify-center items-center w-[36px] h-[36px] bottom-3 right-3 z-[50] pointer-events-none"
-        :class="!state.ready ? 'right-[-200px] bottom-[-200px]' : ''"
-      >
-        <div
-          class="menu-toggle z-[100] duration-1000"
-          :class="activeMenu ? 'active' : !state.ready ? 'opacity-0' : ''"
-        >
-          <div class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <div class="cross">
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-      </div>
-      <ul
-        @mouseover="
-          () => {
-            state.menu.ghostHover = true
-          }
-        "
-        @mouseleave="
-          () => {
-            state.menu.ghostHover = false
-          }
-        "
-        class="flex flex-col h-full items-center justify-center text-3xl gap-12 text-right pr-40 translate-x-[-80px] z-[50] duration-[200ms]"
-        :class="
-          activeMenu
-            ? 'opacity-1'
-            : state.menu.lock
-            ? 'opacity-0 translate-x-[200px] translate-y-[400px] scale-[0.3]'
-            : 'hidden'
-        "
-      >
-        <li
-          :class="
-            state.active == 0 && !state.menu.lock
-              ? 'active-link'
-              : 'inactive-link'
-          "
-          @click="goTo('home')"
-          class="hoverable menu-item"
-          style="animation-delay: 0.3s"
-        >
-          home
-        </li>
-        <li
-          :class="
-            state.active == 1 && !state.menu.lock
-              ? 'active-link'
-              : 'inactive-link'
-          "
-          @click="goTo('about')"
-          class="hoverable menu-item"
-          style="animation-delay: 0.4s"
-        >
-          about
-        </li>
-        <li
-          :class="
-            state.active == 2 && !state.menu.lock
-              ? 'active-link'
-              : 'inactive-link'
-          "
-          @click="goTo('features')"
-          class="hoverable menu-item"
-          style="animation-delay: 0.5s"
-        >
-          features
-        </li>
-        <li
-          :class="
-            state.active == 3 && !state.menu.lock
-              ? 'active-link'
-              : 'inactive-link'
-          "
-          @click="goTo('showroom')"
-          class="hoverable menu-item"
-          style="animation-delay: 0.6s"
-        >
-          showroom
-        </li>
-        <li
-          :class="
-            state.active == 4 && !state.menu.lock
-              ? 'active-link'
-              : 'inactive-link'
-          "
-          @click="goTo('contact')"
-          class="hoverable menu-item"
-          style="animation-delay: 0.7s"
-        >
-          contact
-        </li>
-        <a href="#">
-          <li
-            :class="
-              state.active == 5 && !state.menu.lock
-                ? 'active-link'
-                : 'inactive-link'
-            "
-            class="hoverable menu-item"
-            style="animation-delay: 0.8s"
-          >
-            preorder
-          </li>
-        </a>
-      </ul>
-    </div> -->
 
     <!-- PANNING -------------------------------------------------------------->
 
@@ -564,8 +437,99 @@
           :class="overlay()"
         >
           <div
-            class="absolute w-screen h-screen bg-transparent z-[100] flex justify-center items-end"
-          ></div>
+            class="absolute bg-black/25 w-screen h-screen z-[100] flex justify-center items-end text-white"
+          >
+            <div
+              class="w-6 h-6 hoverable flex justify-center items-center absolute m-auto left-0 right-0 bottom-6"
+            >
+              <Icon
+                :size="32"
+                name="arrow_alt_down"
+                class="animate-bounce pointer-events-none"
+              />
+            </div>
+            <div id="wordmark" class="absolute hidden">
+              <svg
+                width="500"
+                viewBox="0 0 2835 726"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1958 34.054C1958 15.2465 1973.22 0 1992 0V0C2010.78 0 2026 15.2465 2026 34.0541V525.946C2026 544.753 2010.78 560 1992 560V560C1973.22 560 1958 544.753 1958 525.946V34.054Z"
+                  fill="white"
+                />
+                <path
+                  d="M2695.51 526.886C2690.7 554.183 2669.84 559 2660.22 559C2608.88 559 2623.32 526.886 2621.71 343.837C2620.43 197.398 2742.04 164 2803 164L2803 228.228C2720.86 229.512 2695.51 306.982 2695.51 343.837C2695.51 395.494 2695.51 499.569 2695.51 526.886Z"
+                  fill="white"
+                />
+                <path
+                  d="M2771 196C2771 178.327 2785.33 164 2803 164V164C2820.67 164 2835 178.327 2835 196V196C2835 213.673 2820.67 228 2803 228V228C2785.33 228 2771 213.673 2771 196V196Z"
+                  fill="white"
+                />
+                <path
+                  d="M679.365 561C639.967 561 605.191 552.508 575.034 535.523C544.878 518.052 521.045 494.273 503.535 464.186C486.512 433.613 478 398.672 478 359.364C478 319.571 486.512 284.63 503.535 254.542C521.045 223.969 544.878 200.19 575.034 183.205C605.191 165.735 639.967 157 679.365 157C718.276 157 752.809 165.735 782.966 183.205C813.122 200.19 836.711 223.969 853.735 254.542C871.245 284.63 880 319.571 880 359.364C880 398.672 871.488 433.613 854.465 464.186C837.441 494.273 813.851 518.052 783.695 535.523C753.539 552.508 718.762 561 679.365 561ZM679.365 495.486C704.657 495.486 727.031 489.663 746.486 478.016C765.942 466.369 781.02 450.355 791.72 429.973C802.907 409.591 808.501 386.055 808.501 359.364C808.501 332.673 802.907 309.137 791.72 288.755C781.02 267.888 765.942 251.631 746.486 239.984C727.031 228.337 704.657 222.514 679.365 222.514C654.073 222.514 631.699 228.337 612.243 239.984C592.788 251.631 577.466 267.888 566.279 288.755C555.093 309.137 549.499 332.673 549.499 359.364C549.499 386.055 555.093 409.591 566.279 429.973C577.466 450.355 592.788 466.369 612.243 478.016C631.699 489.663 654.073 495.486 679.365 495.486Z"
+                  fill="white"
+                />
+                <rect
+                  x="1475"
+                  y="165"
+                  width="77"
+                  height="193"
+                  rx="38"
+                  fill="white"
+                />
+                <rect
+                  x="141"
+                  y="495"
+                  width="63"
+                  height="63"
+                  rx="31.5"
+                  fill="white"
+                />
+                <rect
+                  x="1152"
+                  y="168"
+                  width="61"
+                  height="61"
+                  rx="30.5"
+                  fill="white"
+                />
+                <rect
+                  x="2317"
+                  y="492"
+                  width="64"
+                  height="64"
+                  rx="32"
+                  fill="white"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M1839.34 203C1839.34 182.013 1822.33 165 1801.34 165H1800.34C1779.36 165 1762.34 182.013 1762.34 203V320C1762.34 321.885 1762.48 323.737 1762.74 325.548C1762.8 341.234 1762.84 359.176 1762.84 379.789C1762.84 417.492 1741.35 495.715 1657 496.5C1572.65 495.715 1551.5 417.492 1551.5 379.789C1551.5 340.401 1551.65 310.763 1551.78 287.992H1474.93C1474.92 293.32 1474.93 298.88 1474.93 304.681C1474.95 326.22 1474.97 351.091 1474.72 379.789C1473.43 527.065 1595.47 560.866 1657 560.992V560.992C1657.06 560.992 1657.11 560.992 1657.17 560.992C1657.23 560.992 1657.29 560.992 1657.34 560.992V560.992C1718.87 560.866 1840.92 527.065 1839.63 379.789C1839.38 351.092 1839.39 326.222 1839.41 304.683V304.681L1839.41 304.583C1839.41 298.817 1839.42 293.29 1839.42 287.992H1839.34V203Z"
+                  fill="white"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M10.0109 715.28C17.1615 722.427 25.9806 726 36.4682 726C47.4325 726 56.2517 722.427 62.9256 715.28C69.5995 708.61 72.9365 700.034 72.9365 689.553V496.597C72.9576 496.623 72.9788 496.648 73 496.674V356.5V354H73.0085C73.1769 329.738 75.918 314.42 86.5227 295.066C97.487 274.58 112.503 258.619 131.572 247.185C151.117 235.274 172.807 229.318 196.642 229.318C220.955 229.318 242.645 235.274 261.713 247.185C280.782 258.619 295.798 274.58 306.762 295.066C318.203 315.076 323.924 337.945 323.924 363.673C323.924 388.924 318.203 411.792 306.762 432.279C295.798 452.289 280.782 468.25 261.713 480.16C242.645 491.595 224.312 497.5 200 497.5C191.052 497.5 181.934 496.668 173 495.023V558.075C185.111 560.58 197.727 561.802 210.944 561.631C245.744 561.631 276.968 553.055 304.617 535.903C332.266 518.275 353.956 494.692 369.688 465.153C385.896 435.138 394 401.311 394 363.673C394 326.034 385.181 292.208 367.543 262.192C350.381 232.177 327.022 208.594 297.466 191.442C267.91 173.814 234.302 165 196.642 165C159.459 165 126.09 173.814 96.5336 191.442C66.9776 208.594 43.6189 232.177 26.4573 262.192C9.29582 292.208 0.47671 326.034 0 363.673V689.553C0 700.034 3.33696 708.61 10.0109 715.28Z"
+                  fill="white"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M1346.14 11.7007C1339.1 4.56695 1330.42 1.00006 1320.09 1.00006C1309.29 1.00006 1300.61 4.56695 1294.03 11.7007C1287.46 18.3589 1284.17 26.9194 1284.17 37.3822V229.994C1284.12 229.923 1284.06 229.853 1284 229.782V346.281C1284.35 351.744 1284.5 357.32 1284.5 363C1284.5 388.682 1281.59 411.191 1270.79 431.166C1260 451.616 1245.21 467.548 1226.43 478.962C1207.18 490.851 1185.82 496.796 1162.35 496.796C1138.41 496.796 1117.05 490.851 1098.27 478.962C1079.49 467.548 1064.71 451.616 1053.91 431.166C1042.64 411.191 1037.01 388.363 1037.01 362.681C1037.01 337.476 1042.64 314.648 1053.91 294.197C1064.71 274.223 1079.49 258.291 1098.27 246.401C1116.54 235.298 1132.94 232.807 1156.04 229.297C1156.69 229.199 1157.34 229.1 1158 229C1166.41 227.721 1175.24 228.176 1184 229.827V168.229C1172.52 165.922 1160.61 164.82 1148.27 165.076C1114 165.076 1083.25 173.637 1056.02 190.758C1028.79 208.355 1007.43 231.896 991.942 261.382C975.981 291.344 968 325.11 968 362.681C968 400.253 976.685 434.019 994.054 463.981C1010.95 493.943 1033.96 517.484 1063.06 534.605C1092.17 552.202 1125.27 561 1162.35 561C1198.97 561 1231.83 552.202 1260.94 534.605C1290.04 517.484 1313.05 493.943 1329.95 463.981C1346.85 434.019 1355.53 400.253 1356 362.682V37.3822C1356 26.9194 1352.71 18.3589 1346.14 11.7007Z"
+                  fill="white"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M2215.16 534.314C2242.74 551.438 2273.88 560 2308.59 560C2322.66 560 2336.13 558.565 2349 555.694V493.382C2340.65 494.983 2331.94 495.784 2322.86 495.784C2299.08 495.784 2277.45 490.076 2257.95 478.659C2238.93 466.768 2223.72 450.832 2212.3 430.854C2201.37 410.4 2195.9 387.568 2195.9 362.357C2195.9 336.67 2201.37 313.838 2212.3 293.859C2223.72 273.405 2238.93 257.47 2257.95 246.054C2277.45 234.162 2299.08 228.216 2322.86 228.216C2347.11 228.216 2368.74 234.162 2387.76 246.054C2406.78 257.47 2421.76 273.405 2432.7 293.859C2443.63 313.838 2449.1 336.67 2449.1 362.357C2449.1 364.341 2449.07 366.311 2449 368.266V536.574C2450.66 540.715 2453.07 544.48 2456.23 547.87C2463.37 554.53 2472.16 557.859 2482.62 557.859C2493.09 557.859 2501.64 554.53 2508.3 547.87C2515.43 540.735 2519 531.935 2519 521.47V362.357C2519 324.778 2510.2 291.005 2492.61 261.038C2475.49 231.07 2452.19 207.524 2422.71 190.4C2393.23 172.8 2359.95 164 2322.86 164C2285.77 164 2252.25 172.8 2222.29 190.4C2192.81 207.524 2169.27 231.07 2151.68 261.038C2134.56 291.005 2126 324.778 2126 362.357C2126 399.935 2133.85 433.708 2149.54 463.676C2165.7 493.168 2187.58 516.714 2215.16 534.314Z"
+                  fill="white"
+                />
+              </svg>
+            </div>
+          </div>
           <video
             autoplay
             loop
@@ -614,7 +578,7 @@
                 </span>
                 <button
                   @click="goTo('features')"
-                  class="hoverable flex gap-2 items-center w-fit bg-white font-bold text-xl text-black py-4 px-6 mt-6 rounded-full hover:bg-black hover:text-white border-2 border-white duration-[200ms]"
+                  class="hoverable flex gap-2 items-center w-fit bg-white font-bold text-black py-4 px-6 mt-6 rounded-full hover:bg-black hover:text-white border-2 border-white duration-[200ms]"
                 >
                   <!-- <Icon name="arrow_down" /> -->
                   explore features
@@ -676,7 +640,7 @@
         <!-- CONTACT PAGE -->
         <section
           id="contact"
-          class="bg-black/60 backdrop-blur-lg text-white"
+          class="bg-black/50 backdrop-blur-lg text-white"
           :class="overlay()"
         >
           <Profile />
@@ -713,6 +677,9 @@
 
   .menu-item {
     transition: 200ms;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     // opacity: 0;
     // animation: menu-item-enter 600ms ease forwards;
   }
@@ -723,12 +690,31 @@
 
   .active-link {
     transition: 400ms;
-    color: black !important;
+    color: white !important;
   }
+
+  .link-indicator {
+    @apply w-[0%] duration-[1.2s] bg-white h-[1.5px] translate-y-[16px];
+  }
+
+  .active-link .link-indicator {
+    opacity: 1 !important;
+    width: 80% !important;
+  }
+
+  // .active-link::after {
+  //   content: '';
+  //   position: absolute;
+  //   width: 8px;
+  //   height: 8px;
+  //   background-color: white;
+  //   border-radius: 16px 16px 0px 0px;
+  //   top: 52px;
+  // }
 
   .inactive-link {
     transition: 400ms;
-    color: rgba(black, 0.3);
+    color: rgba(white, 0.4);
   }
 
   .inactive-link:hover {

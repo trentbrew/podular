@@ -1,35 +1,40 @@
 # 8.31.2023
 
+## Questions for Wan
+
+- [ ] vertical landing page render?
+- [ ] transparent landing page render backdrop?
+
+## Tasks
+
 ### DESKTOP
 
 `GENERAL`
 
-- [ ] replace logo scroll transition with separate fixed img
-- [ ] replace progress bar with section indicator
+- [x] overhaul logo transition
 - [x] skippable intro
 
 `MENU`
 
-- [ ] toggle menu on click instead of hover 🟡
-- [ ] move menu toggle to top right
+- [x] replace progress bar & menu with traditional nav
 
 `ABOUT PAGE`
 
-- [ ] background image carousel
+<!-- - [ ] background image carousel -->
 
 `FEATURES`
 
-- [ ] remove latch detail
+- [x] remove latch detail
 
 `SHOWROOM`
 
-- [ ] merge with features page?
+- [x] ...
 
 `CONTACT`
 
-- [ ] remove background color (reveal landing render)
-- [ ] add social media links
-- [ ] add calendly widget
+- [x] remove background color (reveal landing render)
+- [x] add social media links
+<!-- - [ ] add calendly widget -->
 
 ### MOBILE
 
