@@ -110,7 +110,7 @@
   }
 
   const state = reactive({
-    skipIntro: true,
+    skipIntro: false,
     ready: false,
     active: 0,
     progress: 0,
