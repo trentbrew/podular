@@ -15,13 +15,12 @@
 
 * {
   font-family: 'Nunito Sans', sans-serif;
-  cursor: none !important;
+  /* cursor: none !important; */
 }
 
 body {
   scroll-behavior: smooth;
   box-sizing: border-box;
-  /* cursor: none; */
 }
 
 .podular-sans {

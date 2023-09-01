@@ -159,9 +159,9 @@
 
   @keyframes nudge {
     to {
-      transform: scale(0.28);
-      left: 12px;
-      top: 10px;
+      transform: scale(0.24);
+      left: -24px;
+      top: -30px;
       // filter: invert(1);
     }
   }

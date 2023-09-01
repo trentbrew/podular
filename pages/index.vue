@@ -295,10 +295,10 @@
     </div>
     <div
       v-show="state.lightbox.active"
-      class="hoverable shadow-lg z-[105] flex justify-center items-center rounded-full h-12 w-12 duration-150 fixed top-8 right-8 bg-white"
+      class="hoverable shadow-lg z-[105] flex justify-center items-center rounded-full h-10 w-10 duration-150 fixed top-8 right-8 bg-white text-black"
       @click="closeLightbox"
     >
-      <Icon class="pointer-events-none" name="close" />
+      <Icon class="pointer-events-none" size="18" name="close" />
     </div>
     <div
       class="h-screen w-full fixed top-0 left-0 z-[100] bg-black/90 backdrop-blur-lg flex justify-center items-center duration-300 pointer-events-none"
@@ -316,7 +316,100 @@
 
     <!-- MENU -------------------------------------------------------------->
 
-    <div id="nav" class="w-full fixed top-0 left-0 p-8 z-[40]">
+    <div class="fixed top-0 left-0 z-[40] p-0 w-full">
+      <div
+        class="navbar rounded-none duration-[500ms] border-b-[1.5px] backdrop-blur-2xl"
+        :class="
+          state.active > 0
+            ? 'bg-black/[0.2] backdrop-saturate-150 border-white/[0.15]'
+            : 'bg-transparent border-transparent'
+        "
+      >
+        <div class="navbar-start">
+          <a class="btn btn-ghost normal-case text-xl"></a>
+        </div>
+        <div class="navbar-center hidden lg:flex">
+          <ul
+            class="menu menu-horizontal duration-[1s] text-lg w-full z-[20] flex gap-[28px] items-center justify-center left-0 top-[58px]"
+          >
+            <li
+              :class="
+                state.active == 0 && !state.menu.lock
+                  ? 'active-link'
+                  : 'inactive-link'
+              "
+              @click="goTo('home')"
+              class="hoverable menu-item"
+              style="animation-delay: 0.4s"
+            >
+              home
+              <!-- <div class="link-indicator"></div> -->
+            </li>
+            <li
+              :class="
+                state.active == 1 && !state.menu.lock
+                  ? 'active-link'
+                  : 'inactive-link'
+              "
+              @click="goTo('about')"
+              class="hoverable menu-item"
+              style="animation-delay: 0.4s"
+            >
+              about
+              <!-- <div class="link-indicator"></div> -->
+            </li>
+            <li
+              :class="
+                state.active == 2 && !state.menu.lock
+                  ? 'active-link'
+                  : 'inactive-link'
+              "
+              @click="goTo('features')"
+              class="hoverable menu-item"
+              style="animation-delay: 0.5s"
+            >
+              features
+              <!-- <div class="link-indicator"></div> -->
+            </li>
+            <li
+              :class="
+                state.active == 3 && !state.menu.lock
+                  ? 'active-link'
+                  : 'inactive-link'
+              "
+              @click="goTo('showroom')"
+              class="hoverable menu-item"
+              style="animation-delay: 0.6s"
+            >
+              showroom
+              <!-- <div class="link-indicator"></div> -->
+            </li>
+            <li
+              :class="
+                state.active == 4 && !state.menu.lock
+                  ? 'active-link'
+                  : 'inactive-link'
+              "
+              @click="goTo('contact')"
+              class="hoverable menu-item"
+              style="animation-delay: 0.7s"
+            >
+              contact
+              <!-- <div class="link-indicator"></div> -->
+            </li>
+          </ul>
+        </div>
+        <div class="navbar-end pr-2">
+          <a
+            class="btn btn-sm bg-white text-black hover:bg-transparent hover:border-white hoverable border-white border-[1.5px] hover:text-white rounded-full"
+          >
+            pre-order
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div id="nav" class="w-full fixed top-0 left-0 p-8 z-[40]">
       <div class="w-full flex items-center justify-between rounded-full pr-4">
         <div class="flex items-center">
           <div
@@ -400,26 +493,11 @@
             class="hoverable font-bold text-black bg-white flex items-center justify-center gap-3 rounded-full py-4 px-6 pl-8 pr-8 hover:bg-transparent hover:text-white border-[1.5px] border-white duration-[300ms]"
             style="animation-delay: 0.8s"
           >
-            <!-- <Icon name="arrow_alt_right" class="pointer-events-none" /> -->
             <span class="hoverable">pre-order</span>
           </a>
-          <!-- <div class="flex items-center gap-4 text-white">
-            <a class="hoverable hover:opacity-100" href="#">
-              <Icon class="pointer-events-none" name="instagram" />
-            </a>
-            <a class="hoverable hover:opacity-100" href="#">
-              <Icon class="pointer-events-none" name="facebook_alt" />
-            </a>
-            <a class="hoverable hover:opacity-100" href="#">
-              <Icon class="pointer-events-none" name="twitter" />
-            </a>
-            <a class="hoverable hover:opacity-100" href="#">
-              <Icon class="pointer-events-none" name="linkedin" />
-            </a>
-          </div> -->
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- PANNING -------------------------------------------------------------->
 
@@ -616,22 +694,22 @@
                 the perfect space solution
               </div>
               <div class="flex flex-col gap-3 text-white w-full">
-                <span class="text-lg max-w-[45vw] opacity-50">
+                <span class="text-lg max-w-[45vw] opacity-40">
                   Podular presents a stylish and personalized modular pod,
                   offering swift and uncomplicated spatial solutions that
                   elevate the customer and employee experience in the food and
                   beverage industry.
                 </span>
-                <!-- <button
+                <button
                   @click="goTo('features')"
-                  class="hoverable font-bold flex gap-2 items-center w-fit bg-white text-black hover:bg-transparent py-4 px-6 pr-8 mt-6 rounded-full hover:border-white hover:text-white duration-[300ms] border-[1.5px] border-white"
+                  class="hoverable flex gap-2 items-center w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white/20"
                 >
                   <Icon
                     class="animate-bounce pointer-events-none"
                     name="arrow_alt_down"
                   />
                   explore features
-                </button> -->
+                </button>
               </div>
             </div>
           </div>
@@ -692,7 +770,58 @@
           class="bg-black/40 backdrop-blur-lg text-white"
           :class="overlay()"
         >
-          <Profile />
+          <div
+            class="w-full h-full justify-center flex gap-12 items-center z-[40]"
+          >
+            <img
+              src="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/51arrah30qe27ve/contact_YOiKby9Gwc.png?token="
+              alt="Jasna Ostojich"
+              class="rounded-full object-cover w-[140px] h-[14ß0px] border-4 border-white/25"
+            />
+            <div>
+              <h1 class="text-5xl mb-4">Jasna Ostojich</h1>
+              <P class="mb-2 text-2xl">Founder & Executive President</P>
+              <div class="flex items-center gap-4 text-lg">
+                <a
+                  class="hoverable underline"
+                  href="mailto:info@cafebellas.com"
+                >
+                  <span class="hoverable">info@cafebellas.com</span>
+                </a>
+                <span class="font-bold">·</span>
+                <p class="my-3">847.922.0061</p>
+              </div>
+            </div>
+            <div
+              class="w-full h-[100px] fixed bottom-0 flex flex-col justify-end items-start z-[30] duration-500"
+              :class="
+                state.active != 4
+                  ? 'opacity-0 pointer-events-none'
+                  : 'opacity-100'
+              "
+            >
+              <div class="flex items-center w-full justify-between px-16">
+                <div class="w-full h-[120px] flex items-center">
+                  <span class="opacity-50">
+                    3D Renders by
+                    <a
+                      class="underline hoverable"
+                      href="https://studiolafa.design"
+                    >
+                      Lawan Alade-Fa
+                    </a>
+                  </span>
+                  &nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
+                  <span class="opacity-50">
+                    Web Design by
+                    <a class="underline hoverable" href="https://trentbrew.com">
+                      Trent Brew
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
       </FullPage>
     </main>

@@ -37,20 +37,6 @@
             </a>
           </span>
         </div>
-        <!-- <div class="flex items-center gap-4">
-          <a class="hoverable hover:opacity-100 opacity-50" href="#">
-            <Icon class="pointer-events-none" name="instagram" />
-          </a>
-          <a class="hoverable hover:opacity-100 opacity-50" href="#">
-            <Icon class="pointer-events-none" name="facebook_alt" />
-          </a>
-          <a class="hoverable hover:opacity-100 opacity-50" href="#">
-            <Icon class="pointer-events-none" name="twitter" />
-          </a>
-          <a class="hoverable hover:opacity-100 opacity-50" href="#">
-            <Icon class="pointer-events-none" name="linkedin" />
-          </a>
-        </div> -->
       </div>
     </div>
   </div>
