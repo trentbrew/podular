@@ -755,11 +755,15 @@
                 )
               "
             >
-              <div class="font-bold text-4xl text-white mb-6 podular-sans">
+              <div
+                class="font-bold text-3xl md:text-4xl text-white mb-6 podular-sans text-center md:text-left"
+              >
                 the perfect space solution
               </div>
               <div class="flex flex-col gap-3 text-white w-full">
-                <span class="text-lg max-w-[45vw] opacity-50 font-normal">
+                <span
+                  class="md:text-lg md:max-w-[45vw] opacity-50 font-normal text-center md:text-left"
+                >
                   Podular presents a stylish and personalized modular pod,
                   offering swift and uncomplicated spatial solutions that
                   elevate the customer and employee experience in the food and
@@ -767,7 +771,7 @@
                 </span>
                 <button
                   @click="goTo('features')"
-                  class="hoverable flex gap-2 items-center w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white/20"
+                  class="hoverable justify-center flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-8 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/20"
                 >
                   <Icon
                     class="animate-bounce pointer-events-none"

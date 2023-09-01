@@ -57,26 +57,23 @@
 
   // TOUCH EVENTS
   window.addEventListener('touchstart', event => {
-    console.log('touchstart', event)
     if (state.isScrolling || props.disable) return
     state.touchStartY = event.touches[0].clientY
   })
   window.addEventListener('touchend', event => {
     if (state.isScrolling || props.disable) return
-    const threshold = 20
+    const threshold = 25
     state.touchEndY = event.changedTouches[0].clientY
     const delta = state.touchStartY - state.touchEndY
+    console.log(delta)
     if (Math.abs(delta) > threshold) handleScroll(delta)
   })
 
   // KEYBOARD EVENTS
   window.addEventListener('keydown', event => {
     if (state.isScrolling || props.disable) return
-    if (event.key === 'ArrowDown') {
-      handleScroll(1)
-    } else if (event.key === 'ArrowUp') {
-      handleScroll(-1)
-    }
+    if (event.key === 'ArrowDown') handleScroll(1)
+    else if (event.key === 'ArrowUp') handleScroll(-1)
   })
 
   // HANDLERS
