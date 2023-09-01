@@ -838,14 +838,7 @@
           >
             <div>
               <div
-                class="absolute z-[-1] translate-x-[-143px] translate-y-[-145px] duration-[1.5s] delay-[800ms]"
-                :class="
-                  animate(
-                    4,
-                    'opacity-0 scale-[1.75]',
-                    'opacity-[0.06] scale-[1]'
-                  )
-                "
+                class="absolute z-[-1] translate-x-[-143px] translate-y-[-145px] duration-[1.5s] delay-[800ms] opacity-[0.07]"
               >
                 <svg
                   width="500"
@@ -877,7 +870,7 @@
               <img
                 src="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/51arrah30qe27ve/contact_YOiKby9Gwc.png?token="
                 alt="Jasna Ostojich"
-                class="rounded-full object-cover w-[160px] h-[160px] border-4 border-white/25 md:text-left duration-[1s] delay-[500ms]"
+                class="rounded-full object-cover w-[160px] h-[160px] border-2 border-white/10 md:text-left duration-[1s] delay-[500ms]"
                 :class="
                   animate(4, 'opacity-0 scale-[0.9]', 'opacity-100 scale-[1]')
                 "
