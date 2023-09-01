@@ -2,11 +2,9 @@
   const router = useRouter()
   const route = useRoute()
 
-  const isMobile = () => {
-    if (typeof window !== 'undefined') {
-      return window.innerWidth < 768
-    }
-  }
+  const isMobile = window.innerWidth < 768
+
+  console.log('isMobile', isMobile)
 
   const pingCategory = computed(() => {
     return route.hash?.split('_')[0].substring(1) ?? ''
@@ -126,6 +124,9 @@
       lock: false,
       ignore: false,
       clicked: false,
+      mobile: {
+        active: false,
+      },
     },
     lightbox: {
       active: false,
@@ -154,6 +155,7 @@
 
   function goTo(section) {
     closeMenu()
+    console.log('state.active: ', state.active)
     fullpage.value.scrollById(section)
   }
 
@@ -179,10 +181,12 @@
 
   function parallax(index) {
     const fx = 'filter: brightness(0.6);'
-    const bgy = 'background-size: 130%; background-position:'
-    if (state.active < index) return `${fx} ${bgy} 50% -50%`
-    if (state.active == index) return `${bgy} 50% 50%`
-    if (state.active > index) return `${fx} ${bgy} 50% 150%`
+    const bgy = `background-size: ${isMobile ? 'cover' : '130%'};`
+    if (state.active < index)
+      return `${fx} ${bgy} background-position: 50% -50%;`
+    if (state.active == index) return `${bgy} background-position: 50% 50%;`
+    if (state.active > index)
+      return `${fx} ${bgy} background-position: 50% 150%;`
   }
 
   function animate(index, inactive, active) {
@@ -231,11 +235,17 @@
   }
 
   function closeMenu() {
-    // state.menu.zone = [160, 160]
-    // state.menu.lock = true
-    // setTimeout(() => {
-    //   state.menu.lock = false
-    // }, 600)
+    console.log('closing menu...')
+    state.menu.mobile.active = false
+  }
+
+  function openMenu() {
+    console.log('opening menu...')
+    state.menu.mobile.active = true
+  }
+
+  function handleMobileMenuClick() {
+    console.log('mobile menu clicked')
   }
 
   function overlay() {
@@ -284,7 +294,7 @@
           state.lightbox.context.length ||
           pingContext?.length ||
           pingDescription?.length)
-          ? 'opacity-1'
+          ? 'opacity-100'
           : 'opacity-0'
       "
       class="w-[100vw] p-16 h-[50vh] pb-12 flex flex-col justify-end items-start duration-[2s] fixed bottom-0 left-0 pointer-events-none z-[110]"
@@ -308,7 +318,7 @@
     </div>
     <div
       class="h-screen w-full fixed top-0 left-0 z-[100] bg-black/90 backdrop-blur-lg flex justify-center items-center duration-300 pointer-events-none"
-      :class="state.lightbox.active ? 'opacity-1' : 'opacity-0'"
+      :class="state.lightbox.active ? 'opacity-100' : 'opacity-0'"
     >
       <div
         class="bg-white h-full w-full rounded-[16px] bg-cover bg-center bg-no-repeat duration-[600ms]"
@@ -322,19 +332,135 @@
 
     <!-- NAVIGATION -------------------------------------------------------------->
 
-    <div class="fixed top-0 left-0 z-[40] p-0 w-full">
+    <div
+      v-if="isMobile && state.menu.mobile.active"
+      id="mobile-menu-overlay"
+      class="fixed top-0 left-0 z-[150] w-screen h-screen bg-black/75 backdrop-blur-3xl backdrop-saturate-150 flex flex-col justify-center items-center"
+    >
       <div
-        class="navbar rounded-none duration-[500ms] border-b-[1.5px] backdrop-blur-2xl"
+        class="absolute top-0 left-0 w-full flex h-16 items-center justify-between pl-[20px] pr-4 box-border"
+      >
+        <div class="flex gap-[18px]">
+          <svg
+            class="opacity-30"
+            width="34"
+            height="34"
+            viewBox="0 0 1299 1292"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M1299 713L979.614 713C979.616 713.311 979.616 713.622 979.616 713.934C979.616 856.8 863.8 972.616 720.934 972.616C720.622 972.616 720.311 972.616 720 972.615V1292C720.311 1292 720.623 1292 720.934 1292C1040.19 1292 1299 1033.19 1299 713.934C1299 713.623 1299 713.311 1299 713Z"
+              fill="white"
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M578.5 0C259.003 0 0 259.003 0 578.5C0 897.997 259.003 1157 578.5 1157C897.997 1157 1157 897.997 1157 578.5C1157 259.003 897.997 0 578.5 0ZM578.5 319.624C435.527 319.624 319.624 435.527 319.624 578.5C319.624 721.474 435.527 837.376 578.5 837.376C721.474 837.376 837.376 721.474 837.376 578.5C837.376 435.527 721.474 319.624 578.5 319.624ZM1157 577.565H837.375C837.376 577.877 837.376 578.188 837.376 578.5C837.376 721.474 721.474 837.376 578.5 837.376C578.188 837.376 577.877 837.376 577.565 837.375V1157C577.877 1157 578.188 1157 578.5 1157C897.997 1157 1157 897.997 1157 578.5C1157 578.188 1157 577.877 1157 577.565Z"
+              fill="white"
+            />
+          </svg>
+          <!-- <span class="podular-sans text-2xl opacity-100 translate-y-[1px]">
+            podular
+          </span> -->
+        </div>
+        <button
+          @click="closeMenu"
+          class="p-0 active:opacity-50 min-w-6 min-h-6 text-white"
+        >
+          <Icon name="close" size="36" class="pointer-events-none" />
+        </button>
+      </div>
+      <ul
+        class="absolute text-3xl flex flex-col justify-center items-center gap-6"
+      >
+        <li
+          :class="
+            state.active == 0 && !state.menu.lock
+              ? 'active-link'
+              : 'inactive-link'
+          "
+          @click="goTo('home')"
+          class="hoverable menu-item"
+          style="animation-delay: 0.4s"
+        >
+          home
+        </li>
+        <li
+          :class="
+            state.active == 1 && !state.menu.lock
+              ? 'active-link'
+              : 'inactive-link'
+          "
+          @click="goTo('about')"
+          class="hoverable menu-item"
+          style="animation-delay: 0.4s"
+        >
+          about
+        </li>
+        <li
+          :class="
+            state.active == 2 && !state.menu.lock
+              ? 'active-link'
+              : 'inactive-link'
+          "
+          @click="goTo('features')"
+          class="hoverable menu-item"
+          style="animation-delay: 0.5s"
+        >
+          features
+        </li>
+        <li
+          :class="
+            state.active == 3 && !state.menu.lock
+              ? 'active-link'
+              : 'inactive-link'
+          "
+          @click="goTo('showroom')"
+          class="hoverable menu-item"
+          style="animation-delay: 0.6s"
+        >
+          showroom
+        </li>
+        <li
+          :class="
+            state.active == 4 && !state.menu.lock
+              ? 'active-link'
+              : 'inactive-link'
+          "
+          @click="goTo('contact')"
+          class="hoverable menu-item"
+          style="animation-delay: 0.7s"
+        >
+          contact
+        </li>
+      </ul>
+      <div class="w-full p-4 box-border mt-auto font-bold">
+        <a href="#" class="btn w-full bg-white text-black rounded-xl text-xl">
+          pre-order
+        </a>
+      </div>
+    </div>
+
+    <!-- desktop nav -->
+
+    <div class="fixed top-0 left-0 z-[40] p-0 w-screen">
+      <div
+        class="navbar w-full rounded-none duration-[500ms] border-b-[1.5px]"
         :class="
           state.active > 0
-            ? 'bg-black/[0.2] backdrop-saturate-150 border-white/[0.15]'
+            ? 'bg-black/[0.2] backdrop-saturate-150 border-white/[0.15] backdrop-blur-2xl'
             : 'bg-transparent border-transparent'
         "
       >
         <div class="navbar-start pl-[64px]">
           <a
             class="duration-500 text-2xl text-white podular-sans translate-y-[-1px]"
-            :class="state.active > 0 ? 'opacity-1' : 'opacity-0 -translate-x-2'"
+            :class="
+              state.active > 0 ? 'opacity-100' : 'opacity-0 -translate-x-2'
+            "
           >
             podular
           </a>
@@ -412,103 +538,25 @@
         </div>
         <div class="navbar-end pr-2">
           <a
+            v-if="!isMobile"
             class="btn btn-sm bg-white text-black hover:bg-transparent hover:border-white hoverable border-white border-[1.5px] hover:text-white rounded-full"
           >
             pre-order
           </a>
+          <button
+            v-else
+            @click="openMenu"
+            class="p-0 active:opacity-50 min-w-6 min-h-6 text-white"
+          >
+            <Icon
+              name="menu_alt"
+              size="36"
+              class="scale-x-[-1] pointer-events-none"
+            />
+          </button>
         </div>
       </div>
     </div>
-
-    <!-- <div id="nav" class="w-full fixed top-0 left-0 p-8 z-[40]">
-      <div class="w-full flex items-center justify-between rounded-full pr-4">
-        <div class="flex items-center">
-          <div
-            class="flex gap-8 px-10 pl-6 py-4 mr-3 rounded-full bg-black/[0.2] backdrop-blur-3xl backdrop-saturate-150 border-[1.5px] border-white/[0.15]"
-          >
-            <div @click="goTo('home')" class="w-10 h-10 hoverable"></div>
-            <ul
-              class="duration-[1s] text-lg w-full z-[20] flex gap-[28px] items-center justify-center left-0 top-[58px]"
-            >
-              <li
-                :class="
-                  state.active == 0 && !state.menu.lock
-                    ? 'active-link'
-                    : 'inactive-link'
-                "
-                @click="goTo('home')"
-                class="hoverable menu-item"
-                style="animation-delay: 0.4s"
-              >
-                home
-                <div class="link-indicator"></div>
-              </li>
-              <li
-                :class="
-                  state.active == 1 && !state.menu.lock
-                    ? 'active-link'
-                    : 'inactive-link'
-                "
-                @click="goTo('about')"
-                class="hoverable menu-item"
-                style="animation-delay: 0.4s"
-              >
-                about
-                <div class="link-indicator"></div>
-              </li>
-              <li
-                :class="
-                  state.active == 2 && !state.menu.lock
-                    ? 'active-link'
-                    : 'inactive-link'
-                "
-                @click="goTo('features')"
-                class="hoverable menu-item"
-                style="animation-delay: 0.5s"
-              >
-                features
-                <div class="link-indicator"></div>
-              </li>
-              <li
-                :class="
-                  state.active == 3 && !state.menu.lock
-                    ? 'active-link'
-                    : 'inactive-link'
-                "
-                @click="goTo('showroom')"
-                class="hoverable menu-item"
-                style="animation-delay: 0.6s"
-              >
-                showroom
-                <div class="link-indicator"></div>
-              </li>
-              <li
-                :class="
-                  state.active == 4 && !state.menu.lock
-                    ? 'active-link'
-                    : 'inactive-link'
-                "
-                @click="goTo('contact')"
-                class="hoverable menu-item"
-                style="animation-delay: 0.7s"
-              >
-                contact
-                <div class="link-indicator"></div>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="min-w-fit">
-          <a
-            href="#"
-            class="hoverable font-bold text-black bg-white flex items-center justify-center gap-3 rounded-full py-4 px-6 pl-8 pr-8 hover:bg-transparent hover:text-white border-[1.5px] border-white duration-[300ms]"
-            style="animation-delay: 0.8s"
-          >
-            <span class="hoverable">pre-order</span>
-          </a>
-        </div>
-      </div>
-    </div> -->
 
     <!-- PANNING -------------------------------------------------------------->
 
@@ -517,19 +565,23 @@
     <!-- MAIN -------------------------------------------------------------->
 
     <div
-      class="fixed bottom-12 right-16 z-[100] flex items-center gap-4 duration-[600ms] text-white"
-      :class="[0, 2, 3].includes(state.active) ? 'opacity-0' : 'opacity-1'"
+      class="fixed bottom-[20vh] left-0 justify-center md:justify-end md:bottom-12 md:right-16 md:left-auto z-[100] flex items-center gap-4 duration-[600ms] text-white w-full md:w-fit"
+      :class="
+        (isMobile ? [0, 1, 2, 3] : [0, 2, 3]).includes(state.active)
+          ? 'opacity-0'
+          : 'opacity-100'
+      "
     >
-      <a class="hoverable hover:opacity-100 opacity-50" href="#">
+      <a class="hoverable hover:opacity-100 md:opacity-50" href="#">
         <Icon class="pointer-events-none" name="instagram" />
       </a>
-      <a class="hoverable hover:opacity-100 opacity-50" href="#">
+      <a class="hoverable hover:opacity-100 md:opacity-50" href="#">
         <Icon class="pointer-events-none" name="facebook_alt" />
       </a>
-      <a class="hoverable hover:opacity-100 opacity-50" href="#">
+      <a class="hoverable hover:opacity-100 md:opacity-50" href="#">
         <Icon class="pointer-events-none" name="twitter" />
       </a>
-      <a class="hoverable hover:opacity-100 opacity-50" href="#">
+      <a class="hoverable hover:opacity-100 md:opacity-50" href="#">
         <Icon class="pointer-events-none" name="linkedin" />
       </a>
     </div>
@@ -554,7 +606,7 @@
         ref="fullpage"
         @update="handleNewSection"
         :duration="1200"
-        :disable="!state.ready"
+        :disable="!state.ready || state.menu.mobile.active"
         ease="easeInOutCubic"
       >
         <!-- LANDING PAGE -->
@@ -581,11 +633,11 @@
               :class="
                 state.active > 0
                   ? 'top-[0vh] opacity-0 scale-[0.7]'
-                  : 'top-[24vh] opacity-1 scale-[1]'
+                  : 'top-[24vh] opacity-100 scale-[1]'
               "
             >
               <svg
-                width="500"
+                :width="isMobile ? 250 : 500"
                 viewBox="0 0 2835 726"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -697,7 +749,7 @@
                 animate(
                   1,
                   'opacity-0 h-[30vh] delay-[5s]',
-                  'opacity-1 h-[100vh] delay-[1.2s]'
+                  'opacity-100 h-[100vh] delay-[1.2s]'
                 )
               "
             >
@@ -778,29 +830,90 @@
         <!-- CONTACT PAGE -->
         <section
           id="contact"
-          class="bg-black/40 backdrop-blur-lg text-white"
+          class="bg-black/25 backdrop-blur text-white"
           :class="overlay()"
         >
           <div
-            class="w-full h-full justify-center flex gap-12 items-center z-[40]"
+            class="w-full h-full justify-center flex md:flex-row flex-col gap-12 items-center text-center md:text-left md:m-auto z-[40]"
           >
-            <img
-              src="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/51arrah30qe27ve/contact_YOiKby9Gwc.png?token="
-              alt="Jasna Ostojich"
-              class="rounded-full object-cover w-[140px] h-[14ß0px] border-4 border-white/25"
-            />
             <div>
-              <h1 class="text-5xl mb-4">Jasna Ostojich</h1>
-              <P class="mb-2 text-xl">Founder & Executive President</P>
-              <div class="flex items-center gap-4">
+              <div
+                class="absolute z-[-1] translate-x-[-143px] translate-y-[-145px] duration-[1.5s] delay-[800ms]"
+                :class="
+                  animate(
+                    4,
+                    'opacity-0 scale-[1.75]',
+                    'opacity-[0.06] scale-[1]'
+                  )
+                "
+              >
+                <svg
+                  width="500"
+                  height="500"
+                  viewBox="0 0 718 715"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M717.868 394.027L541.366 394.027C541.366 394.199 541.367 394.371 541.367 394.543C541.367 473.496 477.363 537.499 398.411 537.499C398.239 537.499 398.066 537.499 397.895 537.499V714.001C398.067 714.001 398.239 714.001 398.411 714.001C574.842 714.001 717.868 570.975 717.868 394.543C717.868 394.371 717.868 394.199 717.868 394.027Z"
+                    fill="white"
+                  />
+                  <path
+                    d="M0 319.697C0 143.133 143.133 0 319.697 0C496.089 0 639.116 142.854 639.394 319.181C639.395 319.353 639.395 319.525 639.395 319.697C639.395 319.525 639.395 319.353 639.394 319.181H462.76C462.76 319.353 462.761 319.525 462.761 319.697C462.761 319.577 462.76 319.456 462.76 319.335L462.76 319.181C462.481 240.407 398.537 176.634 319.697 176.634C240.686 176.634 176.634 240.686 176.634 319.697C176.634 398.537 240.407 462.481 319.181 462.76C319.302 462.76 319.423 462.76 319.543 462.761L319.697 462.761C319.525 462.761 319.353 462.76 319.181 462.76V639.394C319.353 639.395 319.525 639.395 319.697 639.395C319.525 639.395 319.353 639.395 319.181 639.394C142.854 639.116 0 496.089 0 319.697Z"
+                    fill="white"
+                  />
+                  <path
+                    d="M319.181 639.394C319.353 639.395 319.525 639.395 319.697 639.395C319.525 639.395 319.353 639.395 319.181 639.394Z"
+                    fill="white"
+                  />
+                  <path
+                    d="M639.395 319.697C639.395 319.525 639.395 319.353 639.394 319.181C639.395 319.353 639.395 319.525 639.395 319.697Z"
+                    fill="white"
+                  />
+                </svg>
+              </div>
+              <img
+                src="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/51arrah30qe27ve/contact_YOiKby9Gwc.png?token="
+                alt="Jasna Ostojich"
+                class="rounded-full object-cover w-[160px] h-[160px] border-4 border-white/25 md:text-left duration-[1s] delay-[500ms]"
+                :class="
+                  animate(4, 'opacity-0 scale-[0.9]', 'opacity-100 scale-[1]')
+                "
+              />
+            </div>
+            <div
+              class="duration-[1.5s] delay-[1.7s]"
+              :class="
+                animate(
+                  4,
+                  'opacity-0 translate-x-[-42px]',
+                  'opacity-100 translate-x-[0px]'
+                )
+              "
+            >
+              <h1 class="text-3xl md:text-5xl mb-4">Jasna Ostojich</h1>
+              <p class="mb-2 text-lg md:text-xl">
+                Founder & Executive President
+              </p>
+              <div class="flex flex-col mt-4">
                 <a
-                  class="hoverable underline"
+                  class="hoverable underline flex items-center gap-4"
                   href="mailto:info@cafebellas.com"
                 >
-                  <span class="hoverable">info@cafebellas.com</span>
+                  <Icon name="mail" />
+                  <span class="hoverable opacity-60">info@cafebellas.com</span>
                 </a>
-                <span class="font-bold">·</span>
-                <p class="my-2">847.922.0061</p>
+                <span class="font-bold flex items-center justify-start gap-4">
+                  <Icon name="phone" />
+                  <a
+                    href="tel:+18479220061"
+                    class="my-2 underline hoverable opacity-60 font-normal"
+                  >
+                    +1 (847) 922 0061
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -811,9 +924,13 @@
                   : 'opacity-100'
               "
             >
-              <div class="flex items-center w-full justify-between px-16">
-                <div class="w-full h-[120px] flex items-center">
-                  <span class="opacity-50">
+              <div
+                class="flex items-center w-full justify-between px-16 text-sm"
+              >
+                <div
+                  class="w-full h-[120px] flex items-center justify-center md:justify-start flex-col md:flex-row"
+                >
+                  <span class="opacity-30 md:opacity-30">
                     3D Renders by
                     <a
                       class="underline hoverable"
@@ -822,8 +939,12 @@
                       Lawan Alade-Fa
                     </a>
                   </span>
-                  &nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
-                  <span class="opacity-50">
+                  <span v-if="!isMobile">&nbsp;&nbsp;&nbsp;</span>
+                  <span v-if="!isMobile" class="opacity-30 md:opacity-50">
+                    |
+                  </span>
+                  <span v-if="!isMobile">&nbsp;&nbsp;&nbsp;</span>
+                  <span class="opacity-30 md:opacity-30">
                     Web Design by
                     <a class="underline hoverable" href="https://trentbrew.com">
                       Trent Brew

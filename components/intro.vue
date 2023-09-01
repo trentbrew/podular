@@ -1,11 +1,7 @@
 <script setup>
   const emit = defineEmits(['ready'])
 
-  const isMobile = () => {
-    if (typeof window !== 'undefined') {
-      return window.innerWidth < 768
-    }
-  }
+  const isMobile = window.innerWidth < 768
 
   const props = defineProps({
     skip: {
@@ -168,7 +164,6 @@
       transform: scale(0.24);
       left: -24px;
       top: -30px;
-      // filter: invert(1);
     }
   }
 

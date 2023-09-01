@@ -42,21 +42,22 @@
 
 - [x] enable mobile scrolling
 - [x] enable keyboard scrolling
-- [ ] remove custom cursor
-- [ ] reduce font size
+- [x] remove custom cursor
+- [ ] reduce font sizes
 
 `INTRO`
 
-- [ ] adjust logo sizing
+- [ ] adjust logo transition sizing
 
 `MENU`
 
-- [ ] center list items
+- [x] fit navbar to screen
+- [ ] replace wordmark with hamburger
+- [ ] add nav dropdown
 
 `HOME PAGE`
 
-- [ ] center text
-- [ ] shrink landing logo
+- [x] shrink landing logo
 - [ ] use vertical render (check with Lawan)
 
 `ABOUT PAGE`

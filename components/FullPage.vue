@@ -36,6 +36,7 @@
 
   // TOUCH EVENTS
   window.addEventListener('touchstart', event => {
+    if (state.isScrolling || props.disable) return
     state.touchStartY = event.touches[0].clientY
   })
   window.addEventListener('touchend', event => {
@@ -74,12 +75,13 @@
   }
 
   function scrollToSection(index) {
+    if (state.isScrolling || props.disable) return
+    let startTimestamp = null
     const targetSection = state.sections[index]
     const targetPosition = targetSection.offsetTop
     const startPosition = window.pageYOffset
     const distance = targetPosition - startPosition
     const duration = props.duration
-    let startTimestamp = null
 
     const scrollStep = timestamp => {
       if (!startTimestamp) startTimestamp = timestamp
