@@ -630,10 +630,11 @@
             </div>
             <div
               id="wordmark"
+              style="transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1)"
               class="absolute duration-[1.5s]"
               :class="
                 state.active > 0
-                  ? 'top-[0vh] opacity-0 scale-[0.7]'
+                  ? 'top-[-24vh] opacity-0 scale-[0.7]'
                   : 'top-[24vh] opacity-100 scale-[1]'
               "
             >
@@ -831,7 +832,7 @@
         <!-- CONTACT PAGE -->
         <section
           id="contact"
-          class="bg-black/40 backdrop-blur backdrop-saturate-150 text-white"
+          class="bg-black/40 backdrop-blur-md backdrop-saturate-150 text-white"
           :class="overlay()"
         >
           <div
@@ -839,8 +840,8 @@
           >
             <div>
               <div
-                class="absolute z-[-1] translate-x-[-143px] translate-y-[-145px] duration-[3s] delay-[2.5s]"
-                :class="animate(4, 'opacity-0', 'opacity-[0.075]')"
+                class="absolute z-[-1] translate-x-[-143px] translate-y-[-145px] duration-[8s] delay-[1.4s]"
+                :class="animate(4, 'opacity-0', 'opacity-[0.036]')"
               >
                 <svg
                   width="500"
@@ -872,14 +873,14 @@
               <img
                 src="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/51arrah30qe27ve/contact_YOiKby9Gwc.png?token="
                 alt="Jasna Ostojich"
-                class="rounded-full object-cover w-[160px] h-[160px] border-2 border-white/10 md:text-left duration-[1s] delay-[1s]"
+                class="rounded-full object-cover w-[160px] h-[160px] border-2 border-white/10 md:text-left duration-[1.5s] delay-[1.4s]"
                 :class="
                   animate(4, 'opacity-0 scale-[0.9]', 'opacity-100 scale-[1]')
                 "
               />
             </div>
             <div
-              class="duration-[1.5s] delay-[1.7s]"
+              class="duration-[1.5s] delay-[1.8s]"
               :class="
                 animate(
                   4,
