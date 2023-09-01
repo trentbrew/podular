@@ -64,12 +64,12 @@
           'Each Podular pod provides an accessible easy-to-move entry/exit section.',
         coordinates: [49, 16],
       },
-      {
-        id: 'wheels',
-        title: 'Wheels',
-        category: 'features',
-        coordinates: [44, 24],
-      },
+      // {
+      //   id: 'wheels',
+      //   title: 'Wheels',
+      //   category: 'features',
+      //   coordinates: [44, 24],
+      // },
       {
         id: 'led',
         title: 'LED',
@@ -318,12 +318,12 @@
 
     <div class="w-full fixed top-0 left-0 p-8 z-[40]">
       <div
-        class="w-full flex justify-between items-center px-[16px] bg-white rounded-[80px]"
+        class="w-full flex justify-between items-center px-[12px] bg-white rounded-[80px]"
       >
         <div @click="goTo('home')" class="w-10 h-10 hoverable"></div>
         <ul
           id="nav"
-          class="pl-6 duration-[1s] text-xl w-full h-[72px] z-[20] flex gap-6 items-center justify-center"
+          class="pl-6 duration-[1s] text-xl w-full h-[72px] z-[20] flex gap-[28px] items-center justify-center"
         >
           <li
             :class="
@@ -377,10 +377,14 @@
         <div class="min-w-fit">
           <a
             href="#"
-            class="hoverable text-lg text-white bg-black rounded-full px-4 py-3 hover:bg-white hover:text-black duration-[300ms]"
+            class="hoverable font-bold text-white bg-black flex items-center justify-center gap-1 rounded-full pr-4 pl-6 py-3 hover:bg-white hover:text-black duration-[300ms] border-2 border-black"
             style="animation-delay: 0.8s"
           >
-            preorder
+            <span class="hoverable">pre-order</span>
+            <Icon
+              class="hoverable pointer-events-none"
+              name="arrow_alt_right"
+            />
           </a>
         </div>
       </div>
@@ -612,7 +616,7 @@
                   @click="goTo('features')"
                   class="hoverable flex gap-2 items-center w-fit bg-white font-bold text-xl text-black py-4 px-6 mt-6 rounded-full hover:bg-black hover:text-white border-2 border-white duration-[200ms]"
                 >
-                  <Icon name="arrow_down" />
+                  <!-- <Icon name="arrow_down" /> -->
                   explore features
                 </button>
               </div>
@@ -720,7 +724,6 @@
   .active-link {
     transition: 400ms;
     color: black !important;
-    font-weight: bold;
   }
 
   .inactive-link {
