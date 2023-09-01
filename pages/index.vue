@@ -831,7 +831,7 @@
         <!-- CONTACT PAGE -->
         <section
           id="contact"
-          class="bg-black/25 backdrop-blur text-white"
+          class="bg-black/40 backdrop-blur backdrop-saturate-150 text-white"
           :class="overlay()"
         >
           <div
@@ -839,7 +839,8 @@
           >
             <div>
               <div
-                class="absolute z-[-1] translate-x-[-143px] translate-y-[-145px] opacity-[0.036]"
+                class="absolute z-[-1] translate-x-[-143px] translate-y-[-145px] duration-[3s] delay-[2.5s]"
+                :class="animate(4, 'opacity-0', 'opacity-[0.075]')"
               >
                 <svg
                   width="500"
