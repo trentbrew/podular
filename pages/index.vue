@@ -106,7 +106,7 @@
   }
 
   const state = reactive({
-    skipIntro: true,
+    skipIntro: false,
     ready: false,
     active: 0,
     progress: 0,
@@ -318,25 +318,13 @@
 
     <div class="w-full fixed top-0 left-0 p-8 z-[40]">
       <div
-        class="w-full flex justify-between items-center px-[20px] bg-white rounded-[80px]"
+        class="w-full flex justify-between items-center px-[16px] bg-white rounded-[80px]"
       >
         <div @click="goTo('home')" class="w-10 h-10 hoverable"></div>
         <ul
           id="nav"
           class="pl-6 duration-[1s] text-xl w-full h-[72px] z-[20] flex gap-6 items-center justify-center"
         >
-          <!-- <li
-            :class="
-              state.active == 0 && !state.menu.lock
-                ? 'active-link'
-                : 'inactive-link'
-            "
-            @click="goTo('home')"
-            class="hoverable menu-item"
-            style="animation-delay: 0.3s"
-          >
-            home
-          </li> -->
           <li
             :class="
               state.active == 1 && !state.menu.lock
@@ -389,7 +377,7 @@
         <div class="min-w-fit">
           <a
             href="#"
-            class="hoverable menu-item text-white bg-black rounded-full px-4 py-3"
+            class="hoverable text-lg text-white bg-black rounded-full px-4 py-3 hover:bg-white hover:text-black duration-[300ms]"
             style="animation-delay: 0.8s"
           >
             preorder
@@ -726,13 +714,13 @@
   }
 
   .active-link {
-    transition: 500ms;
+    transition: 400ms;
     color: black !important;
     font-weight: bold;
   }
 
   .inactive-link {
-    transition: 500ms;
+    transition: 400ms;
     color: rgba(black, 0.3);
   }
 
