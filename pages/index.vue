@@ -786,13 +786,14 @@
         <!-- FEATURES PAGE -->
         <section
           id="features"
+          class="bg-black md:bg-transparent"
           :class="
             overlay() + state.active != 2
               ? ' brightness-[0.3]'
               : ' brightness-1'
           "
         >
-          <div class="w-full h-full absolute duration-[2s]">
+          <div v-if="!isMobile" class="w-full h-full absolute duration-[2s]">
             <Pannable
               @ping="openLightbox"
               :pings="pings.features"
@@ -801,17 +802,19 @@
               image="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_ao5Xejz8S5.jpg?token="
             />
           </div>
+          <div v-else>features mobile</div>
         </section>
         <!-- SHOWROOM PAGE -->
         <section
           id="showroom"
+          class="bg-black md:bg-transparent"
           :class="
             overlay() + state.active != 3
               ? ' brightness-[0.3]'
               : ' brightness-1'
           "
         >
-          <div class="w-full h-full absolute">
+          <div v-if="!isMobile" class="w-full h-full absolute">
             <Pannable
               @ping="openLightbox"
               :pings="pings.showroom"
@@ -832,6 +835,7 @@
               </div>
             </div>
           </div>
+          <div v-else>showroom mobile</div>
         </section>
         <!-- CONTACT PAGE -->
         <section

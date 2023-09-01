@@ -62,7 +62,7 @@
 
 `ABOUT PAGE`
 
-- [ ] reduce margins & padding
+- [x] reduce margins & padding
 - [x] fullscreen background image
 
 `FEATURES`
