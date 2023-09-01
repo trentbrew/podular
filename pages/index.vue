@@ -2,6 +2,12 @@
   const router = useRouter()
   const route = useRoute()
 
+  const isMobile = () => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768
+    }
+  }
+
   const pingCategory = computed(() => {
     return route.hash?.split('_')[0].substring(1) ?? ''
   })
@@ -106,7 +112,7 @@
   }
 
   const state = reactive({
-    skipIntro: false,
+    skipIntro: true,
     ready: false,
     active: 0,
     progress: 0,
@@ -259,7 +265,7 @@
 
 <template>
   <div @mousemove="handleMouseMove">
-    <Cursor />
+    <Cursor v-if="!isMobile" />
 
     <!-- INTRO -------------------------------------------------------------->
 
@@ -314,7 +320,7 @@
       ></div>
     </div>
 
-    <!-- MENU -------------------------------------------------------------->
+    <!-- NAVIGATION -------------------------------------------------------------->
 
     <div class="fixed top-0 left-0 z-[40] p-0 w-full">
       <div
@@ -325,8 +331,13 @@
             : 'bg-transparent border-transparent'
         "
       >
-        <div class="navbar-start">
-          <a class="btn btn-ghost normal-case text-xl"></a>
+        <div class="navbar-start pl-[64px]">
+          <a
+            class="duration-500 text-2xl text-white podular-sans translate-y-[-1px]"
+            :class="state.active > 0 ? 'opacity-1' : 'opacity-0 -translate-x-2'"
+          >
+            podular
+          </a>
         </div>
         <div class="navbar-center hidden lg:flex">
           <ul
@@ -506,7 +517,7 @@
     <!-- MAIN -------------------------------------------------------------->
 
     <div
-      class="fixed bottom-12 right-16 z-[100] flex items-center gap-4 duration-[1.2s] text-white"
+      class="fixed bottom-12 right-16 z-[100] flex items-center gap-4 duration-[600ms] text-white"
       :class="[0, 2, 3].includes(state.active) ? 'opacity-0' : 'opacity-1'"
     >
       <a class="hoverable hover:opacity-100 opacity-50" href="#">
@@ -780,8 +791,8 @@
             />
             <div>
               <h1 class="text-5xl mb-4">Jasna Ostojich</h1>
-              <P class="mb-2 text-2xl">Founder & Executive President</P>
-              <div class="flex items-center gap-4 text-lg">
+              <P class="mb-2 text-xl">Founder & Executive President</P>
+              <div class="flex items-center gap-4">
                 <a
                   class="hoverable underline"
                   href="mailto:info@cafebellas.com"
@@ -789,7 +800,7 @@
                   <span class="hoverable">info@cafebellas.com</span>
                 </a>
                 <span class="font-bold">·</span>
-                <p class="my-3">847.922.0061</p>
+                <p class="my-2">847.922.0061</p>
               </div>
             </div>
             <div
@@ -869,6 +880,7 @@
   .active-link {
     transition: 400ms;
     color: white !important;
+    // border-bottom: white 1px solid;
   }
 
   .link-indicator {

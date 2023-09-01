@@ -1,6 +1,12 @@
 <script setup>
   const emit = defineEmits(['ready'])
 
+  const isMobile = () => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768
+    }
+  }
+
   const props = defineProps({
     skip: {
       type: Boolean,

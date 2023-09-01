@@ -41,7 +41,7 @@
   window.addEventListener('touchend', event => {
     if (state.isScrolling || props.disable) return
     state.touchEndY = event.changedTouches[0].clientY
-    const delta = state.touchEndY - state.touchStartY
+    const delta = state.touchStartY - state.touchEndY
     handleScroll(delta)
   })
 
