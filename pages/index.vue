@@ -106,7 +106,7 @@
   }
 
   const state = reactive({
-    skipIntro: true,
+    skipIntro: false,
     ready: false,
     active: 0,
     progress: 0,
@@ -317,20 +317,28 @@
     <!-- MENU -------------------------------------------------------------->
 
     <div id="nav" class="w-full fixed top-0 left-0 p-8 z-[40]">
-      <div class="w-full flex justify-between items-center rounded-full">
-        <div @click="goTo('home')" class="w-28 h-20 hoverable"></div>
+      <div class="w-full flex items-center justify-between rounded-full pr-4">
         <div class="flex items-center">
           <div
-            class="flex gap-8 px-10 py-4 mr-3 duration-[1.2s] rounded-full backdrop-blur-2xl backdrop-saturate-100"
-            :class="
-              [1, 3].includes(state.active)
-                ? 'bg-white/0 border-[1.5px] border-white/[0.2]'
-                : 'bg-transparent border-[1.5px] border-white/[0.2]'
-            "
+            class="flex gap-8 px-10 pl-6 py-4 mr-3 rounded-full bg-black/[0.1] backdrop-blur-3xl backdrop-saturate-150 border-[1.5px] border-white/[0.15]"
           >
+            <div @click="goTo('home')" class="w-10 h-10 hoverable"></div>
             <ul
               class="duration-[1s] text-lg w-full z-[20] flex gap-[28px] items-center justify-center left-0 top-[58px]"
             >
+              <li
+                :class="
+                  state.active == 0 && !state.menu.lock
+                    ? 'active-link'
+                    : 'inactive-link'
+                "
+                @click="goTo('home')"
+                class="hoverable menu-item"
+                style="animation-delay: 0.4s"
+              >
+                home
+                <div class="link-indicator"></div>
+              </li>
               <li
                 :class="
                   state.active == 1 && !state.menu.lock
@@ -386,19 +394,30 @@
             </ul>
           </div>
         </div>
-        <!-- <div class="min-w-fit">
+        <div class="min-w-fit">
           <a
             href="#"
-            class="invert hoverable font-bold text-white bg-black flex items-center justify-center gap-1 rounded-full pr-4 pl-6 py-3 hover:bg-white hover:text-black duration-[300ms] border-2 border-black"
+            class="hoverable font-bold text-black bg-white flex items-center justify-center gap-3 rounded-full py-4 px-6 pl-8 pr-8 hover:bg-transparent hover:text-white border-[1.5px] border-white duration-[300ms]"
             style="animation-delay: 0.8s"
           >
+            <!-- <Icon name="arrow_alt_right" class="pointer-events-none" /> -->
             <span class="hoverable">pre-order</span>
-            <Icon
-              class="hoverable pointer-events-none"
-              name="arrow_alt_right"
-            />
           </a>
-        </div> -->
+          <!-- <div class="flex items-center gap-4 text-white">
+            <a class="hoverable hover:opacity-100" href="#">
+              <Icon class="pointer-events-none" name="instagram" />
+            </a>
+            <a class="hoverable hover:opacity-100" href="#">
+              <Icon class="pointer-events-none" name="facebook_alt" />
+            </a>
+            <a class="hoverable hover:opacity-100" href="#">
+              <Icon class="pointer-events-none" name="twitter" />
+            </a>
+            <a class="hoverable hover:opacity-100" href="#">
+              <Icon class="pointer-events-none" name="linkedin" />
+            </a>
+          </div> -->
+        </div>
       </div>
     </div>
 
@@ -566,11 +585,11 @@
                 )
               "
             >
-              <div class="font-bold text-5xl text-white mb-6 podular-sans">
+              <div class="font-bold text-4xl text-white mb-6 podular-sans">
                 the perfect space solution
               </div>
-              <div class="flex flex-col gap-3 text-white">
-                <span class="text-lg max-w-[60vw] opacity-50">
+              <div class="flex flex-col gap-3 text-white w-full">
+                <span class="text-lg max-w-[45vw] opacity-50">
                   Podular presents a stylish and personalized modular pod,
                   offering swift and uncomplicated spatial solutions that
                   elevate the customer and employee experience in the food and
@@ -578,9 +597,12 @@
                 </span>
                 <button
                   @click="goTo('features')"
-                  class="hoverable flex gap-2 items-center w-fit bg-white font-bold text-black py-4 px-6 mt-6 rounded-full hover:bg-black hover:text-white border-2 border-white duration-[200ms]"
+                  class="hoverable font-bold flex gap-2 items-center w-fit bg-white text-black hover:bg-transparent py-4 px-6 pr-8 mt-6 rounded-full hover:border-white hover:text-white duration-[300ms] border-[1.5px] border-white"
                 >
-                  <!-- <Icon name="arrow_down" /> -->
+                  <Icon
+                    class="animate-bounce pointer-events-none"
+                    name="arrow_alt_down"
+                  />
                   explore features
                 </button>
               </div>
@@ -640,7 +662,7 @@
         <!-- CONTACT PAGE -->
         <section
           id="contact"
-          class="bg-black/50 backdrop-blur-lg text-white"
+          class="bg-black/40 backdrop-blur-lg text-white"
           :class="overlay()"
         >
           <Profile />
@@ -694,7 +716,7 @@
   }
 
   .link-indicator {
-    @apply w-[0%] duration-[1.2s] bg-white h-[1.5px] translate-y-[16px];
+    @apply w-[0%] duration-[1.2s] bg-white h-[1.5px] translate-y-[22px];
   }
 
   .active-link .link-indicator {
