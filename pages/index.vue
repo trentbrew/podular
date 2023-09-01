@@ -320,7 +320,7 @@
       <div class="w-full flex items-center justify-between rounded-full pr-4">
         <div class="flex items-center">
           <div
-            class="flex gap-8 px-10 pl-6 py-4 mr-3 rounded-full bg-black/[0.1] backdrop-blur-3xl backdrop-saturate-150 border-[1.5px] border-white/[0.15]"
+            class="flex gap-8 px-10 pl-6 py-4 mr-3 rounded-full bg-black/[0.2] backdrop-blur-3xl backdrop-saturate-150 border-[1.5px] border-white/[0.15]"
           >
             <div @click="goTo('home')" class="w-10 h-10 hoverable"></div>
             <ul
@@ -427,7 +427,26 @@
 
     <!-- MAIN -------------------------------------------------------------->
 
+    <div
+      class="fixed bottom-12 right-16 z-[100] flex items-center gap-4 duration-[1.2s] text-white"
+      :class="[0, 2, 3].includes(state.active) ? 'opacity-0' : 'opacity-1'"
+    >
+      <a class="hoverable hover:opacity-100 opacity-50" href="#">
+        <Icon class="pointer-events-none" name="instagram" />
+      </a>
+      <a class="hoverable hover:opacity-100 opacity-50" href="#">
+        <Icon class="pointer-events-none" name="facebook_alt" />
+      </a>
+      <a class="hoverable hover:opacity-100 opacity-50" href="#">
+        <Icon class="pointer-events-none" name="twitter" />
+      </a>
+      <a class="hoverable hover:opacity-100 opacity-50" href="#">
+        <Icon class="pointer-events-none" name="linkedin" />
+      </a>
+    </div>
+
     <main
+      class="bg-transparent"
       v-scroll="handleScroll"
       style="transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1)"
     >
@@ -467,7 +486,15 @@
                 class="animate-bounce pointer-events-none"
               />
             </div>
-            <div id="wordmark" class="absolute hidden">
+            <div
+              id="wordmark"
+              class="absolute duration-[1.5s]"
+              :class="
+                state.active > 0
+                  ? 'top-[0vh] opacity-0 scale-[0.7]'
+                  : 'top-[24vh] opacity-1 scale-[1]'
+              "
+            >
               <svg
                 width="500"
                 viewBox="0 0 2835 726"
@@ -595,7 +622,7 @@
                   elevate the customer and employee experience in the food and
                   beverage industry.
                 </span>
-                <button
+                <!-- <button
                   @click="goTo('features')"
                   class="hoverable font-bold flex gap-2 items-center w-fit bg-white text-black hover:bg-transparent py-4 px-6 pr-8 mt-6 rounded-full hover:border-white hover:text-white duration-[300ms] border-[1.5px] border-white"
                 >
@@ -604,7 +631,7 @@
                     name="arrow_alt_down"
                   />
                   explore features
-                </button>
+                </button> -->
               </div>
             </div>
           </div>
@@ -716,7 +743,7 @@
   }
 
   .link-indicator {
-    @apply w-[0%] duration-[1.2s] bg-white h-[1.5px] translate-y-[22px];
+    @apply w-[0%] duration-[800ms] bg-white h-[1.5px] translate-y-[22px];
   }
 
   .active-link .link-indicator {
@@ -740,7 +767,7 @@
   }
 
   .inactive-link:hover {
-    color: black;
+    color: white;
   }
 
   #feat-list > div {

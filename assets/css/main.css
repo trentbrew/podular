@@ -21,7 +21,6 @@
 body {
   scroll-behavior: smooth;
   box-sizing: border-box;
-  background: black;
   /* cursor: none; */
 }
 
