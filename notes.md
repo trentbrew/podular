@@ -6,15 +6,12 @@
 
 - [ ] replace logo scroll transition with separate fixed img
 - [ ] replace progress bar with section indicator
+- [x] skippable intro
 
 `MENU`
 
 - [ ] toggle menu on click instead of hover 🟡
 - [ ] move menu toggle to top right
-
-`HOME PAGE`
-
-- [x] ...
 
 `ABOUT PAGE`
 

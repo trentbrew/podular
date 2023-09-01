@@ -65,8 +65,8 @@
         coordinates: [49, 16],
       },
       {
-        id: 'latch',
-        title: 'Latch',
+        id: 'wheels',
+        title: 'Wheels',
         category: 'features',
         coordinates: [44, 24],
       },
@@ -93,15 +93,13 @@
         title: 'Access',
         category: 'showroom',
         description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
+          'Each Podular pod provides an accessible easy-to-move entry/exit section.',
         coordinates: [15, 18],
       },
       {
         id: 'electrical',
         title: 'Electrical',
         category: 'showroom',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae diam euismod, aliquam odio vitae, ultricies nisl. Nulla facilisi. Sed euismod, nisl quis aliquet ultricies, nisl nisl aliquam odio, vitae ultricies nisl nisl vitae diam.',
         coordinates: [36, 20],
       },
     ],
@@ -186,46 +184,52 @@
     else return inactive
   }
 
+  const eagerMenu = computed(() => {
+    // return (state.menu.hover) && !state.menu.clicked
+    return false
+  })
+
   const activeMenu = computed(() => {
-    return state.menu.hover || state.menu.ghostHover
+    // return (state.menu.hover || state.menu.ghostHover) && state.menu.clicked
+    return false
   })
 
   function handleMenuMouseOver(e) {
-    state.menu.hover = true
+    // state.menu.hover = true
   }
 
   function handleMenuMouseLeave() {
-    if (state.menu.ghostHover) return
-    state.menu.hover = false
+    // if (activeMenu) return
+    // state.menu.hover = false
   }
 
   function handleMouseMove(e) {
-    if (state.ready) {
-      if ([2, 3].includes(state.active)) {
-        if (
-          e.clientX > window.innerWidth - state.menu.zone[0] &&
-          e.clientY > window.innerHeight - state.menu.zone[1]
-        ) {
-          state.menu.zone = [window.innerWidth / 2, window.innerHeight]
-          state.menu.lock = false
-        } else {
-          state.menu.zone = [160, 160]
-          state.menu.lock = true
-        }
-      }
-    }
+    // if (state.ready) {
+    //   if (/*[2, 3].includes(state.active)*/true) {
+    //     if (
+    //       e.clientX > window.innerWidth - state.menu.zone[0] &&
+    //       e.clientY > window.innerHeight - state.menu.zone[1]
+    //     ) {
+    //       // state.menu.zone = [window.innerWidth / 2, window.innerHeight]
+    //       // state.menu.lock = false
+    //     } else {
+    //       // state.menu.zone = [160, 160]
+    //       // state.menu.lock = true
+    //     }
+    //   }
+    // }
   }
 
   function handleMenuClick(e) {
-    console.log('clicked menu', e)
+    // state.menu.clicked = !state.menu.clicked
   }
 
   function closeMenu() {
-    state.menu.zone = [160, 160]
-    state.menu.lock = true
-    setTimeout(() => {
-      state.menu.lock = false
-    }, 600)
+    // state.menu.zone = [160, 160]
+    // state.menu.lock = true
+    // setTimeout(() => {
+    //   state.menu.lock = false
+    // }, 600)
   }
 
   function overlay() {
@@ -260,20 +264,7 @@
     <!-- INTRO -------------------------------------------------------------->
 
     <div
-      @click="state.active > 0 ? goTo('home') : () => {}"
-      class="fixed top-0 left-0 origin-top-left z-[50] duration-[1.4s]"
-      :style="`${
-        activeMenu
-          ? 'transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1)'
-          : 'transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1)'
-      }`"
-      :class="`${
-        state.active > 0 || activeMenu
-          ? `scale-[0.4] left-[-130px] top-[-30px] hoverable z-[100] pointer-events-none delay-[0ms] ${
-              state.menu.hover ? '!duration-[1.2s]' : ''
-            }`
-          : ''
-      }`"
+      class="fixed top-0 left-0 origin-top-left z-[50] duration-[1.4s] pointer-events-none"
     >
       <Intro @ready="handleIntroReady" :skip="state.skipIntro" />
     </div>
@@ -325,7 +316,91 @@
 
     <!-- MENU -------------------------------------------------------------->
 
-    <div
+    <div class="w-full fixed top-0 left-0 p-8 z-[40]">
+      <div
+        class="w-full flex justify-between items-center px-[20px] bg-white rounded-[80px]"
+      >
+        <div @click="goTo('home')" class="w-10 h-10 hoverable"></div>
+        <ul
+          id="nav"
+          class="pl-6 duration-[1s] text-xl w-full h-[72px] z-[20] flex gap-6 items-center justify-center"
+        >
+          <!-- <li
+            :class="
+              state.active == 0 && !state.menu.lock
+                ? 'active-link'
+                : 'inactive-link'
+            "
+            @click="goTo('home')"
+            class="hoverable menu-item"
+            style="animation-delay: 0.3s"
+          >
+            home
+          </li> -->
+          <li
+            :class="
+              state.active == 1 && !state.menu.lock
+                ? 'active-link'
+                : 'inactive-link'
+            "
+            @click="goTo('about')"
+            class="hoverable menu-item"
+            style="animation-delay: 0.4s"
+          >
+            about
+          </li>
+          <li
+            :class="
+              state.active == 2 && !state.menu.lock
+                ? 'active-link'
+                : 'inactive-link'
+            "
+            @click="goTo('features')"
+            class="hoverable menu-item"
+            style="animation-delay: 0.5s"
+          >
+            features
+          </li>
+          <li
+            :class="
+              state.active == 3 && !state.menu.lock
+                ? 'active-link'
+                : 'inactive-link'
+            "
+            @click="goTo('showroom')"
+            class="hoverable menu-item"
+            style="animation-delay: 0.6s"
+          >
+            showroom
+          </li>
+          <li
+            :class="
+              state.active == 4 && !state.menu.lock
+                ? 'active-link'
+                : 'inactive-link'
+            "
+            @click="goTo('contact')"
+            class="hoverable menu-item"
+            style="animation-delay: 0.7s"
+          >
+            contact
+          </li>
+        </ul>
+        <div class="min-w-fit">
+          <a
+            href="#"
+            class="hoverable menu-item text-white bg-black rounded-full px-4 py-3"
+            style="animation-delay: 0.8s"
+          >
+            preorder
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- legacy menu -->
+
+    <!-- <div
       id="menu-zone"
       class="w-[50vw] h-screen fixed top-0 right-0 z-50 duration-[1.4s] flex items-center justify-end"
       style="transition: width 0s"
@@ -333,13 +408,14 @@
     >
       <div
         id="menu"
-        @click="handleMenuClick"
         @mouseover="handleMenuMouseOver"
         @mouseleave="handleMenuMouseLeave"
         class="bg-white rounded-full h-[160px] w-[160px] fixed right-[-80px] bottom-[-80px] duration-[1.2s] z-[50]"
         :class="
           !state.ready
             ? 'right-[-200px] bottom-[-200px]'
+            : eagerMenu
+            ? 'scale-[1.5]'
             : activeMenu
             ? 'scale-[10] translate-y-[-50vh]'
             : ''
@@ -347,7 +423,6 @@
         style="transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1)"
       ></div>
       <div
-        @click="closeMenu"
         class="absolute flex justify-center items-center w-[36px] h-[36px] bottom-3 right-3 z-[50] pointer-events-none"
         :class="!state.ready ? 'right-[-200px] bottom-[-200px]' : ''"
       >
@@ -393,7 +468,7 @@
               : 'inactive-link'
           "
           @click="goTo('home')"
-          class="hoverable podular-sans menu-item"
+          class="hoverable menu-item"
           style="animation-delay: 0.3s"
         >
           home
@@ -405,7 +480,7 @@
               : 'inactive-link'
           "
           @click="goTo('about')"
-          class="hoverable podular-sans menu-item"
+          class="hoverable menu-item"
           style="animation-delay: 0.4s"
         >
           about
@@ -417,7 +492,7 @@
               : 'inactive-link'
           "
           @click="goTo('features')"
-          class="hoverable podular-sans menu-item"
+          class="hoverable menu-item"
           style="animation-delay: 0.5s"
         >
           features
@@ -429,7 +504,7 @@
               : 'inactive-link'
           "
           @click="goTo('showroom')"
-          class="hoverable podular-sans menu-item"
+          class="hoverable menu-item"
           style="animation-delay: 0.6s"
         >
           showroom
@@ -441,26 +516,26 @@
               : 'inactive-link'
           "
           @click="goTo('contact')"
-          class="hoverable podular-sans menu-item"
+          class="hoverable menu-item"
           style="animation-delay: 0.7s"
         >
           contact
         </li>
-        <!-- <a href="#">
+        <a href="#">
           <li
             :class="
               state.active == 5 && !state.menu.lock
                 ? 'active-link'
                 : 'inactive-link'
             "
-            class="hoverable podular-sans menu-item"
+            class="hoverable menu-item"
             style="animation-delay: 0.8s"
           >
             preorder
           </li>
-        </a> -->
+        </a>
       </ul>
-    </div>
+    </div> -->
 
     <!-- PANNING -------------------------------------------------------------->
 
@@ -473,7 +548,7 @@
       style="transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1)"
     >
       <!-- PROGRESS -->
-      <div
+      <!-- <div
         v-show="state.ready"
         class="fixed m-auto left-0 top-0 bg-black/50 h-[4px] rounded-full w-screen z-50 flex justify-start"
       >
@@ -481,7 +556,8 @@
           class="bg-white h-full rounded-full"
           :style="`width: ${state.progress}%`"
         ></div>
-      </div>
+      </div> -->
+
       <FullPage
         ref="fullpage"
         @update="handleNewSection"
@@ -525,7 +601,7 @@
             ></div>
             <div
               class="w-[100vw] p-16 pb-12 flex flex-col justify-end items-start duration-[2s]"
-              style="background: linear-gradient(transparent, black)"
+              style="background: linear-gradient(transparent, #000000dd)"
               :class="
                 animate(
                   1,
@@ -538,7 +614,7 @@
                 the perfect space solution
               </div>
               <div class="flex flex-col gap-3 text-white">
-                <span class="text-lg max-w-[50vw] opacity-60">
+                <span class="text-lg max-w-[60vw] opacity-50">
                   Podular presents a stylish and personalized modular pod,
                   offering swift and uncomplicated spatial solutions that
                   elevate the customer and employee experience in the food and
@@ -546,9 +622,10 @@
                 </span>
                 <button
                   @click="goTo('features')"
-                  class="hoverable w-fit bg-white font-bold text-lg text-black py-4 px-6 mt-6 rounded-full hover:bg-black hover:text-white border-2 border-white duration-[200ms]"
+                  class="hoverable flex gap-2 items-center w-fit bg-white font-bold text-xl text-black py-4 px-6 mt-6 rounded-full hover:bg-black hover:text-white border-2 border-white duration-[200ms]"
                 >
-                  Explore features
+                  <Icon name="arrow_down" />
+                  explore features
                 </button>
               </div>
             </div>
@@ -639,8 +716,9 @@
   }
 
   .menu-item {
-    opacity: 0;
-    animation: menu-item-enter 600ms ease forwards;
+    transition: 200ms;
+    // opacity: 0;
+    // animation: menu-item-enter 600ms ease forwards;
   }
 
   section {
@@ -648,23 +726,18 @@
   }
 
   .active-link {
-    @apply text-white flex items-center justify-end;
-  }
-
-  .active-link::before {
-    content: '';
-    position: absolute;
-    height: 80px;
-    width: 550px;
-    border-radius: 200px;
-    background: black;
-    right: -300px;
-    z-index: -1;
-    transition: 300ms;
+    transition: 500ms;
+    color: black !important;
+    font-weight: bold;
   }
 
   .inactive-link {
-    @apply text-black duration-[300ms];
+    transition: 500ms;
+    color: rgba(black, 0.3);
+  }
+
+  .inactive-link:hover {
+    color: black;
   }
 
   #feat-list > div {
