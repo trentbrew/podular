@@ -570,7 +570,7 @@
         <div class="navbar-end pr-2">
           <a
             v-if="!isMobile"
-            class="scale-[1.08] translate-x-[-4px] btn btn-sm btn-disabled bg-white/80 text-gray-500 hover:bg-transparent hover:border-white hoverable border-white/0 border-[1.5px] hover:text-white rounded-full gap-1"
+            class="scale-[1.08] translate-x-[-4px] btn btn-sm bg-white/80 text-black/60 hover:bg-transparent hover:border-white hoverable border-white/0 border-[1.5px] hover:text-white rounded-full gap-1"
           >
             pre-orders coming soon
             <!-- <Icon name="arrow_alt_right" /> -->
@@ -813,7 +813,7 @@
           /> -->
         </section>
         <!-- ABOUT PAGE -->
-        <section id="about" class="flex mt-[100vh]" :class="overlay()">
+        <section id="about" class="flex mt-[100dvh]" :class="overlay()">
           <div
             class="bg-[url('/assets/images/renders/about.jpg')] bg-no-repeat bg-cover bg-fixed duration-[4s] h-screen w-screen flex items-end justify-start"
             :style="parallax(1)"
@@ -829,7 +829,7 @@
                 animate(
                   1,
                   'opacity-0 h-[30vh] delay-[5s]',
-                  'opacity-100 h-[100vh] delay-[1.2s]'
+                  'opacity-100 h-[100dvh] delay-[1.2s]'
                 )
               "
             >
@@ -910,7 +910,7 @@
           </div>
           <div v-else class="w-full h-full">
             <ul
-              class="pt-4 w-full h-[calc(100vh-64px)] mt-[64px] bg-black flex flex-col"
+              class="pt-4 w-full h-[calc(100dvh-64px)] mt-[64px] bg-black flex flex-col"
             >
               <li
                 v-for="(item, itemIndex) in pings.features"
@@ -1003,7 +1003,7 @@
           <!-- mobile -->
           <div v-else class="w-full h-full">
             <ul
-              class="pt-4 w-full h-[calc(100vh-64px)] mt-[64px] bg-black flex flex-col"
+              class="pt-4 w-full h-[calc(100dvh-64px)] mt-[64px] bg-black flex flex-col"
             >
               <li
                 v-for="(item, itemIndex) in pings.showroom"
@@ -1052,7 +1052,7 @@
         <!-- CONTACT PAGE -->
         <section
           id="contact"
-          class="bg-black/40 backdrop-blur-sm backdrop-saturate-150 text-white"
+          class="bg-black/40 backdrop-blur-sm text-white"
           :class="overlay()"
         >
           <div

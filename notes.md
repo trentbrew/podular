@@ -1,13 +1,13 @@
-# 8.31.2023
+# 8.31.
 
 ## Questions for Wan
 
-- [ ] vertical landing page render?
-- [ ] transparent landing page render backdrop?
+- vertical landing page render?
+- transparent landing page render backdrop?
 
 ## Tasks
 
-### DESKTOP
+### [x] DESKTOP
 
 `GENERAL`
 
@@ -34,9 +34,8 @@
 
 - [x] remove background color (reveal landing render)
 - [x] add social media links
-<!-- - [ ] add calendly widget -->
 
-### MOBILE
+### [x] MOBILE
 
 `GENERAL`
 
@@ -58,7 +57,6 @@
 `HOME PAGE`
 
 - [x] shrink landing logo
-- [ ] use vertical render (check with Lawan) 🟡
 
 `ABOUT PAGE`
 
@@ -67,18 +65,16 @@
 
 `FEATURES`
 
-- [ ] display the pings as a list of thumbs
-- [ ] reduce details font size
-- [ ] remove background image (reveal landing render)
+- [x] remove background image
+- [x] display the pings as a list of thumbs
+- [x] reduce details font size
 
 `SHOWROOM`
 
-- [ ] remove background image
-- [ ] display the pings as a list of thumbs
-- [ ] reduce details font size
+- [x] remove background image
+- [x] display the pings as a list of thumbs
+- [x] reduce details font size
 
 `CONTACT`
 
 - [x] center layout
-
-`cubic-bezier(0.25, 1.1, 0.4, 1.1)`
