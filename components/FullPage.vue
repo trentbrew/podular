@@ -219,7 +219,7 @@
     overflow: hidden;
   }
   section {
-    height: 100dvh;
+    height: 100svh;
     width: 100vw;
     display: flex;
     align-items: center;

@@ -813,7 +813,7 @@
           /> -->
         </section>
         <!-- ABOUT PAGE -->
-        <section id="about" class="flex mt-[100dvh]" :class="overlay()">
+        <section id="about" class="flex mt-[100svh]" :class="overlay()">
           <div
             class="bg-[url('/assets/images/renders/about.jpg')] bg-no-repeat bg-cover bg-fixed duration-[4s] h-screen w-screen flex items-end justify-start"
             :style="parallax(1)"
@@ -829,7 +829,7 @@
                 animate(
                   1,
                   'opacity-0 h-[30vh] delay-[5s]',
-                  'opacity-100 h-[100dvh] delay-[1.2s]'
+                  'opacity-100 h-[100svh] delay-[1.2s]'
                 )
               "
             >
@@ -910,7 +910,7 @@
           </div>
           <div v-else class="w-full h-full">
             <ul
-              class="pt-4 w-full h-[calc(100dvh-64px)] mt-[64px] bg-black flex flex-col"
+              class="pt-4 w-full h-[calc(100svh-64px)] mt-[64px] bg-black flex flex-col"
             >
               <li
                 v-for="(item, itemIndex) in pings.features"
@@ -1003,7 +1003,7 @@
           <!-- mobile -->
           <div v-else class="w-full h-full">
             <ul
-              class="pt-4 w-full h-[calc(100dvh-64px)] mt-[64px] bg-black flex flex-col"
+              class="pt-4 w-full h-[calc(100svh-64px)] mt-[64px] bg-black flex flex-col"
             >
               <li
                 v-for="(item, itemIndex) in pings.showroom"
