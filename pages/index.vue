@@ -836,7 +836,7 @@
                 solution
               </div>
 
-              <div class="mt-4 flex flex-col gap-3 text-white w-full">
+              <div class="mt-4 md:mt-0 flex flex-col gap-3 text-white w-full">
                 <span
                   class="md:text-lg md:max-w-[45vw] opacity-50 font-normal text-left text-[16px]"
                 >
