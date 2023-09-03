@@ -460,7 +460,7 @@
           href="#"
           class="btn btn-disabled btn-sm w-full bg-white/90 text-black rounded-full gap-2 font-bold"
         >
-          pre-orders
+          pre-order
           <!-- <Icon name="open" /> -->
         </a>
       </div>
@@ -572,7 +572,7 @@
             v-if="!isMobile"
             class="scale-[1.08] translate-x-[-4px] btn btn-sm bg-white/80 text-black/60 hover:bg-transparent hover:border-white hoverable border-white/0 border-[1.5px] hover:text-white rounded-full gap-1"
           >
-            pre-orders
+            pre-order
             <!-- <Icon name="arrow_alt_right" /> -->
           </a>
           <button
