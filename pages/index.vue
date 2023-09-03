@@ -489,7 +489,7 @@
             <h1 v-if="!isMobile" class="podular-sans">podular</h1>
             <div v-else>
               <h1 v-show="state.active == 0" class="podular-sans"></h1>
-              <h1 v-show="state.active == 1" class="podular-sans">podular</h1>
+              <h1 v-show="state.active == 1" class="podular-sans">about</h1>
               <h1 v-show="state.active == 2" class="podular-sans">features</h1>
               <h1 v-show="state.active == 3" class="podular-sans">showroom</h1>
               <h1 v-show="state.active == 4" class="podular-sans">contact</h1>
