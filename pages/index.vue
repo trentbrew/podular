@@ -488,7 +488,7 @@
           >
             <h1 v-if="!isMobile" class="podular-sans">podular</h1>
             <div v-else>
-              <h1 v-show="state.active == 0" class="podular-sans">podular</h1>
+              <h1 v-show="state.active == 0" class="podular-sans"></h1>
               <h1 v-show="state.active == 1" class="podular-sans">podular</h1>
               <h1 v-show="state.active == 2" class="podular-sans">features</h1>
               <h1 v-show="state.active == 3" class="podular-sans">showroom</h1>
@@ -641,7 +641,7 @@
         :lock="!state.ready || state.menu.mobile.active"
         ease="easeInOutCubic"
       >
-        <!-- LANDING PAGE -->
+        <!-- LANDING PAGE -------------------------->
 
         <button
           v-if="!isMobile"
@@ -676,28 +676,13 @@
               />
             </div>
 
-            <!-- <div class="w-full p-4">
-              <button
-                @click="goTo('features')"
-                class="md:absolute md:bottom-8 md:right-8 hoverable justify-center flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-1 px-4 pr-6 mt-8 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"
-              >
-                <Icon
-                  class="hoverable animate-bounce pointer-events-none md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
-                  name="arrow_alt_down"
-                />
-                <span class="hoverable pointer-events-none">
-                  discover podular
-                </span>
-              </button>
-            </div> -->
-
             <!-- wordmark -->
             <div
               id="wordmark"
               style="transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1)"
               class="absolute duration-[1.5s]"
               :class="
-                state.active > 0 || isMobile
+                state.active > 0
                   ? 'top-[-24vh] opacity-0 scale-[0.7]'
                   : 'top-[32vh] md:top-[24vh] opacity-100 scale-[1.25] md:scale-[1]'
               "
@@ -802,7 +787,7 @@
           />
         </section>
 
-        <!-- ABOUT PAGE -->
+        <!-- ABOUT PAGE -------------------------->
 
         <section id="about" class="flex mt-[100vh]" :class="overlay()">
           <div
@@ -813,6 +798,7 @@
             <div
               class="absolute w-screen h-screen backdrop-brightness-[0.75] z-[-1]"
             ></div>
+
             <div
               class="w-[100vw] p-8 md:p-12 pb-6 md:pb-12 flex flex-col justify-end items-start duration-[2s]"
               style="background: linear-gradient(transparent, #000000ee)"
@@ -876,7 +862,9 @@
             </div>
           </div>
         </section>
-        <!-- FEATURES PAGE -->
+
+        <!-- FEATURES PAGE -------------------------->
+
         <section
           id="features"
           class="bg-black md:bg-transparent"
@@ -965,7 +953,9 @@
             </ul>
           </div>
         </section>
+
         <!-- SHOWROOM PAGE -->
+
         <section
           id="showroom"
           class="bg-black md:bg-transparent"
@@ -1059,7 +1049,9 @@
             </ul>
           </div>
         </section>
+
         <!-- CONTACT PAGE -->
+
         <section
           id="contact"
           class="bg-black/40 backdrop-blur-sm text-white"
