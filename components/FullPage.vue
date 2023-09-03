@@ -12,11 +12,17 @@
       type: String,
       default: 'easeInOutQuart',
     },
+    lock: {
+      type: Boolean,
+      default: false,
+    },
     disable: {
       type: Boolean,
       default: false,
     },
   })
+
+  console.log('disabled?', props.disable)
 
   const state = reactive({
     sections: [],
@@ -48,20 +54,23 @@
   )
 
   // WHEEL EVENTS
+
   window.addEventListener('wheel', event => {
     state.wheel = event
-    if (state.isScrolling || props.disable || state.breaking) return
+    if (state.isScrolling || props.lock || state.breaking) return
     const delta = Math.sign(event.deltaY)
     handleScroll(delta)
   })
 
   // TOUCH EVENTS
+
   window.addEventListener('touchstart', event => {
-    if (state.isScrolling || props.disable) return
+    if (state.isScrolling || props.lock) return
     state.touchStartY = event.touches[0].clientY
   })
+
   window.addEventListener('touchend', event => {
-    if (state.isScrolling || props.disable) return
+    if (state.isScrolling || props.lock) return
     const threshold = 25
     state.touchEndY = event.changedTouches[0].clientY
     const delta = state.touchStartY - state.touchEndY
@@ -69,13 +78,15 @@
   })
 
   // KEYBOARD EVENTS
+
   window.addEventListener('keydown', event => {
-    if (state.isScrolling || props.disable) return
+    if (state.isScrolling || props.lock) return
     if (event.key === 'ArrowDown') handleScroll(1)
     else if (event.key === 'ArrowUp') handleScroll(-1)
   })
 
   // HANDLERS
+
   function handleScroll(delta) {
     if (delta > 0 && state.currentSection < state.sections.length - 1) {
       emit('update', {
@@ -95,7 +106,7 @@
   }
 
   function scrollToSection(index) {
-    if (state.isScrolling || props.disable) return
+    if (state.isScrolling) return
     let startTimestamp = null
     const targetSection = state.sections[index]
     const targetPosition = targetSection.offsetTop
@@ -219,7 +230,7 @@
     overflow: hidden;
   }
   section {
-    height: 100svh;
+    height: 100vh;
     width: 100vw;
     display: flex;
     align-items: center;

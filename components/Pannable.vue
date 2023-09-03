@@ -160,7 +160,7 @@
 <style>
   .wrapper {
     width: 100%;
-    height: 100svh;
+    height: 100vh;
   }
 
   .tiles {

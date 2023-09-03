@@ -458,9 +458,9 @@
       <div class="w-full p-6 box-border mt-auto font-bold">
         <a
           href="#"
-          class="btn w-full bg-white/90 text-black rounded-full text-2xl gap-2 podular-sans"
+          class="btn btn-disabled btn-sm w-full bg-white/90 text-black rounded-full gap-2 font-bold"
         >
-          pre-order
+          pre-orders coming soon
           <!-- <Icon name="open" /> -->
         </a>
       </div>
@@ -590,14 +590,10 @@
       </div>
     </div>
 
-    <!-- PANNING -------------------------------------------------------------->
-
-    <!-- <div class="h-screen w-full fixed left-0 top-0"></div> -->
-
     <!-- MAIN -------------------------------------------------------------->
 
     <div
-      class="fixed bottom-[24vh] left-0 justify-center md:justify-end md:bottom-12 md:right-16 md:left-auto z-[100] flex items-center gap-4 duration-[600ms] text-white w-full md:w-fit delay-[400ms]"
+      class="fixed bottom-[21vh] left-0 justify-center md:justify-end md:bottom-12 md:right-16 md:left-auto z-[100] flex items-center gap-8 duration-[600ms] text-white w-full md:w-fit delay-[400ms] scale-[0.7]"
       :class="
         (isMobile ? [0, 1, 2, 3] : [0, 1, 2, 3]).includes(state.active)
           ? 'opacity-0 pointer-events-none'
@@ -625,7 +621,7 @@
     >
       <!-- PROGRESS -->
 
-      <div
+      <!-- <div
         v-show="state.ready && isMobile && state.active > 0"
         class="fixed m-auto left-0 top-[0px] bg-transparent h-[1px] rounded-full w-screen z-50 flex justify-start duration-[2s]"
         :class="state.progress >= 95 ? 'opacity-0' : 'opacity-1'"
@@ -634,7 +630,7 @@
           class="bg-white h-full rounded-full"
           :style="`width: ${state.progress}%`"
         ></div>
-      </div>
+      </div> -->
 
       <!-- PAGES -->
 
@@ -642,10 +638,11 @@
         ref="fullpage"
         @update="handleNewSection"
         :duration="1200"
-        :disable="!state.ready || state.menu.mobile.active"
+        :lock="!state.ready || state.menu.mobile.active"
         ease="easeInOutCubic"
       >
         <!-- LANDING PAGE -->
+
         <button
           v-if="!isMobile"
           @click="goTo('about')"
@@ -656,6 +653,7 @@
             name="arrow_alt_down"
           />
         </button>
+
         <section
           id="home"
           class="fixed top-0 left-0 flex flex-col justify-center items-center -z-50"
@@ -664,8 +662,10 @@
           <div
             class="absolute bg-black/25 w-screen h-screen z-[100] flex justify-center items-end text-white"
           >
+            <!-- arrow -->
+
             <div
-              class="w-6 h-6 hoverable flex justify-center items-center absolute m-auto left-0 right-0 md:right-auto md:left-8 md:opacity-60 bottom-4 md:bottom-6"
+              class="w-6 h-6 hoverable flex justify-center items-center absolute m-auto left-0 right-0 md:right-auto md:left-8 md:opacity-60 bottom-8 md:bottom-6"
             >
               <Icon
                 v-if="isMobile"
@@ -675,21 +675,23 @@
                 :class="isMobile ? 'opacity-100' : ''"
               />
             </div>
-            <!-- <button
-              @click="goTo('about')"
-              class="md:absolute md:bottom-12 md:right-16 hoverable justify-center flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-6 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/20"
-            >
-              <Icon
-                class="animate-bounce pointer-events-none absolute md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
-                name="arrow_alt_down"
-              />
-              discover
-              <Icon
-                v-if="isMobile"
-                class="animate-bounce pointer-events-none absolute right-12 bottom-[34px]"
-                name="arrow_alt_down"
-              />
-            </button> -->
+
+            <!-- <div class="w-full p-4">
+              <button
+                @click="goTo('features')"
+                class="md:absolute md:bottom-8 md:right-8 hoverable justify-center flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-1 px-4 pr-6 mt-8 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"
+              >
+                <Icon
+                  class="hoverable animate-bounce pointer-events-none md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
+                  name="arrow_alt_down"
+                />
+                <span class="hoverable pointer-events-none">
+                  discover podular
+                </span>
+              </button>
+            </div> -->
+
+            <!-- wordmark -->
             <div
               id="wordmark"
               style="transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1)"
@@ -781,6 +783,8 @@
               </svg>
             </div>
           </div>
+
+          <!-- backdrop -->
           <video
             v-if="!isMobile || true"
             autoplay
@@ -796,24 +800,11 @@
               )
             "
           />
-          <!-- <video
-            v-else
-            autoplay
-            loop
-            muted
-            src="../assets/videos/landing.mp4"
-            class="object-cover w-screen h-screen duration-[2.5s]"
-            :class="
-              animate(
-                0,
-                'scale-[1.5] -translate-y-[20vh] brightness-[0.4]',
-                'scale-[1]'
-              )
-            "
-          /> -->
         </section>
+
         <!-- ABOUT PAGE -->
-        <section id="about" class="flex mt-[100svh]" :class="overlay()">
+
+        <section id="about" class="flex mt-[100vh]" :class="overlay()">
           <div
             class="bg-[url('/assets/images/renders/about.jpg')] bg-no-repeat bg-cover bg-fixed duration-[4s] h-screen w-screen flex items-end justify-start"
             :style="parallax(1)"
@@ -829,7 +820,7 @@
                 animate(
                   1,
                   'opacity-0 h-[30vh] delay-[5s]',
-                  'opacity-100 h-[100svh] delay-[1.2s]'
+                  'opacity-100 h-[100vh] delay-[1.2s]'
                 )
               "
             >
@@ -844,6 +835,7 @@
                 <br v-if="isMobile" />
                 solution
               </div>
+
               <div class="mt-4 flex flex-col gap-3 text-white w-full">
                 <span
                   class="md:text-lg md:max-w-[45vw] opacity-50 font-normal text-left text-[16px]"
@@ -853,9 +845,11 @@
                   elevate the customer and employee experience in the food and
                   beverage industry.
                 </span>
+
                 <button
+                  v-if="!isMobile"
                   @click="goTo('features')"
-                  class="md:absolute md:bottom-8 md:right-8 hoverable justify-center flex gap-2 items-center w-fit md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-8 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"
+                  class="md:absolute md:bottom-8 md:right-8 hoverable justify-center flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-8 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"
                 >
                   <Icon
                     class="hoverable animate-bounce pointer-events-none md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
@@ -864,8 +858,20 @@
                   <span class="hoverable pointer-events-none">
                     features & customization
                   </span>
-                  <!-- <div class="w-6 h-6"></div> -->
                 </button>
+
+                <div
+                  v-else
+                  class="w-6 h-6 hoverable flex justify-start items-center mt-8"
+                >
+                  <Icon
+                    v-if="isMobile"
+                    :size="isMobile ? 24 : 32"
+                    name="arrow_alt_down"
+                    class="animate-bounce pointer-events-none"
+                    :class="isMobile ? 'opacity-100' : ''"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -894,11 +900,6 @@
               <span class="hoverable pointer-events-none">
                 explore the showroom
               </span>
-              <Icon
-                v-if="isMobile"
-                class="hoverable animate-bounce pointer-events-none absolute right-12 bottom-[34px]"
-                name="arrow_alt_down"
-              />
             </div>
             <Pannable
               @ping="openLightbox"
@@ -910,7 +911,7 @@
           </div>
           <div v-else class="w-full h-full">
             <ul
-              class="pt-4 w-full h-[calc(100svh-64px)] mt-[64px] bg-black flex flex-col"
+              class="pt-4 w-full h-[calc(100vh-64px)] mt-[64px] bg-black flex flex-col"
             >
               <li
                 v-for="(item, itemIndex) in pings.features"
@@ -936,17 +937,30 @@
                 </span>
               </li>
               <li class="px-4 pb-4 w-full">
-                <button
+                <div
                   v-if="isMobile"
-                  @click="goTo('showroom')"
-                  class="hoverable justify-center flex gap-2 items-center w-full bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white"
+                  class="w-6 h-6 hoverable flex justify-start items-center mt-8"
                 >
                   <Icon
-                    class="animate-bounce pointer-events-none left-10"
+                    v-if="isMobile"
+                    :size="isMobile ? 24 : 32"
                     name="arrow_alt_down"
+                    class="animate-bounce pointer-events-none"
+                    :class="isMobile ? 'opacity-100' : ''"
                   />
-                  <span class="">explore the showroom</span>
-                </button>
+                </div>
+                <div
+                  v-else
+                  class="w-6 h-6 hoverable flex justify-start items-center mt-8"
+                >
+                  <Icon
+                    v-if="isMobile"
+                    :size="isMobile ? 24 : 32"
+                    name="arrow_alt_down"
+                    class="animate-bounce pointer-events-none"
+                    :class="isMobile ? 'opacity-100' : ''"
+                  />
+                </div>
               </li>
             </ul>
           </div>
@@ -1003,7 +1017,7 @@
           <!-- mobile -->
           <div v-else class="w-full h-full">
             <ul
-              class="pt-4 w-full h-[calc(100svh-64px)] mt-[64px] bg-black flex flex-col"
+              class="pt-4 w-full h-[calc(100vh-64px)] mt-[64px] bg-black flex flex-col"
             >
               <li
                 v-for="(item, itemIndex) in pings.showroom"
@@ -1029,22 +1043,18 @@
                 </span>
               </li>
               <li class="px-4 pb-4 w-full">
-                <button
+                <div
                   v-if="isMobile"
-                  @click="goTo('contact')"
-                  class="hoverable justify-center flex gap-2 items-center w-full bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white"
+                  class="w-6 h-6 hoverable flex justify-start items-center mt-8"
                 >
                   <Icon
-                    class="animate-bounce pointer-events-none left-10"
+                    v-if="isMobile"
+                    :size="isMobile ? 24 : 32"
                     name="arrow_alt_down"
+                    class="animate-bounce pointer-events-none"
+                    :class="isMobile ? 'opacity-100' : ''"
                   />
-                  <span class="">get in touch</span>
-                  <!-- <Icon
-                    name="wave"
-                    :size="18"
-                    class="pointer-events-none absolute right-10"
-                  /> -->
-                </button>
+                </div>
               </li>
             </ul>
           </div>
