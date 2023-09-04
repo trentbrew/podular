@@ -64,6 +64,12 @@ body {
   justify-content: center;
 }
 
+.flex-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .flexy {
   display: flex;
   flex-direction: column;

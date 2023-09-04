@@ -7,7 +7,9 @@
 
 ## Tasks
 
-### [x] DESKTOP
+### 9.2.23
+
+#### [x] DESKTOP
 
 `GENERAL`
 
@@ -35,7 +37,7 @@
 - [x] remove background color (reveal landing render)
 - [x] add social media links
 
-### [x] MOBILE
+#### [x] MOBILE
 
 `GENERAL`
 
@@ -78,3 +80,13 @@
 `CONTACT`
 
 - [x] center layout
+
+### 9.3.23
+
+#### [x] DESKTOP
+
+PREORDER PAGE
+
+<!--  -->
+
+#### [x] MOBILE
