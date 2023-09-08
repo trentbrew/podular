@@ -14,6 +14,17 @@
 
   const isFirefox = typeof InstallTrigger !== 'undefined'
 
+  const iOS = () =>
+    [
+      'iPad Simulator',
+      'iPhone Simulator',
+      'iPod Simulator',
+      'iPad',
+      'iPhone',
+      'iPod',
+    ].includes(navigator.platform) ||
+    (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
+
   function handleOrientationChange() {
     switch (window.orientation) {
       case 0:
@@ -52,7 +63,7 @@
       :style="
         isMobile
           ? 'overflow: hidden !important;'
-          : isSafari || isFirefox
+          : isSafari || isFirefox || iOS()
           ? ''
           : 'cursor: none !important;'
       "

@@ -3,6 +3,16 @@
   const route = useRoute()
 
   const isMobile = window.innerWidth < 768
+  const iOS = () =>
+    [
+      'iPad Simulator',
+      'iPhone Simulator',
+      'iPod Simulator',
+      'iPad',
+      'iPhone',
+      'iPod',
+    ].includes(navigator.platform) ||
+    (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
 
   const pingCategory = computed(() => {
     return route.hash?.split('_')[0].substring(1) ?? ''
@@ -203,7 +213,8 @@
   function parallax(index, overrideMobile) {
     if (isMobile && !overrideMobile) return ''
     const fx = 'filter: brightness(0.6);'
-    const bgy = `background-size: ${isMobile ? 'cover' : '130%'};`
+    const bgy = `background-size: ${isMobile || iOS() ? 'cover' : '130%'};`
+    if (iOS()) return ''
     if (state.active < index)
       return `${fx} ${bgy} background-position: 50% -50%;`
     if (state.active == index) return `${bgy} background-position: 50% 50%;`
@@ -665,8 +676,8 @@
               class="absolute duration-[1.5s]"
               :class="
                 state.active > 0
-                  ? 'top-[-24vh] opacity-0 scale-[0.7]'
-                  : 'top-[32vh] md:top-[24vh] opacity-100 scale-[1.25] md:scale-[1]'
+                  ? 'top-[-24vh] opacity-0 scale-[0.6]'
+                  : 'top-[32vh] md:top-[24vh] opacity-100 scale-[1]'
               "
             >
               <svg
@@ -773,7 +784,7 @@
 
         <section id="about" class="flex mt-[100vh]" :class="overlay()">
           <div
-            class="bg-[url('/assets/images/renders/about.jpg')] bg-no-repeat bg-cover bg-fixed duration-[4s] h-screen w-screen flex items-end justify-start"
+            class="bg-[url('/assets/images/renders/about.jpg')] bg-no-repeat bg-cover bg-fixed duration-[4s] h-[100dvh] w-screen flex items-end justify-start"
             :style="parallax(1)"
             :class="animate(1, 'brightness-[0]', 'brightness-[1]')"
           >
@@ -805,7 +816,7 @@
               </div>
 
               <div
-                class="mt-4 md:mt-0 flex flex-col gap-3 text-white w-full md:w-auto"
+                class="mt-4 md:mt-0 flex justify-between w-full items-end gap-3 text-white"
               >
                 <span
                   class="md:text-lg md:max-w-[45vw] opacity-50 font-normal text-left text-[16px]"
@@ -816,39 +827,26 @@
                   beverage industry.
                 </span>
 
-                <button
-                  v-if="!isMobile"
+                <div
                   @click="goTo('features')"
-                  class="md:absolute md:bottom-8 md:right-8 hoverable justify-center flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-8 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"
+                  class="z-[10] hoverable justify-center flex gap-2 items-center max-h-fit w-full md:w-fit bg-transparent text-white hover:bg-transparent py-0 px-3 pr-0 mt-0 rounded-full hover:border-white/40 hover:text-white duration-[300ms]"
                 >
                   <Icon
-                    class="hoverable animate-bounce pointer-events-none md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
+                    class="hoverable animate-bounce pointer-events-none absolute md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
                     name="arrow_alt_down"
                   />
                   <span class="hoverable pointer-events-none">
                     features & customization
                   </span>
-                </button>
-
-                <!--
-
-            <div
-              @click="goTo('showroom')"
-              class="z-[10] md:absolute md:bottom-6 md:right-6 hoverable justify-center flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-6 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"
-            >
-              <Icon
-                class="hoverable animate-bounce pointer-events-none absolute md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
-                name="arrow_alt_down"
-              />
-              <span class="hoverable pointer-events-none">
-                explore the showroom
-              </span>
-            </div>
-
- -->
+                  <Icon
+                    v-if="isMobile"
+                    class="hoverable animate-bounce pointer-events-none absolute right-12 bottom-[34px]"
+                    name="arrow_alt_down"
+                  />
+                </div>
 
                 <div
-                  v-else
+                  v-show="isMobile"
                   class="w-6 h-6 hoverable flex justify-start items-center mt-8"
                 >
                   <Icon
@@ -880,7 +878,7 @@
           <div v-if="!isMobile" class="w-full h-full absolute duration-[2s]">
             <div
               @click="goTo('showroom')"
-              class="z-[10] md:absolute md:bottom-6 md:right-6 hoverable justify-center flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-6 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"
+              class="z-[10] md:absolute md:bottom-8 md:right-8 hoverable justify-center flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-6 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"
             >
               <Icon
                 class="hoverable animate-bounce pointer-events-none absolute md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
@@ -972,7 +970,7 @@
           <div v-if="!isMobile" class="w-full h-full absolute">
             <div
               @click="goTo('contact')"
-              class="z-[10] md:absolute md:bottom-6 md:right-6 hoverable justify-center flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-6 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"
+              class="z-[10] md:absolute md:bottom-8 md:right-8 hoverable justify-center flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-6 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"
             >
               <Icon
                 class="hoverable animate-bounce pointer-events-none absolute md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
