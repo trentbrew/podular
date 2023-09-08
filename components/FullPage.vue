@@ -1,7 +1,11 @@
 <script setup>
   const router = useRouter()
 
-  const emit = defineEmits(['update'])
+  const emit = defineEmits(['ready', 'update', 'resize'])
+
+  const iOS = () =>
+    ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform) ||
+    (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
 
   const props = defineProps({
     duration: {
@@ -16,7 +20,7 @@
       type: Boolean,
       default: false,
     },
-    disable: {
+    disabled: {
       type: Boolean,
       default: false,
     },
@@ -39,6 +43,7 @@
   watch(
     () => state.wheel,
     () => {
+      if (props.disabled) return
       state.wheeling = true
       if (wheelTimeout) clearTimeout(wheelTimeout)
       wheelTimeout = setTimeout(() => {
@@ -52,6 +57,7 @@
   )
 
   window.addEventListener('wheel', event => {
+    if (props.disabled) return
     state.wheel = event
     if (state.isScrolling || props.lock || state.breaking) return
     const delta = Math.sign(event.deltaY)
@@ -59,12 +65,12 @@
   })
 
   window.addEventListener('touchstart', event => {
-    if (state.isScrolling || props.lock) return
+    if (state.isScrolling || props.lock || props.disabled) return
     state.touchStartY = event.touches[0].clientY
   })
 
   window.addEventListener('touchend', event => {
-    if (state.isScrolling || props.lock) return
+    if (state.isScrolling || props.lock || props.disabled) return
     const threshold = 25
     state.touchEndY = event.changedTouches[0].clientY
     const delta = state.touchStartY - state.touchEndY
@@ -72,10 +78,21 @@
   })
 
   window.addEventListener('keydown', event => {
-    if (state.isScrolling || props.lock) return
+    if (state.isScrolling || props.lock || props.disabled) return
     if (event.key === 'ArrowDown') handleScroll(1)
     else if (event.key === 'ArrowUp') handleScroll(-1)
   })
+
+  window.addEventListener('resize', event => {
+    emit('resize', window.innerHeight)
+    updateWrapperHeights(window.innerHeight)
+  })
+
+  function updateWrapperHeights(height) {
+    state.sections.forEach(section => {
+      section.style.height = `${height}px`
+    })
+  }
 
   function handleScroll(delta) {
     if (delta > 0 && state.currentSection < state.sections.length - 1) {
@@ -107,10 +124,7 @@
     const scrollStep = timestamp => {
       if (!startTimestamp) startTimestamp = timestamp
       const progress = timestamp - startTimestamp
-      window.scrollTo(
-        0,
-        timing[props.ease](progress, startPosition, distance, duration)
-      )
+      window.scrollTo(0, timing[props.ease](progress, startPosition, distance, duration))
       if (progress < duration) {
         window.requestAnimationFrame(scrollStep)
       } else {
@@ -202,10 +216,13 @@
   }
 
   onMounted(() => {
+    console.log('mounted <FullPage />')
     const container = document.getElementById('fullscreen')
     state.sections = container.querySelectorAll('section')
     const initialSection = state.sections[0]
     initialSection.classList.add('active-section')
+    updateWrapperHeights(!iOS() ? window.innerHeight : '100dvh')
+    emit('ready', true)
   })
 </script>
 

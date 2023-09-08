@@ -35,7 +35,7 @@ body {
 }
 
 .fullscreen {
-  min-height: 100dvh;
+  min-height: -webkit-fill-available;
   width: 100vw;
 }
 

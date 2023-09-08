@@ -8,23 +8,18 @@
     /constructor/i.test(window.HTMLElement) ||
     (function (p) {
       return p.toString() === '[object SafariRemoteNotification]'
-    })(
-      !window['safari'] ||
-        (typeof safari !== 'undefined' && window['safari'].pushNotification)
-    )
+    })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification))
 
   const isFirefox = typeof InstallTrigger !== 'undefined'
 
   const iOS = () =>
-    [
-      'iPad Simulator',
-      'iPhone Simulator',
-      'iPod Simulator',
-      'iPad',
-      'iPhone',
-      'iPod',
-    ].includes(navigator.platform) ||
+    ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform) ||
     (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
+
+  function isChromeForAndroid() {
+    const userAgent = navigator.userAgent.toLowerCase()
+    return userAgent.includes('chrome') && userAgent.includes('android')
+  }
 
   const pingCategory = computed(() => {
     return route.hash?.split('_')[0].substring(1) ?? ''
@@ -36,9 +31,7 @@
 
   const pingDescription = computed(() => {
     if (pings[pingCategory.value]) {
-      const ping = pings[pingCategory.value].find(
-        ping => ping.id === pingContext.value
-      )
+      const ping = pings[pingCategory.value].find(ping => ping.id === pingContext.value)
       return ping?.description ?? ''
     }
     return ''
@@ -54,7 +47,7 @@
         category: 'features',
         description:
           "Podular features a food-grade sink within the pod's workspace, complete with a splash guard to meet regulatory standards and ensure a hygienic environment.",
-        coordinates: [15, 12],
+        coordinates: [12, 12],
         image:
           'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_sink_RMks1p836A.jpg?token=',
       },
@@ -64,7 +57,7 @@
         category: 'features',
         description:
           'The storage in Podular includes removable shelving with adjustable height functionality. This design ensures flexibility and optimal space utilization according to specific requirements. ',
-        coordinates: [29, 15],
+        coordinates: [26, 13],
         image:
           'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_storage_tuoSPKJDmp.jpg?token=',
       },
@@ -82,8 +75,7 @@
         id: 'utility',
         title: 'Utility',
         category: 'features',
-        description:
-          'Podular incorporates a utility distribution for efficient resource allocation and management.',
+        description: 'Podular incorporates a utility distribution for efficient resource allocation and management.',
         coordinates: [41, 14],
         image:
           'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_utility_Or6A3Ycgwx.jpg?token=',
@@ -92,8 +84,7 @@
         id: 'access',
         title: 'Access',
         category: 'features',
-        description:
-          'Each Podular pod provides an accessible easy-to-move entry/exit section.',
+        description: 'Each Podular pod provides an accessible easy-to-move entry/exit section.',
         coordinates: [49, 16],
         image:
           'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_access_gdAIvC8wII.jpg?token=',
@@ -130,8 +121,7 @@
         id: 'access',
         title: 'Access',
         category: 'showroom',
-        description:
-          'Each Podular pod provides an accessible easy-to-move entry/exit section.',
+        description: 'Each Podular pod provides an accessible easy-to-move entry/exit section.',
         coordinates: [15, 18],
         image:
           'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/5uacn4j78hcehva/showroom_access_Dpz1zPmH4T.jpg?token=',
@@ -149,6 +139,7 @@
 
   const state = reactive({
     skipIntro: false,
+    viewportHeight: 0,
     ready: false,
     active: 0,
     progress: 0,
@@ -180,16 +171,15 @@
   })
 
   onMounted(() => {
+    state.viewportHeight = window.innerHeight
+    console.log('viewportHeight: ', state.viewportHeight)
     router.push({ hash: '' })
     if (state.skipIntro) state.ready = true
   })
 
-  watch(
-    () => state.menu,
-    val => {
-      console.log('menu state changed...', val)
-    }
-  )
+  function updateViewportHeight(e) {
+    state.viewportHeight = e
+  }
 
   function goTo(section, delayed) {
     if (delayed) {
@@ -222,18 +212,16 @@
     return ''
   }
 
-  function parallax(index, overrideMobile) {
-    if ((isMobile && !overrideMobile) || iOS()) return ''
+  function parallax(index) {
+    if (isChromeForAndroid()) return '' // TODO: fix dynamic viewport issues on chrome for android
+    if (iOS() || isMobile) return ''
     const fx = 'filter: brightness(0.6);'
-    const bgy = `${
-      iOS() ? '' : 'background-attatchment: fixed; '
-    }background-size: ${isMobile ? 'cover' : '130%'};`
-    if (iOS()) return ''
-    if (state.active < index)
-      return `${fx} ${bgy} background-position: 50% -50%;`
-    if (state.active == index) return `${bgy} background-position: 50% 50%;`
-    if (state.active > index)
-      return `${fx} ${bgy} background-position: 50% 150%;`
+    const bgy = `background-attachment: fixed; background-size: ${
+      isMobile ? 'cover' : '130%'
+    }; background-position: 50%`
+    if (state.active < index) return `${fx} ${bgy} -50%;`
+    if (state.active == index) return `${bgy} 50%;`
+    if (state.active > index) return `${fx} ${bgy} 150%;`
   }
 
   function animate(index, inactive, active) {
@@ -291,6 +279,8 @@
     state.lightbox.context = ''
     state.lightbox.description = ''
   }
+
+  function handleFullscreenReady() {}
 </script>
 
 <template>
@@ -299,9 +289,7 @@
 
     <!-- INTRO -------------------------------------------------------------->
 
-    <div
-      class="fixed top-0 left-0 origin-top-left z-[50] duration-[1.4s] pointer-events-none"
-    >
+    <div class="fixed top-0 left-0 origin-top-left z-[50] duration-[1.4s] pointer-events-none">
       <Intro @ready="handleIntroReady" :skip="state.skipIntro" />
     </div>
 
@@ -310,30 +298,25 @@
     <div
       :class="
         [2, 3].includes(state.active) &&
-        (pingContext.length ||
-          state.lightbox.context.length ||
-          pingContext?.length ||
-          pingDescription?.length)
+        (pingContext.length || state.lightbox.context.length || pingContext?.length || pingDescription?.length)
           ? 'opacity-100'
           : 'opacity-0'
       "
       class="w-[100vw] p-8 pb-6 md:p-16 h-[50vh] md:pb-12 flex flex-col justify-end items-start duration-[2s] fixed bottom-0 left-0 pointer-events-none z-[110]"
       style="background: linear-gradient(transparent, #000000dd)"
     >
-      <div class="font-bold text-3xl md:text-5xl text-white mb-6 podular-sans">
+      <div class="font-bold text-4xl md:text-5xl text-white mb-6 podular-sans">
         {{ pingContext ?? state.lightbox.context }}
       </div>
       <div class="flex flex-col gap-3 text-white">
-        <span
-          class="md:text-lg w-full md:max-w-[50vw] opacity-40 md:opacity-60"
-        >
+        <span class="md:text-lg w-full md:max-w-[50vw] opacity-100 md:opacity-60">
           {{ pingDescription ?? state.lightbox.description }}
         </span>
       </div>
     </div>
     <div
       v-show="state.lightbox.active"
-      class="hoverable shadow-lg z-[105] flex justify-center items-center rounded-full h-10 w-10 duration-150 fixed top-4 right-4 md:top-8 md:right-8 bg-white text-black"
+      class="hoverable shadow-lg z-[105] flex justify-center items-center rounded-full h-10 w-10 duration-150 fixed top-4 left-4 md:top-8 md:right-8 md:left-auto bg-white text-black"
       @click="closeLightbox"
     >
       <Icon class="pointer-events-none" :size="18" name="close" />
@@ -358,56 +341,16 @@
       id="mobile-menu-overlay"
       style="transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1)"
       class="fixed top-0 left-0 z-[150] w-screen h-screen bg-black/50 backdrop-blur-3xl backdrop-contrast-150 flex flex-col justify-center items-center duration-[600ms]"
-      :class="
-        isMobile && state.menu.mobile.active
-          ? 'translate-x-[0vh]'
-          : 'pointer-events-none translate-x-[105vw]'
-      "
+      :class="isMobile && state.menu.mobile.active ? 'translate-x-[0vh]' : 'pointer-events-none translate-x-[105vw]'"
     >
-      <div
-        class="absolute top-0 left-0 w-full flex h-16 items-center justify-end pl-[20px] pr-4 box-border"
-      >
-        <!-- <div class="flex gap-[18px]">
-          <svg
-            width="34"
-            height="34"
-            viewBox="0 0 1299 1292"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M1299 713L979.614 713C979.616 713.311 979.616 713.622 979.616 713.934C979.616 856.8 863.8 972.616 720.934 972.616C720.622 972.616 720.311 972.616 720 972.615V1292C720.311 1292 720.623 1292 720.934 1292C1040.19 1292 1299 1033.19 1299 713.934C1299 713.623 1299 713.311 1299 713Z"
-              fill="white"
-            />
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M578.5 0C259.003 0 0 259.003 0 578.5C0 897.997 259.003 1157 578.5 1157C897.997 1157 1157 897.997 1157 578.5C1157 259.003 897.997 0 578.5 0ZM578.5 319.624C435.527 319.624 319.624 435.527 319.624 578.5C319.624 721.474 435.527 837.376 578.5 837.376C721.474 837.376 837.376 721.474 837.376 578.5C837.376 435.527 721.474 319.624 578.5 319.624ZM1157 577.565H837.375C837.376 577.877 837.376 578.188 837.376 578.5C837.376 721.474 721.474 837.376 578.5 837.376C578.188 837.376 577.877 837.376 577.565 837.375V1157C577.877 1157 578.188 1157 578.5 1157C897.997 1157 1157 897.997 1157 578.5C1157 578.188 1157 577.877 1157 577.565Z"
-              fill="white"
-            />
-          </svg>
-          <span class="podular-sans text-2xl opacity-100 translate-y-[1px]">
-            podular
-          </span>
-        </div> -->
-        <button
-          @click="closeMenu"
-          class="p-0 active:opacity-50 min-w-6 min-h-6 text-white"
-        >
+      <div class="absolute top-0 left-0 w-full flex h-16 items-center justify-end pl-[20px] pr-4 box-border">
+        <button @click="closeMenu" class="p-0 active:opacity-50 min-w-6 min-h-6 text-white">
           <Icon name="close" :size="24" class="pointer-events-none" />
         </button>
       </div>
-      <ul
-        class="absolute top-[30vh] text-3xl flex flex-col justify-center items-center gap-6"
-      >
+      <ul class="absolute top-[30vh] text-3xl flex flex-col justify-center items-center gap-6">
         <li
-          :class="
-            state.active == 0 && !state.menu.lock
-              ? 'active-link'
-              : 'inactive-link'
-          "
+          :class="state.active == 0 && !state.menu.lock ? 'active-link' : 'inactive-link'"
           @click="goTo('home', true)"
           class="hoverable menu-item podular-sans md:nunito"
           style="animation-delay: 0.4s"
@@ -415,11 +358,7 @@
           home
         </li>
         <li
-          :class="
-            state.active == 1 && !state.menu.lock
-              ? 'active-link'
-              : 'inactive-link'
-          "
+          :class="state.active == 1 && !state.menu.lock ? 'active-link' : 'inactive-link'"
           @click="goTo('about', true)"
           class="hoverable menu-item podular-sans md:nunito"
           style="animation-delay: 0.4s"
@@ -427,11 +366,7 @@
           about
         </li>
         <li
-          :class="
-            state.active == 2 && !state.menu.lock
-              ? 'active-link'
-              : 'inactive-link'
-          "
+          :class="state.active == 2 && !state.menu.lock ? 'active-link' : 'inactive-link'"
           @click="goTo('features', true)"
           class="hoverable menu-item podular-sans md:nunito"
           style="animation-delay: 0.5s"
@@ -439,11 +374,7 @@
           features
         </li>
         <li
-          :class="
-            state.active == 3 && !state.menu.lock
-              ? 'active-link'
-              : 'inactive-link'
-          "
+          :class="state.active == 3 && !state.menu.lock ? 'active-link' : 'inactive-link'"
           @click="goTo('showroom', true)"
           class="hoverable menu-item podular-sans md:nunito"
           style="animation-delay: 0.6s"
@@ -451,11 +382,7 @@
           showroom
         </li>
         <li
-          :class="
-            state.active == 4 && !state.menu.lock
-              ? 'active-link'
-              : 'inactive-link'
-          "
+          :class="state.active == 4 && !state.menu.lock ? 'active-link' : 'inactive-link'"
           @click="goTo('contact', true)"
           class="hoverable menu-item podular-sans md:nunito"
           style="animation-delay: 0.7s"
@@ -464,10 +391,7 @@
         </li>
       </ul>
       <div class="w-full p-6 box-border mt-auto font-bold">
-        <a
-          href="#"
-          class="btn btn-disabled btn-sm w-full bg-white/90 text-black rounded-full gap-2 font-bold"
-        >
+        <a href="#" class="btn btn-disabled btn-sm w-full bg-white/90 text-black rounded-full gap-2 font-bold">
           pre-order
           <!-- <Icon name="open" /> -->
         </a>
@@ -488,11 +412,7 @@
         <div class="navbar-start pl-[64px]">
           <a
             class="duration-500 text-2xl text-white translate-y-[-1px]"
-            :class="
-              (state.active > 0 && !isMobile) || isMobile
-                ? 'opacity-100 delay-[1s]'
-                : 'opacity-0 -translate-x-2'
-            "
+            :class="(state.active > 0 && !isMobile) || isMobile ? 'opacity-100 delay-[1s]' : 'opacity-0 -translate-x-2'"
           >
             <h1 v-if="!isMobile" class="podular-sans">podular</h1>
             <div v-else>
@@ -509,11 +429,7 @@
             class="menu menu-horizontal duration-[1s] text-lg w-full z-[20] flex gap-[28px] items-center justify-center left-0 top-[58px]"
           >
             <li
-              :class="
-                state.active == 0 && !state.menu.lock
-                  ? 'active-link'
-                  : 'inactive-link'
-              "
+              :class="state.active == 0 && !state.menu.lock ? 'active-link' : 'inactive-link'"
               @click="goTo('home')"
               class="hoverable menu-item"
               style="animation-delay: 0.4s"
@@ -522,11 +438,7 @@
               <!-- <div class="link-indicator"></div> -->
             </li>
             <li
-              :class="
-                state.active == 1 && !state.menu.lock
-                  ? 'active-link'
-                  : 'inactive-link'
-              "
+              :class="state.active == 1 && !state.menu.lock ? 'active-link' : 'inactive-link'"
               @click="goTo('about')"
               class="hoverable menu-item"
               style="animation-delay: 0.4s"
@@ -535,11 +447,7 @@
               <!-- <div class="link-indicator"></div> -->
             </li>
             <li
-              :class="
-                state.active == 2 && !state.menu.lock
-                  ? 'active-link'
-                  : 'inactive-link'
-              "
+              :class="state.active == 2 && !state.menu.lock ? 'active-link' : 'inactive-link'"
               @click="goTo('features')"
               class="hoverable menu-item"
               style="animation-delay: 0.5s"
@@ -548,11 +456,7 @@
               <!-- <div class="link-indicator"></div> -->
             </li>
             <li
-              :class="
-                state.active == 3 && !state.menu.lock
-                  ? 'active-link'
-                  : 'inactive-link'
-              "
+              :class="state.active == 3 && !state.menu.lock ? 'active-link' : 'inactive-link'"
               @click="goTo('showroom')"
               class="hoverable menu-item"
               style="animation-delay: 0.6s"
@@ -561,11 +465,7 @@
               <!-- <div class="link-indicator"></div> -->
             </li>
             <li
-              :class="
-                state.active == 4 && !state.menu.lock
-                  ? 'active-link'
-                  : 'inactive-link'
-              "
+              :class="state.active == 4 && !state.menu.lock ? 'active-link' : 'inactive-link'"
               @click="goTo('contact')"
               class="hoverable menu-item"
               style="animation-delay: 0.7s"
@@ -583,16 +483,8 @@
             pre-order
             <!-- <Icon name="arrow_alt_right" /> -->
           </a>
-          <button
-            v-else
-            @click="openMenu"
-            class="p-0 active:opacity-50 min-w-6 min-h-6 text-white"
-          >
-            <Icon
-              name="menu_alt"
-              :size="36"
-              class="scale-x-[-1] pointer-events-none"
-            />
+          <button v-else @click="openMenu" class="p-0 active:opacity-50 min-w-6 min-h-6 text-white">
+            <Icon name="menu_alt" :size="36" class="scale-x-[-1] pointer-events-none" />
           </button>
         </div>
       </div>
@@ -622,11 +514,7 @@
       </a>
     </div>
 
-    <main
-      class="bg-transparent"
-      v-scroll="handleScroll"
-      style="transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1)"
-    >
+    <main class="bg-transparent" v-scroll="handleScroll" style="transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1)">
       <!-- PROGRESS -->
 
       <!-- <div
@@ -644,11 +532,11 @@
 
       <FullPage
         ref="fullpage"
+        @ready="handleFullscreenReady"
+        @resize="updateViewportHeight"
         @update="handleNewSection"
         :duration="1200"
-        :lock="
-          !state.ready || state.menu.mobile.active || state.lightbox.active
-        "
+        :lock="!state.ready || state.menu.mobile.active || state.lightbox.active"
         ease="easeInOutCubic"
       >
         <!-- LANDING PAGE -------------------------->
@@ -669,9 +557,7 @@
           class="fixed top-0 left-0 flex flex-col justify-center items-center -z-50"
           :class="overlay()"
         >
-          <div
-            class="absolute bg-black/25 w-screen h-screen z-[100] flex justify-center items-end text-white"
-          >
+          <div class="absolute bg-black/25 w-screen h-screen z-[100] flex justify-center items-end text-white">
             <!-- arrow -->
             <div
               class="w-6 h-6 hoverable flex justify-center items-center absolute m-auto left-0 right-0 md:right-auto md:left-8 md:opacity-60 bottom-8 md:bottom-6"
@@ -696,12 +582,7 @@
                   : 'top-[32vh] md:top-[24vh] opacity-100 scale-[1]'
               "
             >
-              <svg
-                :width="isMobile ? 250 : 500"
-                viewBox="0 0 2835 726"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+              <svg :width="isMobile ? 250 : 500" viewBox="0 0 2835 726" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M1958 34.054C1958 15.2465 1973.22 0 1992 0V0C2010.78 0 2026 15.2465 2026 34.0541V525.946C2026 544.753 2010.78 560 1992 560V560C1973.22 560 1958 544.753 1958 525.946V34.054Z"
                   fill="white"
@@ -718,38 +599,10 @@
                   d="M679.365 561C639.967 561 605.191 552.508 575.034 535.523C544.878 518.052 521.045 494.273 503.535 464.186C486.512 433.613 478 398.672 478 359.364C478 319.571 486.512 284.63 503.535 254.542C521.045 223.969 544.878 200.19 575.034 183.205C605.191 165.735 639.967 157 679.365 157C718.276 157 752.809 165.735 782.966 183.205C813.122 200.19 836.711 223.969 853.735 254.542C871.245 284.63 880 319.571 880 359.364C880 398.672 871.488 433.613 854.465 464.186C837.441 494.273 813.851 518.052 783.695 535.523C753.539 552.508 718.762 561 679.365 561ZM679.365 495.486C704.657 495.486 727.031 489.663 746.486 478.016C765.942 466.369 781.02 450.355 791.72 429.973C802.907 409.591 808.501 386.055 808.501 359.364C808.501 332.673 802.907 309.137 791.72 288.755C781.02 267.888 765.942 251.631 746.486 239.984C727.031 228.337 704.657 222.514 679.365 222.514C654.073 222.514 631.699 228.337 612.243 239.984C592.788 251.631 577.466 267.888 566.279 288.755C555.093 309.137 549.499 332.673 549.499 359.364C549.499 386.055 555.093 409.591 566.279 429.973C577.466 450.355 592.788 466.369 612.243 478.016C631.699 489.663 654.073 495.486 679.365 495.486Z"
                   fill="white"
                 />
-                <rect
-                  x="1475"
-                  y="165"
-                  width="77"
-                  height="193"
-                  rx="38"
-                  fill="white"
-                />
-                <rect
-                  x="141"
-                  y="495"
-                  width="63"
-                  height="63"
-                  rx="31.5"
-                  fill="white"
-                />
-                <rect
-                  x="1152"
-                  y="168"
-                  width="61"
-                  height="61"
-                  rx="30.5"
-                  fill="white"
-                />
-                <rect
-                  x="2317"
-                  y="492"
-                  width="64"
-                  height="64"
-                  rx="32"
-                  fill="white"
-                />
+                <rect x="1475" y="165" width="77" height="193" rx="38" fill="white" />
+                <rect x="141" y="495" width="63" height="63" rx="31.5" fill="white" />
+                <rect x="1152" y="168" width="61" height="61" rx="30.5" fill="white" />
+                <rect x="2317" y="492" width="64" height="64" rx="32" fill="white" />
                 <path
                   fill-rule="evenodd"
                   clip-rule="evenodd"
@@ -786,42 +639,29 @@
             muted
             src="../assets/videos/landing.mp4"
             class="w-screen h-screen duration-[2.5s] object-cover"
-            :class="
-              animate(
-                0,
-                'scale-[1.5] -translate-y-[20vh] brightness-[0.4]',
-                'scale-[1]'
-              )
-            "
+            :class="animate(0, 'scale-[1.5] -translate-y-[20vh] brightness-[0.4]', 'scale-[1]')"
           />
         </section>
 
         <!-- ABOUT PAGE -------------------------->
 
-        <section id="about" class="flex mt-[100vh]" :class="overlay()">
+        <section id="about" class="flex" :class="overlay()" :style="`margin-top: ${state.viewportHeight}px`">
           <div
-            class="bg-[url('/assets/images/renders/about.jpg')] bg-no-repeat bg-cover duration-[4s] h-[100dvh] w-screen flex items-end justify-start"
-            :style="parallax(1)"
+            class="bg-[url('/assets/images/renders/about.jpg')] bg-no-repeat bg-cover duration-[4s] md:w-screen flex items-end justify-start"
+            :style="'min-height: -webkit-fill-available;' + parallax(1)"
             :class="animate(1, 'brightness-[0]', 'brightness-[1]')"
           >
             <div
-              class="absolute w-screen h-[100dvh] backdrop-brightness-[0.75] z-[-1]"
+              class="absolute w-screen backdrop-brightness-[0.75] z-[-1]"
+              style="min-height: -webkit-fill-available"
             ></div>
 
             <div
               class="w-[100vw] p-8 md:p-12 pb-6 md:pb-12 flex flex-col justify-end items-start duration-[2s]"
               style="background: linear-gradient(transparent, #000000ee)"
-              :class="
-                animate(
-                  1,
-                  'opacity-0 h-[30vh] delay-[5s]',
-                  'opacity-100 h-[100vh] delay-[1.2s]'
-                )
-              "
+              :class="animate(1, 'opacity-0 h-[30vh] delay-[5s]', 'opacity-100 delay-[1.2s]')"
             >
-              <div
-                class="font-bold text-5xl md:text-4xl text-white mb-6 podular-sans text-left"
-              >
+              <div class="font-bold text-5xl md:text-4xl text-white mb-6 podular-sans text-left">
                 the
                 <br v-if="isMobile" />
                 perfect
@@ -831,19 +671,14 @@
                 solution
               </div>
 
-              <div
-                class="mt-4 md:mt-0 flex justify-between w-full items-end gap-3 text-white"
-              >
-                <span
-                  class="md:text-lg md:max-w-[45vw] opacity-50 font-normal text-left text-[16px]"
-                >
-                  Podular presents a stylish and personalized modular pod,
-                  offering swift and uncomplicated spatial solutions that
-                  elevate the customer and employee experience in the food and
-                  beverage industry.
+              <div class="mt-4 md:mt-0 flex justify-between w-full items-end gap-3 text-white">
+                <span class="md:text-lg md:max-w-[45vw] opacity-50 font-normal text-left text-[16px]">
+                  Podular presents a stylish and personalized modular pod, offering swift and uncomplicated spatial
+                  solutions that elevate the customer and employee experience in the food and beverage industry.
                 </span>
 
                 <div
+                  v-show="!isMobile"
                   @click="goTo('features')"
                   class="z-[10] hoverable justify-center flex gap-2 items-center max-h-fit w-full md:w-fit bg-transparent text-white hover:bg-transparent py-0 px-3 pr-0 mt-0 rounded-full hover:border-white/40 hover:text-white duration-[300ms]"
                 >
@@ -851,9 +686,7 @@
                     class="hoverable animate-bounce pointer-events-none absolute md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
                     name="arrow_alt_down"
                   />
-                  <span class="hoverable pointer-events-none">
-                    features & customization
-                  </span>
+                  <span class="hoverable pointer-events-none">features & customization</span>
                   <Icon
                     v-if="isMobile"
                     class="hoverable animate-bounce pointer-events-none absolute right-12 bottom-[34px]"
@@ -861,10 +694,7 @@
                   />
                 </div>
 
-                <div
-                  v-show="isMobile"
-                  class="w-6 h-6 hoverable flex justify-start items-center mt-8"
-                >
+                <div v-show="isMobile" class="w-6 h-6 hoverable flex justify-start items-center mt-8">
                   <Icon
                     v-if="isMobile"
                     :size="isMobile ? 24 : 32"
@@ -883,13 +713,7 @@
         <section
           id="features"
           class="bg-black md:bg-transparent"
-          :class="
-            !isMobile
-              ? overlay() + state.active != 2
-                ? ' brightness-[0.3]'
-                : ' brightness-1'
-              : ''
-          "
+          :class="!isMobile ? (overlay() + state.active != 2 ? ' brightness-[0.3]' : ' brightness-1') : ''"
         >
           <div v-if="!isMobile" class="w-full h-full absolute duration-[2s]">
             <div
@@ -900,9 +724,7 @@
                 class="hoverable animate-bounce pointer-events-none absolute md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
                 name="arrow_alt_down"
               />
-              <span class="hoverable pointer-events-none">
-                explore the showroom
-              </span>
+              <span class="hoverable pointer-events-none">explore the showroom</span>
             </div>
             <Pannable
               @ping="openLightbox"
@@ -913,9 +735,7 @@
             />
           </div>
           <div v-else class="w-full h-full">
-            <ul
-              class="pt-4 w-full h-[calc(100vh-64px)] mt-[64px] bg-black flex flex-col"
-            >
+            <ul class="pt-4 w-full mt-[64px] bg-black flex flex-col" :style="`height: ${state.viewportHeight - 64}px`">
               <li
                 v-for="(item, itemIndex) in pings.features"
                 @click="
@@ -933,17 +753,12 @@
                   class="w-full h-full bg-no-repeat bg-cover bg-center brightness-[0.4] saturate-125 rounded-lg"
                   :style="`background-image: url(${item.image});`"
                 ></div>
-                <span
-                  class="absolute left-0 w-full flex justify-center text-3xl text-white lowercase"
-                >
+                <span class="absolute left-0 w-full flex justify-center text-3xl text-white lowercase">
                   {{ item.title }}
                 </span>
               </li>
               <li class="px-4 pb-4 w-full">
-                <div
-                  v-if="isMobile"
-                  class="w-6 h-6 hoverable flex justify-start items-center mt-8"
-                >
+                <div v-if="isMobile" class="w-6 h-6 hoverable flex justify-start items-center mt-8">
                   <Icon
                     v-if="isMobile"
                     :size="isMobile ? 24 : 32"
@@ -952,10 +767,7 @@
                     :class="isMobile ? 'opacity-100' : ''"
                   />
                 </div>
-                <div
-                  v-else
-                  class="w-6 h-6 hoverable flex justify-start items-center mt-8"
-                >
+                <div v-else class="w-6 h-6 hoverable flex justify-start items-center mt-8">
                   <Icon
                     v-if="isMobile"
                     :size="isMobile ? 24 : 32"
@@ -974,13 +786,7 @@
         <section
           id="showroom"
           class="bg-black md:bg-transparent"
-          :class="
-            !isMobile
-              ? overlay() + state.active != 3
-                ? ' brightness-[0.3]'
-                : ' brightness-1'
-              : ''
-          "
+          :class="!isMobile ? (overlay() + state.active != 3 ? ' brightness-[0.3]' : ' brightness-1') : ''"
         >
           <!-- desktop -->
           <div v-if="!isMobile" class="w-full h-full absolute">
@@ -1021,9 +827,7 @@
           </div>
           <!-- mobile -->
           <div v-else class="w-full h-full">
-            <ul
-              class="pt-4 w-full h-[calc(100vh-64px)] mt-[64px] bg-black flex flex-col"
-            >
+            <ul class="pt-4 w-full mt-[64px] bg-black flex flex-col" :style="`height: ${state.viewportHeight - 64}px`">
               <li
                 v-for="(item, itemIndex) in pings.showroom"
                 @click="
@@ -1041,17 +845,12 @@
                   class="w-full h-full bg-no-repeat bg-cover bg-center brightness-[0.4] saturate-125 rounded-lg"
                   :style="`background-image: url(${item.image});`"
                 ></div>
-                <span
-                  class="absolute left-0 w-full flex justify-center text-3xl text-white lowercase"
-                >
+                <span class="absolute left-0 w-full flex justify-center text-3xl text-white lowercase">
                   {{ item.title }}
                 </span>
               </li>
               <li class="px-4 pb-4 w-full">
-                <div
-                  v-if="isMobile"
-                  class="w-6 h-6 hoverable flex justify-start items-center mt-8"
-                >
+                <div v-if="isMobile" class="w-6 h-6 hoverable flex justify-start items-center mt-8">
                   <Icon
                     v-if="isMobile"
                     :size="isMobile ? 24 : 32"
@@ -1067,11 +866,7 @@
 
         <!-- CONTACT PAGE -->
 
-        <section
-          id="contact"
-          class="bg-black/40 backdrop-blur-sm text-white"
-          :class="overlay()"
-        >
+        <section id="contact" class="bg-black/40 backdrop-blur-sm text-white" :class="overlay()">
           <div
             class="w-full h-full justify-center flex md:flex-row flex-col gap-12 items-center text-center md:text-left md:m-auto z-[40]"
           >
@@ -1080,13 +875,7 @@
                 class="absolute z-[-1] translate-x-[-143px] translate-y-[-145px] duration-[3s] delay-[200ms]"
                 :class="animate(4, 'opacity-0', 'opacity-[0.0]')"
               >
-                <svg
-                  width="500"
-                  height="500"
-                  viewBox="0 0 718 715"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg width="500" height="500" viewBox="0 0 718 715" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     fill-rule="evenodd"
                     clip-rule="evenodd"
@@ -1111,47 +900,27 @@
                 src="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/51arrah30qe27ve/contact_YOiKby9Gwc.png?token="
                 alt="Jasna Ostojich"
                 class="rounded-full mt-[-100px] md:m-auto object-cover w-[160px] h-[160px] border-2 border-white/10 md:text-left duration-[1.5s] delay-[1.4s]"
-                :class="
-                  animate(4, 'opacity-0 scale-[0.9]', 'opacity-100 scale-[1]')
-                "
+                :class="animate(4, 'opacity-0 scale-[0.9]', 'opacity-100 scale-[1]')"
               />
             </div>
             <div
               class="duration-[1.5s] delay-[1.8s]"
               :class="
                 isMobile
-                  ? animate(
-                      4,
-                      'opacity-0 translate-y-[24px]',
-                      'opacity-100 translate-y-[0px]'
-                    )
-                  : animate(
-                      4,
-                      'opacity-0 translate-x-[-42px]',
-                      'opacity-100 translate-x-[0px]'
-                    )
+                  ? animate(4, 'opacity-0 translate-y-[24px]', 'opacity-100 translate-y-[0px]')
+                  : animate(4, 'opacity-0 translate-x-[-42px]', 'opacity-100 translate-x-[0px]')
               "
             >
               <h1 class="text-3xl md:text-5xl mb-4">Jasna Ostojich</h1>
-              <p class="mb-2 text-lg md:text-xl">
-                Founder & Executive President
-              </p>
-              <div
-                class="flex flex-col mt-6 justify-start items-center md:items-start"
-              >
-                <a
-                  class="hoverable underline flex gap-4 items-center justify-center"
-                  href="mailto:info@cafebellas.com"
-                >
+              <p class="mb-2 text-lg md:text-xl">Founder & Executive President</p>
+              <div class="flex flex-col mt-6 justify-start items-center md:items-start">
+                <a class="hoverable underline flex gap-4 items-center justify-center" href="mailto:info@cafebellas.com">
                   <Icon name="mail" class="opacity-60 md:opacity-100" />
                   <span class="hoverable opacity-50">info@cafebellas.com</span>
                 </a>
                 <span class="font-bold flex justify-start gap-4 items-center">
                   <Icon name="phone" class="opacity-60 md:opacity-100" />
-                  <a
-                    href="tel:+18479220061"
-                    class="my-2 underline hoverable opacity-50 font-normal"
-                  >
+                  <a href="tel:+18479220061" class="my-2 underline hoverable opacity-50 font-normal">
                     +1 (847) 922 0061
                   </a>
                 </span>
@@ -1159,38 +928,23 @@
             </div>
             <div
               class="w-full h-[100px] fixed bottom-0 flex flex-col justify-end items-start z-[30] duration-500"
-              :class="
-                state.active != 4
-                  ? 'opacity-0 pointer-events-none'
-                  : 'opacity-100'
-              "
+              :class="state.active != 4 ? 'opacity-0 pointer-events-none' : 'opacity-100'"
             >
               <div class="flex items-center w-full justify-between px-16">
                 <div
                   class="w-full h-[120px] flex gap-[4px] md:gap-0 items-center justify-center md:justify-start flex-col md:flex-row"
                 >
                   <!-- wan -->
-                  <span
-                    class="opacity-30 md:opacity-40 flex gap-2 items-center text-xs md:text-base"
-                  >
+                  <span class="opacity-30 md:opacity-40 flex gap-2 items-center text-xs md:text-base">
                     <Icon class="md:mr-1" name="cube" :size="16" />
                     3D Renders by
-                    <a
-                      class="underline hoverable"
-                      href="https://studiolafa.design"
-                    >
-                      Lawan Alade-Fa
-                    </a>
+                    <a class="underline hoverable" href="https://studiolafa.design">Lawan Alade-Fa</a>
                   </span>
                   <!-- trent -->
-                  <span
-                    class="ml-4 opacity-30 md:opacity-40 flex gap-2 items-center text-xs md:text-base"
-                  >
+                  <span class="ml-4 opacity-30 md:opacity-40 flex gap-2 items-center text-xs md:text-base">
                     <Icon class="md:mr-2" name="laptop" :size="16" />
                     Web Design by
-                    <a class="underline hoverable" href="https://trentbrew.com">
-                      Trent Brew
-                    </a>
+                    <a class="underline hoverable" href="https://trentbrew.com">Trent Brew</a>
                   </span>
                 </div>
               </div>
