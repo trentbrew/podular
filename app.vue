@@ -1,5 +1,6 @@
 <script setup>
   const nuxtApp = useNuxtApp()
+  const router = useRouter()
 
   const isMobile = window.innerWidth < 900
 
@@ -19,18 +20,21 @@
     switch (window.orientation) {
       case 0:
         console.log('Portrait orientation')
-        window.location.reload()
+        location.href = '/'
+
         break
       case 90:
         console.log('Landscape orientation (clockwise)')
-        window.location.reload()
+        location.href = '/debug/orientation-error'
         break
       case -90:
         console.log('Landscape orientation (counterclockwise)')
-        window.location.reload()
+        location.href = '/debug/orientation-error'
+
         break
       default:
         console.log('Unknown orientation')
+        location.href = '/debug/orientation-error'
         break
     }
   }

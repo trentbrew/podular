@@ -324,8 +324,9 @@
       <Icon class="pointer-events-none" :size="18" name="close" />
     </div>
     <div
-      class="h-screen w-full fixed top-0 left-0 z-[100] bg-black/90 backdrop-blur-lg flex justify-center items-center duration-300 pointer-events-none"
+      class="w-full fixed top-0 left-0 z-[100] bg-black/90 backdrop-blur-lg flex justify-center items-center duration-300 pointer-events-none"
       :class="state.lightbox.active ? 'opacity-100' : 'opacity-0'"
+      :style="`height: ${state.viewportHeight}px`"
     >
       <div
         class="bg-white h-full w-full rounded-[16px] bg-cover bg-center bg-no-repeat duration-[600ms]"
@@ -746,7 +747,7 @@
           </div>
           <div v-else class="w-full h-full">
             <ul
-              class="pt-4 w-full mt-[64px] bg-black flex"
+              class="pt-8 w-full mt-[64px] bg-black flex"
               :class="landscape ? '' : 'flex-col'"
               :style="`height: ${state.viewportHeight - 64}px`"
             >
