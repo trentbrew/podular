@@ -223,9 +223,11 @@
   }
 
   function parallax(index, overrideMobile) {
-    if (isMobile && !overrideMobile) return ''
+    if ((isMobile && !overrideMobile) || iOS()) return ''
     const fx = 'filter: brightness(0.6);'
-    const bgy = `background-size: ${isMobile || iOS() ? 'cover' : '130%'};`
+    const bgy = `${
+      iOS() ? '' : 'background-attatchment: fixed; '
+    }background-size: ${isMobile ? 'cover' : '130%'};`
     if (iOS()) return ''
     if (state.active < index)
       return `${fx} ${bgy} background-position: 50% -50%;`
@@ -798,7 +800,7 @@
 
         <section id="about" class="flex mt-[100vh]" :class="overlay()">
           <div
-            class="bg-[url('/assets/images/renders/about.jpg')] bg-no-repeat bg-cover bg-fixed duration-[4s] h-[100dvh] w-screen flex items-end justify-start"
+            class="bg-[url('/assets/images/renders/about.jpg')] bg-no-repeat bg-cover duration-[4s] h-[100dvh] w-screen flex items-end justify-start"
             :style="parallax(1)"
             :class="animate(1, 'brightness-[0]', 'brightness-[1]')"
           >
