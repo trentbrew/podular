@@ -4,6 +4,17 @@
 
   const emit = defineEmits(['ping'])
 
+  const iOS = () =>
+    [
+      'iPad Simulator',
+      'iPhone Simulator',
+      'iPod Simulator',
+      'iPad',
+      'iPhone',
+      'iPod',
+    ].includes(navigator.platform) ||
+    (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
+
   const props = defineProps({
     id: {
       type: String,
@@ -58,19 +69,23 @@
   }
 
   onMounted(() => {
+    console.log('mounted pannable')
+    console.log('apple device?: ', iOS())
     tiles.value = document.querySelectorAll(`.${props.id}-tile`)
     const tile = tiles.value[0]
-    tile.addEventListener('mouseover', e => {
-      tile.children[0].style.transform = `scale(${tile.dataset.scale})`
-    })
-    tile.addEventListener('mouseout', e => {
-      tile.children[0].style.transform = `scale(1)`
-    })
-    tile.addEventListener('mousemove', e => {
-      tile.children[0].style.transformOrigin = `${
-        ((e.clientX - tile.offsetLeft) / tile.offsetWidth) * 100
-      }% ${((e.clientY - tile.offsetTop) / tile.offsetHeight) * 100}%`
-    })
+    if (!iOS()) {
+      tile.addEventListener('mouseover', e => {
+        tile.children[0].style.transform = `scale(${tile.dataset.scale})`
+      })
+      tile.addEventListener('mouseout', e => {
+        tile.children[0].style.transform = `scale(1)`
+      })
+      tile.addEventListener('mousemove', e => {
+        tile.children[0].style.transformOrigin = `${
+          ((e.clientX - tile.offsetLeft) / tile.offsetWidth) * 100
+        }% ${((e.clientY - tile.offsetTop) / tile.offsetHeight) * 100}%`
+      })
+    }
   })
 
   watch(
@@ -80,13 +95,19 @@
     }
   )
 
+  function updateHash(category) {
+    router.push({ hash: `#${category}` })
+  }
+
   function handlePingMouseEnter(e, category, id) {
+    if (iOS()) return
     state.hoveringPing = true
     if (route.query.view) return
     router.push({ hash: `#${category}_${id}` })
   }
 
   function handlePingMouseLeave(e, category) {
+    if (iOS()) return
     state.hoveringPing = false
     if (route.query.view) return
     router.push({ hash: `#${category}` })
@@ -132,12 +153,18 @@
               v-show="!state.view"
               v-for="(item, itemIndex) in props.pings"
               :id="`ping-zone-${itemIndex}`"
+              @touchstart="e => updateHash(item.category)"
+              @touchend="e => handleClick(item)"
               @mouseenter="e => handlePingMouseEnter(e, item.category, item.id)"
               @mouseleave="e => handlePingMouseLeave(e, item.category)"
               @click="handleClick(item)"
               :key="itemIndex"
-              class="group bg-white h-8 w-8 rounded-[32px] absolute z-50 duration-[600ms] hover:w-16 hover:scale-[6] hover:!rounded-[4px] hover:shadow-xl hoverable bg-cover bg-no-repeat bg-center active:scale-[5.6]"
-              :class="`${props.id}-ping`"
+              class="group bg-white h-8 w-8 rounded-[32px] absolute z-50 duration-[600ms]"
+              :class="`${props.id}-ping ${
+                !iOS()
+                  ? 'hover:w-16 hover:scale-[6] hover:!rounded-[4px] hover:shadow-xl hoverable bg-cover bg-no-repeat bg-center active:scale-[5.6]'
+                  : ''
+              }`"
               :style="`
                 left: ${(item.coordinates[0] / 64) * 100}%;
                 top: ${(item.coordinates[1] / 36) * 100}%;

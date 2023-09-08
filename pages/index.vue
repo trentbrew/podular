@@ -3,6 +3,18 @@
   const route = useRoute()
 
   const isMobile = window.innerWidth < 768
+
+  const isSafari =
+    /constructor/i.test(window.HTMLElement) ||
+    (function (p) {
+      return p.toString() === '[object SafariRemoteNotification]'
+    })(
+      !window['safari'] ||
+        (typeof safari !== 'undefined' && window['safari'].pushNotification)
+    )
+
+  const isFirefox = typeof InstallTrigger !== 'undefined'
+
   const iOS = () =>
     [
       'iPad Simulator',
@@ -281,7 +293,7 @@
 
 <template>
   <div>
-    <Cursor v-if="!isMobile" />
+    <Cursor v-if="!isMobile && !isFirefox && !isSafari && !iOS()" />
 
     <!-- INTRO -------------------------------------------------------------->
 
@@ -632,7 +644,9 @@
         ref="fullpage"
         @update="handleNewSection"
         :duration="1200"
-        :lock="!state.ready || state.menu.mobile.active"
+        :lock="
+          !state.ready || state.menu.mobile.active || state.lightbox.active
+        "
         ease="easeInOutCubic"
       >
         <!-- LANDING PAGE -------------------------->
@@ -789,7 +803,7 @@
             :class="animate(1, 'brightness-[0]', 'brightness-[1]')"
           >
             <div
-              class="absolute w-screen h-screen backdrop-brightness-[0.75] z-[-1]"
+              class="absolute w-screen h-[100dvh] backdrop-brightness-[0.75] z-[-1]"
             ></div>
 
             <div

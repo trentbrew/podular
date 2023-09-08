@@ -63,7 +63,7 @@
       :style="
         isMobile
           ? 'overflow: hidden !important;'
-          : isSafari || isFirefox || iOS()
+          : iOS() || isSafari || isFirefox
           ? ''
           : 'cursor: none !important;'
       "
