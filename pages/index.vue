@@ -275,7 +275,7 @@
   }
 
   function closeLightbox() {
-    router.push({ hash: `#${state.lightbox.category}` })
+    router.push({ hash: `#${route.hash.split('_')[0]}` })
     state.lightbox.image = null
     state.lightbox.active = false
     state.lightbox.context = ''
@@ -318,7 +318,7 @@
     </div>
     <div
       v-show="state.lightbox.active"
-      class="hoverable shadow-lg z-[105] flex justify-center items-center rounded-full h-10 w-10 duration-150 fixed top-4 left-4 md:top-8 md:right-8 md:left-auto bg-white text-black"
+      class="hoverable shadow-lg z-[105] flex justify-center items-center rounded-full h-10 w-10 duration-150 fixed top-4 right-4 md:top-8 md:right-8 md:left-auto bg-white text-black"
       @click="closeLightbox"
     >
       <Icon class="pointer-events-none" :size="18" name="close" />
@@ -395,6 +395,9 @@
         >
           contact
         </li>
+        <a href="https://preorder.podular.us">
+          <li class="hoverable menu-item podular-sans md:nunito inactive-link">pre-order</li>
+        </a>
       </ul>
       <div class="w-full p-6 box-border mt-auto font-bold">
         <a href="#" class="btn btn-disabled btn-sm w-full bg-white/90 text-black rounded-full gap-2 font-bold">
@@ -484,6 +487,7 @@
         <div class="navbar-end pr-2">
           <a
             v-if="!isMobile"
+            href="https://preorder.podular.us"
             class="scale-[1.08] translate-x-[-4px] btn btn-sm bg-white/80 text-black/60 hover:bg-transparent hover:border-white hoverable border-white/0 border-[1.5px] hover:text-white rounded-full gap-1"
           >
             pre-order
@@ -769,7 +773,7 @@
                     class="w-full h-full bg-no-repeat bg-cover bg-center brightness-[0.4] saturate-125"
                     :style="`background-image: url(${item.image});`"
                   ></div>
-                  <span class="absolute w-full flex justify-center text-3xl text-white lowercase">
+                  <span class="pointer-events-none absolute w-full flex justify-center text-3xl text-white lowercase">
                     {{ item.title }}
                   </span>
                 </div>
@@ -862,7 +866,9 @@
                   class="w-full h-full bg-no-repeat bg-cover bg-center brightness-[0.4] saturate-125 rounded-lg"
                   :style="`background-image: url(${item.image});`"
                 ></div>
-                <span class="absolute left-0 w-full flex justify-center text-3xl text-white lowercase">
+                <span
+                  class="pointer-events-none absolute left-0 w-full flex justify-center text-3xl text-white lowercase"
+                >
                   {{ item.title }}
                 </span>
               </li>

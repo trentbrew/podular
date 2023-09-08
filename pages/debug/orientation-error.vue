@@ -1,5 +1,9 @@
 <script setup>
   const height = computed(() => window.innerHeight)
+
+  onMounted(() => {
+    if (window.innerWidth > 900) location.href = '/'
+  })
 </script>
 
 <template>
