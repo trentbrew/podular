@@ -235,23 +235,6 @@
     // state.menu.hover = false
   }
 
-  function handleMouseMove(e) {
-    // if (state.ready) {
-    //   if (/*[2, 3].includes(state.active)*/true) {
-    //     if (
-    //       e.clientX > window.innerWidth - state.menu.zone[0] &&
-    //       e.clientY > window.innerHeight - state.menu.zone[1]
-    //     ) {
-    //       // state.menu.zone = [window.innerWidth / 2, window.innerHeight]
-    //       // state.menu.lock = false
-    //     } else {
-    //       // state.menu.zone = [160, 160]
-    //       // state.menu.lock = true
-    //     }
-    //   }
-    // }
-  }
-
   function closeMenu() {
     state.menu.mobile.active = false
   }
@@ -286,7 +269,7 @@
 </script>
 
 <template>
-  <div @mousemove="handleMouseMove">
+  <div>
     <Cursor v-if="!isMobile" />
 
     <!-- INTRO -------------------------------------------------------------->
@@ -663,7 +646,6 @@
             class="absolute bg-black/25 w-screen h-screen z-[100] flex justify-center items-end text-white"
           >
             <!-- arrow -->
-
             <div
               class="w-6 h-6 hoverable flex justify-center items-center absolute m-auto left-0 right-0 md:right-auto md:left-8 md:opacity-60 bottom-8 md:bottom-6"
             >
@@ -847,6 +829,23 @@
                     features & customization
                   </span>
                 </button>
+
+                <!--
+
+            <div
+              @click="goTo('showroom')"
+              class="z-[10] md:absolute md:bottom-6 md:right-6 hoverable justify-center flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-6 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"
+            >
+              <Icon
+                class="hoverable animate-bounce pointer-events-none absolute md:relative left-12 bottom-[34px] md:left-auto md:bottom-[-4px]"
+                name="arrow_alt_down"
+              />
+              <span class="hoverable pointer-events-none">
+                explore the showroom
+              </span>
+            </div>
+
+ -->
 
                 <div
                   v-else

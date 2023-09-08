@@ -12,8 +12,36 @@
         (typeof safari !== 'undefined' && window['safari'].pushNotification)
     )
 
+  const isFirefox = typeof InstallTrigger !== 'undefined'
+
+  function handleOrientationChange() {
+    switch (window.orientation) {
+      case 0:
+        console.log('Portrait orientation')
+        window.location.reload()
+        break
+      case 90:
+        console.log('Landscape orientation (clockwise)')
+        window.location.reload()
+        break
+      case -90:
+        console.log('Landscape orientation (counterclockwise)')
+        window.location.reload()
+        break
+      default:
+        console.log('Unknown orientation')
+        break
+    }
+  }
+
+  window.addEventListener('orientationchange', handleOrientationChange)
+
   nuxtApp.hook('page:finish', () => {
     window.scrollTo(0, 0)
+  })
+
+  onMounted(() => {
+    console.log('app mounted')
   })
 </script>
 
@@ -24,7 +52,7 @@
       :style="
         isMobile
           ? 'overflow: hidden !important;'
-          : isSafari
+          : isSafari || isFirefox
           ? ''
           : 'cursor: none !important;'
       "

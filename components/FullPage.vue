@@ -22,8 +22,6 @@
     },
   })
 
-  console.log('disabled?', props.disable)
-
   const state = reactive({
     sections: [],
     currentSection: 0,
@@ -53,16 +51,12 @@
     }
   )
 
-  // WHEEL EVENTS
-
   window.addEventListener('wheel', event => {
     state.wheel = event
     if (state.isScrolling || props.lock || state.breaking) return
     const delta = Math.sign(event.deltaY)
     handleScroll(delta)
   })
-
-  // TOUCH EVENTS
 
   window.addEventListener('touchstart', event => {
     if (state.isScrolling || props.lock) return
@@ -77,15 +71,11 @@
     if (Math.abs(delta) > threshold) handleScroll(delta)
   })
 
-  // KEYBOARD EVENTS
-
   window.addEventListener('keydown', event => {
     if (state.isScrolling || props.lock) return
     if (event.key === 'ArrowDown') handleScroll(1)
     else if (event.key === 'ArrowUp') handleScroll(-1)
   })
-
-  // HANDLERS
 
   function handleScroll(delta) {
     if (delta > 0 && state.currentSection < state.sections.length - 1) {
