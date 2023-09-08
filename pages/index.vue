@@ -275,7 +275,7 @@
   }
 
   function closeLightbox() {
-    router.push({ hash: `${route.hash.split('_')[0]}` })
+    router.push({ hash: `#${route.hash.split('_')[0]}` })
     state.lightbox.image = null
     state.lightbox.active = false
     state.lightbox.context = ''
