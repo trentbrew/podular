@@ -316,7 +316,7 @@
     </div>
     <div
       v-show="state.lightbox.active"
-      class="hoverable shadow-lg z-[105] flex justify-center items-center rounded-full h-10 w-10 duration-150 fixed top-4 left-4 md:top-8 md:right-8 md:left-auto bg-white text-black"
+      class="hoverable shadow-lg z-[105] flex justify-center items-center rounded-full h-10 w-10 duration-150 fixed top-4 right-4 md:top-8 md:right-8 md:left-auto bg-white text-black"
       @click="closeLightbox"
     >
       <Icon class="pointer-events-none" :size="18" name="close" />
@@ -483,7 +483,12 @@
             pre-order
             <!-- <Icon name="arrow_alt_right" /> -->
           </a>
-          <button v-else @click="openMenu" class="p-0 active:opacity-50 min-w-6 min-h-6 text-white">
+          <button
+            v-else
+            @click="openMenu"
+            class="p-0 active:opacity-50 min-w-6 min-h-6 text-white"
+            :class="state.lightbox.active ? 'pointer-events-none' : ''"
+          >
             <Icon name="menu_alt" :size="36" class="scale-x-[-1] pointer-events-none" />
           </button>
         </div>
@@ -648,7 +653,7 @@
         <section id="about" class="flex" :class="overlay()" :style="`margin-top: ${state.viewportHeight}px`">
           <div
             class="bg-[url('/assets/images/renders/about.jpg')] bg-no-repeat bg-cover duration-[4s] md:w-screen flex items-end justify-start"
-            :style="'min-height: -webkit-fill-available;' + parallax(1)"
+            :style="`height: ${state.viewportHeight}px; ` + parallax(1)"
             :class="animate(1, 'brightness-[0]', 'brightness-[1]')"
           >
             <div
@@ -657,9 +662,9 @@
             ></div>
 
             <div
-              class="w-[100vw] p-8 md:p-12 pb-6 md:pb-12 flex flex-col justify-end items-start duration-[2s]"
-              style="background: linear-gradient(transparent, #000000ee)"
-              :class="animate(1, 'opacity-0 h-[30vh] delay-[5s]', 'opacity-100 delay-[1.2s]')"
+              class="w-[100vw] p-8 md:p-12 pb-12 flex flex-col justify-end items-start duration-[2s]"
+              style="background: linear-gradient(transparent, #000000ef)"
+              :class="animate(1, 'opacity-0 h-[60vh] delay-[5s]', 'opacity-100 delay-[1.2s]')"
             >
               <div class="font-bold text-5xl md:text-4xl text-white mb-6 podular-sans text-left">
                 the
