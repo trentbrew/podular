@@ -1,7 +1,7 @@
 <script setup>
   const emit = defineEmits(['ready'])
 
-  const isMobile = window.innerWidth < 768
+  const isMobile = window.innerWidth < 900
 
   const props = defineProps({
     skip: {
@@ -77,13 +77,7 @@
         class="absolute w-[118px] h-[118px] left-[calc(50vw-59px)] top-[calc(50vh-59px)] nudge"
       >
         <div class="absolute">
-          <svg
-            width="118"
-            height="118"
-            viewBox="0 0 200 200"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg width="118" height="118" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               fill-rule="evenodd"
               clip-rule="evenodd"
@@ -95,19 +89,9 @@
         <!-- piece -->
         <div
           class="absolute bottom-0 right-0"
-          :class="
-            state.skip
-              ? 'duration-0 translate-x-[18px] translate-y-[18px]'
-              : 'detatch'
-          "
+          :class="state.skip ? 'duration-0 translate-x-[18px] translate-y-[18px]' : 'detatch'"
         >
-          <svg
-            width="59"
-            height="59"
-            viewBox="0 0 100 100"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg width="59" height="59" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               fill-rule="evenodd"
               clip-rule="evenodd"

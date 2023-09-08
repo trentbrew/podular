@@ -221,7 +221,8 @@
     state.sections = container.querySelectorAll('section')
     const initialSection = state.sections[0]
     initialSection.classList.add('active-section')
-    updateWrapperHeights(!iOS() ? window.innerHeight : '100dvh')
+    updateWrapperHeights(window.innerHeight)
+    console.log('viewportHeight: ', window.innerHeight)
     emit('ready', true)
   })
 </script>
@@ -233,11 +234,7 @@
 </template>
 
 <style>
-  body {
-    overflow: hidden;
-  }
   section {
-    height: 100vh;
     width: 100vw;
     display: flex;
     align-items: center;

@@ -38,18 +38,26 @@
 
   const renders = {
     features: {
-      latch: 'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_latch_tGxZ6yXiQ2.jpg?token=',
-      access: 'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_access_gdAIvC8wII.jpg?token=',
+      latch:
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_latch_tGxZ6yXiQ2.jpg?token=',
+      access:
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_access_gdAIvC8wII.jpg?token=',
       led: 'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_led_C29MthT4O4.jpg?token=',
       sink: 'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_sink_RMks1p836A.jpg?token=',
-      storage: 'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_storage_tuoSPKJDmp.jpg?token=',
-      stove: 'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_stove_k1RnImOdBk.jpg?token=',
-      utility: 'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_utility_Or6A3Ycgwx.jpg?token=',
+      storage:
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_storage_tuoSPKJDmp.jpg?token=',
+      stove:
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_stove_k1RnImOdBk.jpg?token=',
+      utility:
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_utility_Or6A3Ycgwx.jpg?token=',
     },
     showroom: {
-      access: 'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/5uacn4j78hcehva/showroom_access_Dpz1zPmH4T.jpg?token=',
-      electrical: 'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/5uacn4j78hcehva/showroom_electrical_3N9lcpKqbs.jpg?token=',
-      scale: 'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/5uacn4j78hcehva/showroom_scale_yuLw55agv3.jpg?token=',
+      access:
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/5uacn4j78hcehva/showroom_access_Dpz1zPmH4T.jpg?token=',
+      electrical:
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/5uacn4j78hcehva/showroom_electrical_3N9lcpKqbs.jpg?token=',
+      scale:
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/5uacn4j78hcehva/showroom_scale_yuLw55agv3.jpg?token=',
     },
   }
 
@@ -107,7 +115,7 @@
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="wrapper" :style="`height: ${() => window.innerHeight}px`">
     <div class="tiles">
       <div class="tile" :data-scale="props.id == 'features' ? 1.1 : 1.3" :class="`${props.id}-tile`">
         <div class="photo" :style="`background-image: url(${props.image})`">
@@ -138,7 +146,9 @@
               :key="itemIndex"
               class="group bg-white h-8 w-8 rounded-[32px] absolute z-50 duration-[600ms]"
               :class="`${props.id}-ping ${
-                !iOS() ? 'hover:w-16 hover:scale-[6] hover:!rounded-[4px] hover:shadow-xl hoverable bg-cover bg-no-repeat bg-center active:scale-[5.6]' : ''
+                !iOS()
+                  ? 'hover:w-16 hover:scale-[6] hover:!rounded-[4px] hover:shadow-xl hoverable bg-cover bg-no-repeat bg-center active:scale-[5.6]'
+                  : ''
               }`"
               :style="`
                 left: ${(item.coordinates[0] / 64) * 100}%;
@@ -162,7 +172,6 @@
 <style>
   .wrapper {
     width: 100%;
-    height: 100dvh;
   }
 
   .tiles {

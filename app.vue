@@ -1,28 +1,18 @@
 <script setup>
   const nuxtApp = useNuxtApp()
 
-  const isMobile = window.innerWidth < 768
+  const isMobile = window.innerWidth < 900
 
   const isSafari =
     /constructor/i.test(window.HTMLElement) ||
     (function (p) {
       return p.toString() === '[object SafariRemoteNotification]'
-    })(
-      !window['safari'] ||
-        (typeof safari !== 'undefined' && window['safari'].pushNotification)
-    )
+    })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification))
 
   const isFirefox = typeof InstallTrigger !== 'undefined'
 
   const iOS = () =>
-    [
-      'iPad Simulator',
-      'iPhone Simulator',
-      'iPod Simulator',
-      'iPad',
-      'iPhone',
-      'iPod',
-    ].includes(navigator.platform) ||
+    ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform) ||
     (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
 
   function handleOrientationChange() {
@@ -59,15 +49,7 @@
 <template>
   <Html data-theme="black">
     <Head><Title>PODULAR</Title></Head>
-    <div
-      :style="
-        isMobile
-          ? 'overflow: hidden !important;'
-          : iOS() || isSafari || isFirefox
-          ? ''
-          : 'cursor: none !important;'
-      "
-    >
+    <div :style="`${iOS() || isSafari || isFirefox ? '' : 'cursor: none !important;'} overflow: hidden !important;`">
       <NuxtLayout />
     </div>
   </Html>
