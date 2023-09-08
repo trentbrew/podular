@@ -2,7 +2,7 @@
   const router = useRouter()
   const route = useRoute()
 
-  const isMobile = window.innerWidth < 768
+  const isMobile = window.innerWidth < 900
 
   const isSafari =
     /constructor/i.test(window.HTMLElement) ||
@@ -140,6 +140,7 @@
   const state = reactive({
     skipIntro: false,
     viewportHeight: 0,
+    orientation: 'portrait',
     ready: false,
     active: 0,
     progress: 0,
@@ -171,8 +172,9 @@
   })
 
   onMounted(() => {
+    state.orientation = window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'
+    console.log('orientation: ', state.orientation)
     state.viewportHeight = window.innerHeight
-    console.log('viewportHeight: ', state.viewportHeight)
     router.push({ hash: '' })
     if (state.skipIntro) state.ready = true
   })
@@ -213,8 +215,7 @@
   }
 
   function parallax(index) {
-    if (isChromeForAndroid()) return '' // TODO: fix dynamic viewport issues on chrome for android
-    if (iOS() || isMobile) return ''
+    if (iOS() || isChromeForAndroid() || isMobile) return ''
     const fx = 'filter: brightness(0.6);'
     const bgy = `background-attachment: fixed; background-size: ${
       isMobile ? 'cover' : '130%'
@@ -583,11 +584,17 @@
               class="absolute duration-[1.5s]"
               :class="
                 state.active > 0
-                  ? 'top-[-24vh] opacity-0 scale-[0.6]'
-                  : 'top-[32vh] md:top-[24vh] opacity-100 scale-[1]'
+                  ? `top-[-24vh] opacity-0 scale-[0.6]`
+                  : `top-[32vh] md:top-[20vh] opacity-100 scale-[1]`
               "
             >
-              <svg :width="isMobile ? 250 : 500" viewBox="0 0 2835 726" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg
+                :style="`transform: scale(${isMobile ? (state.orientation == 'landscape' ? 0.5 : 0.8) : 1})`"
+                width="500"
+                viewBox="0 0 2835 726"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   d="M1958 34.054C1958 15.2465 1973.22 0 1992 0V0C2010.78 0 2026 15.2465 2026 34.0541V525.946C2026 544.753 2010.78 560 1992 560V560C1973.22 560 1958 544.753 1958 525.946V34.054Z"
                   fill="white"
@@ -666,18 +673,24 @@
               style="background: linear-gradient(transparent, #000000ef)"
               :class="animate(1, 'opacity-0 h-[60vh] delay-[5s]', 'opacity-100 delay-[1.2s]')"
             >
-              <div class="font-bold text-5xl md:text-4xl text-white mb-6 podular-sans text-left">
+              <div
+                class="font-bold text-5xl md:text-4xl text-white mb-6 podular-sans text-left"
+                :class="isMobile && state.orientation == 'landscape' ? '!text-3xl' : ''"
+              >
                 the
-                <br v-if="isMobile" />
+                <br v-if="isMobile && state.orientation != 'landscape'" />
                 perfect
-                <br v-if="isMobile" />
+                <br v-if="isMobile && state.orientation != 'landscape'" />
                 space
-                <br v-if="isMobile" />
+                <br v-if="isMobile && state.orientation != 'landscape'" />
                 solution
               </div>
 
               <div class="mt-4 md:mt-0 flex justify-between w-full items-end gap-3 text-white">
-                <span class="md:text-lg md:max-w-[45vw] opacity-50 font-normal text-left text-[16px]">
+                <span
+                  class="md:text-lg md:max-w-[45vw] opacity-50 font-normal text-left text-[16px]"
+                  :class="isMobile && state.orientation == 'landscape' ? '!max-w-[75vw] !opacity-75' : ''"
+                >
                   Podular presents a stylish and personalized modular pod, offering swift and uncomplicated spatial
                   solutions that elevate the customer and employee experience in the food and beverage industry.
                 </span>
@@ -740,7 +753,11 @@
             />
           </div>
           <div v-else class="w-full h-full">
-            <ul class="pt-4 w-full mt-[64px] bg-black flex flex-col" :style="`height: ${state.viewportHeight - 64}px`">
+            <ul
+              class="w-full mt-[64px] bg-black flex"
+              :class="state.orientation == 'landscape' ? 'pt-0' : 'flex-col gap-0 pt-4'"
+              :style="`height: ${state.viewportHeight - 64}px`"
+            >
               <li
                 v-for="(item, itemIndex) in pings.features"
                 @click="
@@ -751,18 +768,20 @@
                   })
                 "
                 :key="itemIndex"
-                class="w-full h-full flex justify-start items-center px-4 pb-4"
+                class="w-full h-full flex justify-start items-center p-[1px]"
                 :class="state.lightbox.active ? 'pointer-events-none' : ''"
               >
-                <div
-                  class="w-full h-full bg-no-repeat bg-cover bg-center brightness-[0.4] saturate-125 rounded-lg"
-                  :style="`background-image: url(${item.image});`"
-                ></div>
-                <span class="absolute left-0 w-full flex justify-center text-3xl text-white lowercase">
-                  {{ item.title }}
-                </span>
+                <div class="flex justify-center items-center w-full h-full">
+                  <div
+                    class="w-full h-full bg-no-repeat bg-cover bg-center brightness-[0.4] saturate-125"
+                    :style="`background-image: url(${item.image});`"
+                  ></div>
+                  <span class="absolute w-full flex justify-center text-2xl text-white lowercase">
+                    {{ item.title }}
+                  </span>
+                </div>
               </li>
-              <li class="px-4 pb-4 w-full">
+              <!-- <li class="px-4 pb-4 w-full">
                 <div v-if="isMobile" class="w-6 h-6 hoverable flex justify-start items-center mt-8">
                   <Icon
                     v-if="isMobile"
@@ -781,7 +800,7 @@
                     :class="isMobile ? 'opacity-100' : ''"
                   />
                 </div>
-              </li>
+              </li> -->
             </ul>
           </div>
         </section>
