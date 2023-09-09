@@ -228,6 +228,7 @@
   }
 
   function animate(index, inactive, active) {
+    if (iPhone) return active
     if (state.active === index) return active
     else return inactive
   }
@@ -306,7 +307,7 @@
           : 'opacity-0'
       "
       class="w-[100vw] p-8 pb-6 md:p-16 h-[50vh] md:pb-12 flex flex-col justify-end items-start duration-[2s] fixed bottom-0 left-0 pointer-events-none z-[110]"
-      style="background: linear-gradient(transparent, #000000dd)"
+      style="background: linear-gradient(transparent, #000000)"
     >
       <div class="font-bold text-4xl md:text-5xl text-white mb-6 podular-sans">
         {{ pingContext ?? state.lightbox.context }}
@@ -399,12 +400,6 @@
           <li class="hoverable menu-item podular-sans md:nunito inactive-link">pre-order</li>
         </a>
       </ul>
-      <div class="w-full p-6 box-border mt-auto font-bold">
-        <a href="#" class="btn btn-sm w-full bg-white/90 text-black rounded-full gap-2 font-bold">
-          pre-order
-          <!-- <Icon name="open" /> -->
-        </a>
-      </div>
     </div>
 
     <!-- desktop nav -->
@@ -421,9 +416,13 @@
         <div class="navbar-start pl-[64px]">
           <a
             class="duration-500 text-2xl text-white translate-y-[-1px]"
-            :class="(state.active > 0 && !isMobile) || isMobile ? 'opacity-100 delay-[1s]' : 'opacity-0 -translate-x-2'"
+            :class="
+              (state.active > 0 && !isMobile) || (isMobile && !iPhone)
+                ? 'opacity-100 delay-[1s]'
+                : 'opacity-0 -translate-x-2'
+            "
           >
-            <h1 v-if="!isMobile" class="podular-sans">podular</h1>
+            <h1 v-if="!isMobile || iPhone" class="podular-sans">podular</h1>
             <div v-else>
               <h1 v-show="state.active == 0" class="podular-sans"></h1>
               <h1 v-show="state.active == 1" class="podular-sans">about</h1>
@@ -552,6 +551,7 @@
         @update="handleNewSection"
         :duration="1200"
         :lock="!state.ready || state.menu.mobile.active || state.lightbox.active"
+        :disabled="iPhone"
         ease="easeInOutCubic"
       >
         <!-- LANDING PAGE -------------------------->
@@ -752,9 +752,13 @@
             />
           </div>
           <div v-else class="w-full h-full">
+            <div v-if="iPhone" class="font-normal text-5xl text-white mb-6 mt-24 podular-sans text-left ml-8">
+              features
+            </div>
+            <hr v-if="iPhone" class="opacity-25" />
             <ul
-              class="pt-4 w-full mt-[64px] bg-black flex"
-              :class="landscape ? '' : 'flex-col'"
+              class="pt-4 w-full mt-[64px] bg-black flex flex-col"
+              :class="iPhone ? '!mt-[12px]' : ''"
               :style="`height: ${state.viewportHeight - 64}px`"
             >
               <li
@@ -780,11 +784,11 @@
                   </span>
                 </div>
               </li>
-              <li class="px-4 pb-4 w-full text-white flex justify-center items-center">
+              <!-- <li class="px-4 pb-4 w-full text-white flex justify-center items-center">
                 <div v-if="isMobile" class="w-6 h-6 hoverable flex justify-start items-center mt-8 mb-4">
                   <Icon name="arrow_alt_down" class="animate-bounce pointer-events-none" />
                 </div>
-              </li>
+              </li> -->
             </ul>
           </div>
         </section>
@@ -835,7 +839,15 @@
           </div>
           <!-- mobile -->
           <div v-else class="w-full h-full">
-            <ul class="pt-4 w-full mt-[64px] bg-black flex flex-col" :style="`height: ${state.viewportHeight - 64}px`">
+            <div v-if="iPhone" class="font-normal text-5xl text-white mb-6 mt-24 podular-sans text-left ml-8">
+              showroom
+            </div>
+            <hr v-if="iPhone" class="opacity-25" />
+            <ul
+              class="pt-4 w-full mt-[64px] bg-black flex flex-col"
+              :style="`height: ${state.viewportHeight - 64}px`"
+              :class="iPhone ? '!mt-[12px]' : ''"
+            >
               <li
                 v-for="(item, itemIndex) in pings.showroom"
                 @click="
@@ -854,26 +866,38 @@
                   :style="`background-image: url(${item.image});`"
                 ></div>
                 <span
-                  class="pointer-events-none absolute left-0 w-full flex justify-center text-3xl text-white lowercase"
+                  class="pointer-events-none absolute left-0 w-full flex justify-center text-2xl text-white podular-sans lowercase"
                 >
                   {{ item.title }}
                 </span>
               </li>
-              <li class="px-4 pb-4 w-full text-white flex justify-center items-center">
+              <!-- <li class="px-4 pb-4 w-full text-white flex justify-center items-center">
                 <div v-if="isMobile" class="w-6 h-6 hoverable flex justify-start items-center mt-8 mb-4">
                   <Icon name="arrow_alt_down" class="animate-bounce pointer-events-none" />
                 </div>
-              </li>
+              </li> -->
             </ul>
           </div>
         </section>
 
         <!-- CONTACT PAGE -->
 
-        <section id="contact" class="bg-black/40 backdrop-blur-sm text-white" :class="overlay()">
+        <section
+          id="contact"
+          class="bg-black/40 backdrop-blur-sm text-white"
+          :class="overlay()"
+          :style="iPhone ? 'background: black !important; height: 100vh;' : ''"
+        >
           <div
             class="w-full h-full justify-center flex md:flex-row flex-col gap-12 items-center text-center md:text-left md:m-auto z-[40]"
           >
+            <div
+              v-if="iPhone"
+              class="font-normal w-full text-5xl text-white mb-[-36px] mt-0 podular-sans text-left ml-8"
+            >
+              contact
+            </div>
+            <hr v-if="iPhone" class="opacity-25 mb-12 mt-0 w-full" />
             <div>
               <div
                 class="absolute z-[-1] translate-x-[-143px] translate-y-[-145px] duration-[3s] delay-[200ms]"
@@ -900,11 +924,12 @@
                   />
                 </svg>
               </div>
+
               <img
                 src="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/51arrah30qe27ve/contact_YOiKby9Gwc.png?token="
                 alt="Jasna Ostojich"
                 class="rounded-full mt-[-100px] md:m-auto object-cover w-[160px] h-[160px] border-2 border-white/10 md:text-left duration-[1.5s] delay-[1.4s]"
-                :class="animate(4, 'opacity-0 scale-[0.9]', 'opacity-100 scale-[1]')"
+                :class="animate(4, 'opacity-0 scale-[0.9]', `opacity-100 scale-[1] ${iPhone ? '!mt-0' : ''}`)"
               />
             </div>
             <div
@@ -928,24 +953,41 @@
                     +1 (847) 922 0061
                   </a>
                 </span>
+                <div
+                  v-if="iPhone"
+                  class="translate-y-[64px] justify-center md:justify-end md:bottom-12 md:right-16 md:left-auto z-[100] flex items-center gap-8 duration-[600ms] text-white w-full md:w-fit delay-[400ms] scale-[0.7]"
+                >
+                  <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
+                    <Icon class="pointer-events-none" name="instagram" />
+                  </a>
+                  <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
+                    <Icon class="pointer-events-none" name="facebook_alt" />
+                  </a>
+                  <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
+                    <Icon class="pointer-events-none" name="twitter" />
+                  </a>
+                  <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
+                    <Icon class="pointer-events-none" name="linkedin" />
+                  </a>
+                </div>
               </div>
             </div>
             <div
               class="w-full h-[100px] fixed bottom-0 flex flex-col justify-end items-start z-[30] duration-500"
-              :class="state.active != 4 ? 'opacity-0 pointer-events-none' : 'opacity-100'"
+              :class="state.active != 4 || iPhone ? 'opacity-0 pointer-events-none' : 'opacity-100'"
             >
               <div class="flex items-center w-full justify-between px-16">
                 <div
                   class="w-full h-[120px] flex gap-[4px] md:gap-0 items-center justify-center md:justify-start flex-col md:flex-row"
                 >
                   <!-- wan -->
-                  <span class="opacity-30 md:opacity-40 flex gap-2 items-center text-xs md:text-base">
+                  <span class="opacity-50 md:opacity-40 flex gap-2 items-center text-xs md:text-base">
                     <Icon class="md:mr-1" name="cube" :size="16" />
                     3D Renders by
                     <a class="underline hoverable" href="https://studiolafa.design">Lawan Alade-Fa</a>
                   </span>
                   <!-- trent -->
-                  <span class="ml-4 opacity-30 md:opacity-40 flex gap-2 items-center text-xs md:text-base">
+                  <span class="ml-4 opacity-50 md:opacity-40 flex gap-2 items-center text-xs md:text-base">
                     <Icon class="md:mr-2" name="laptop" :size="16" />
                     Web Design by
                     <a class="underline hoverable" href="https://trentbrew.com">Trent Brew</a>

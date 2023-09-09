@@ -86,7 +86,6 @@
   })
 
   window.addEventListener('resize', event => {
-    // if (state.isScrolling || props.lock || state.breaking || state.touching) return
     if (iOS()) return
     emit('resize', window.innerHeight)
     updateWrapperHeights(window.innerHeight)
@@ -225,7 +224,7 @@
     state.sections = container.querySelectorAll('section')
     const initialSection = state.sections[0]
     initialSection.classList.add('active-section')
-    updateWrapperHeights(window.innerHeight)
+    if (!iOS()) updateWrapperHeights(window.innerHeight)
     console.log('viewportHeight: ', window.innerHeight)
     emit('ready', true)
   })

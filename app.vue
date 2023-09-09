@@ -52,7 +52,7 @@
 </script>
 
 <template>
-  <Html data-theme="black" :style="iPhone ? 'overscroll-behavior: none;' : 'overflow: hidden;'">
+  <Html data-theme="black" :style="iPhone ? '' : 'overflow: hidden;'">
     <Head><Title>PODULAR</Title></Head>
     <Body :style="iPhone ? 'overscroll-behavior: none;' : 'overflow: hidden;'">
       <div :style="`${iOS() || isSafari || isFirefox ? '' : 'cursor: none !important'}`">

@@ -13,6 +13,10 @@
 
 /* ------------ global ------------ */
 
+* {
+  overscroll-behavior: none !important;
+}
+
 body {
   scroll-behavior: smooth;
   box-sizing: border-box;
