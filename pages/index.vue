@@ -174,7 +174,6 @@
 
   onMounted(() => {
     state.viewportHeight = window.innerHeight
-    console.log('viewportHeight: ', state.viewportHeight)
     router.push({ hash: '' })
     if (state.skipIntro) state.ready = true
   })
