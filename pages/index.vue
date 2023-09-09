@@ -769,7 +769,7 @@
               >
                 <div class="w-full h-full flex justify-center items-center rounded-lg">
                   <div
-                    class="w-full h-full bg-no-repeat bg-cover bg-center brightness-[0.4] saturate-125"
+                    class="w-full h-full bg-no-repeat bg-cover bg-center brightness-[0.4] saturate-125 rounded-lg"
                     :style="`background-image: url(${item.image});`"
                   ></div>
                   <span class="pointer-events-none absolute w-full flex justify-center text-3xl text-white lowercase">
