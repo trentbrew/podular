@@ -36,6 +36,7 @@
     wheel: null,
     wheeling: false,
     breaking: false,
+    touching: false,
   })
 
   let wheelTimeout = null
@@ -66,15 +67,16 @@
 
   window.addEventListener('touchstart', event => {
     if (state.isScrolling || props.lock || props.disabled) return
+    state.touching = true
     state.touchStartY = event.touches[0].clientY
   })
 
   window.addEventListener('touchend', event => {
     if (state.isScrolling || props.lock || props.disabled) return
-    const threshold = 25
+    state.touching = false
     state.touchEndY = event.changedTouches[0].clientY
     const delta = state.touchStartY - state.touchEndY
-    if (Math.abs(delta) > threshold) handleScroll(delta)
+    if (Math.abs(delta) > 25) handleScroll(delta)
   })
 
   window.addEventListener('keydown', event => {
@@ -84,6 +86,8 @@
   })
 
   window.addEventListener('resize', event => {
+    // if (state.isScrolling || props.lock || state.breaking || state.touching) return
+    if (iOS()) return
     emit('resize', window.innerHeight)
     updateWrapperHeights(window.innerHeight)
   })
@@ -234,6 +238,9 @@
 </template>
 
 <style>
+  #fullscreen {
+    overflow: hidden !important;
+  }
   section {
     width: 100vw;
     display: flex;

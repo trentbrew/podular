@@ -16,6 +16,8 @@
     ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform) ||
     (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
 
+  const iPhone = isMobile && iOS()
+
   function isChromeForAndroid() {
     const userAgent = navigator.userAgent.toLowerCase()
     return userAgent.includes('chrome') && userAgent.includes('android')
@@ -323,12 +325,11 @@
       <Icon class="pointer-events-none" :size="18" name="close" />
     </div>
     <div
-      class="w-full fixed top-0 left-0 z-[100] bg-black/90 backdrop-blur-lg flex justify-center items-center duration-300 pointer-events-none"
+      class="w-full h-screen fixed top-0 left-0 z-[100] bg-black/90 backdrop-blur-lg flex justify-center items-center duration-300 pointer-events-none"
       :class="state.lightbox.active ? 'opacity-100' : 'opacity-0'"
-      :style="`height: ${state.viewportHeight}px`"
     >
       <div
-        class="bg-white h-full w-full rounded-[16px] bg-cover bg-center bg-no-repeat duration-[600ms]"
+        class="bg-white h-full w-full bg-cover bg-center bg-no-repeat duration-[600ms]"
         :class="state.lightbox.active ? 'scale-1' : 'scale-[0.8]'"
         :style="`background-image: url(${
           state.lightbox.image ??
@@ -399,7 +400,7 @@
         </a>
       </ul>
       <div class="w-full p-6 box-border mt-auto font-bold">
-        <a href="#" class="btn btn-disabled btn-sm w-full bg-white/90 text-black rounded-full gap-2 font-bold">
+        <a href="#" class="btn btn-sm w-full bg-white/90 text-black rounded-full gap-2 font-bold">
           pre-order
           <!-- <Icon name="open" /> -->
         </a>
@@ -580,8 +581,7 @@
                 v-if="isMobile"
                 :size="isMobile ? 24 : 32"
                 name="arrow_alt_down"
-                class="animate-bounce pointer-events-none"
-                :class="isMobile ? 'opacity-100' : ''"
+                class="animate-bounce pointer-events-none mt-[-16px]"
               />
             </div>
 
@@ -686,7 +686,10 @@
               </div>
 
               <div class="mt-4 md:mt-0 flex justify-between w-full items-end gap-3 text-white">
-                <span class="md:text-lg md:max-w-[45vw] opacity-50 font-normal text-left text-[16px]">
+                <span
+                  class="md:text-lg md:max-w-[45vw] font-normal text-left text-[16px]"
+                  :class="iPhone ? 'opacity-100' : 'opacity-60'"
+                >
                   Podular presents a stylish and personalized modular pod, offering swift and uncomplicated spatial
                   solutions that elevate the customer and employee experience in the food and beverage industry.
                 </span>
@@ -750,7 +753,7 @@
           </div>
           <div v-else class="w-full h-full">
             <ul
-              class="pt-8 w-full mt-[64px] bg-black flex"
+              class="pt-4 w-full mt-[64px] bg-black flex"
               :class="landscape ? '' : 'flex-col'"
               :style="`height: ${state.viewportHeight - 64}px`"
             >
@@ -777,26 +780,11 @@
                   </span>
                 </div>
               </li>
-              <!-- <li class="px-4 pb-4 w-full">
-                <div v-if="isMobile" class="w-6 h-6 hoverable flex justify-start items-center mt-8">
-                  <Icon
-                    v-if="isMobile"
-                    :size="isMobile ? 24 : 32"
-                    name="arrow_alt_down"
-                    class="animate-bounce pointer-events-none"
-                    :class="isMobile ? 'opacity-100' : ''"
-                  />
+              <li class="px-4 pb-4 w-full text-white flex justify-center items-center">
+                <div v-if="isMobile" class="w-6 h-6 hoverable flex justify-start items-center mt-8 mb-4">
+                  <Icon name="arrow_alt_down" class="animate-bounce pointer-events-none" />
                 </div>
-                <div v-else class="w-6 h-6 hoverable flex justify-start items-center mt-8">
-                  <Icon
-                    v-if="isMobile"
-                    :size="isMobile ? 24 : 32"
-                    name="arrow_alt_down"
-                    class="animate-bounce pointer-events-none"
-                    :class="isMobile ? 'opacity-100' : ''"
-                  />
-                </div>
-              </li> -->
+              </li>
             </ul>
           </div>
         </section>
@@ -871,17 +859,11 @@
                   {{ item.title }}
                 </span>
               </li>
-              <!-- <li class="px-4 pb-4 w-full">
-                <div v-if="isMobile" class="w-6 h-6 hoverable flex justify-start items-center mt-8">
-                  <Icon
-                    v-if="isMobile"
-                    :size="isMobile ? 24 : 32"
-                    name="arrow_alt_down"
-                    class="animate-bounce pointer-events-none"
-                    :class="isMobile ? 'opacity-100' : ''"
-                  />
+              <li class="px-4 pb-4 w-full text-white flex justify-center items-center">
+                <div v-if="isMobile" class="w-6 h-6 hoverable flex justify-start items-center mt-8 mb-4">
+                  <Icon name="arrow_alt_down" class="animate-bounce pointer-events-none" />
                 </div>
-              </li> -->
+              </li>
             </ul>
           </div>
         </section>

@@ -13,17 +13,13 @@
 
 /* ------------ global ------------ */
 
-* {
-  font-family: 'Nunito Sans', sans-serif;
-}
-
-html {
-  overflow: hidden;
-}
-
 body {
   scroll-behavior: smooth;
   box-sizing: border-box;
+}
+
+* {
+  font-family: 'Nunito Sans', sans-serif;
 }
 
 .nunito {
