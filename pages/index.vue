@@ -340,7 +340,7 @@
         <div
           v-if="iPhone"
           class="w-[100vw] p-8 pb-6 md:p-16 h-[50vh] md:pb-12 flex flex-col justify-end items-start duration-[2s] pointer-events-none z-[110]"
-          :class="iPhone ? '!pb-24' : ''"
+          :class="iPhone ? '!pb-36' : ''"
           style="background: linear-gradient(transparent, #000000)"
         >
           <div class="font-bold text-4xl md:text-5xl text-white mb-6 podular-sans">
