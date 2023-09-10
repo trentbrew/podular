@@ -41,7 +41,7 @@
       latch:
         'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_latch_tGxZ6yXiQ2.jpg?token=',
       access:
-        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_access_gdAIvC8wII.jpg?token=',
+        'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_access_ZgNUvMDLWQ.jpg?token=',
       led: 'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_led_C29MthT4O4.jpg?token=',
       sink: 'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_sink_RMks1p836A.jpg?token=',
       storage:

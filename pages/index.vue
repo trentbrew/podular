@@ -81,7 +81,7 @@
         description: 'Each Podular pod provides an accessible easy-to-move entry/exit section.',
         coordinates: [49, 16],
         image:
-          'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_access_gdAIvC8wII.jpg?token=',
+          'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_access_ZgNUvMDLWQ.jpg?token=',
       },
       // {
       //   id: 'wheels',
