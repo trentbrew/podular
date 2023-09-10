@@ -780,8 +780,8 @@
                   })
                 "
                 :key="itemIndex"
-                class="w-full h-full flex justify-start items-center px-4 pb-4 rounded-lg"
-                :class="state.lightbox.active ? 'pointer-events-none' : iPhone ? '!h-[150px]' : ''"
+                class="w-full flex justify-start items-center px-4 pb-4 rounded-lg"
+                :class="state.lightbox.active ? 'pointer-events-none' : iPhone ? '!h-[150px]' : 'h-full'"
               >
                 <div class="w-full h-full flex justify-center items-center rounded-lg">
                   <div
@@ -848,32 +848,32 @@
             </div>
             <hr v-if="iPhone" class="opacity-25" />
             <ul
-              class="pt-4 w-full mt-[64px] bg-black flex flex-col"
+              class="pt-4 w-full h-full mt-[64px] bg-black flex flex-col"
               :style="!iPhone ? '' : `height: ${state.viewportHeight - 64}px`"
-              :class="iPhone ? '!mt-[12px]' : ''"
+              :class="iPhone ? '!mt-[-48px]' : ''"
             >
               <li
                 v-for="(item, itemIndex) in pings.showroom"
                 @click="
                   openLightbox({
                     src: item.image,
-                    category: 'features',
+                    category: 'showroom',
                     id: item.id,
                   })
                 "
                 :key="itemIndex"
-                class="w-full h-full flex justify-start items-center px-4 pb-4"
-                :class="state.lightbox.active ? 'pointer-events-none' : iPhone ? 'h-[150px]' : ''"
+                class="w-full flex justify-start items-center px-4 pb-4"
+                :class="state.lightbox.active ? 'pointer-events-none' : isMobile && iPhone ? '!h-[150px]' : 'h-full'"
               >
-                <div
-                  class="w-full h-full bg-no-repeat bg-cover bg-center brightness-[0.4] saturate-125 rounded-lg"
-                  :style="`background-image: url(${item.image});`"
-                ></div>
-                <span
-                  class="pointer-events-none absolute left-0 w-full flex justify-center text-2xl text-white podular-sans lowercase"
-                >
-                  {{ item.title }}
-                </span>
+                <div class="w-full h-full flex justify-center items-center rounded-lg">
+                  <div
+                    class="w-full h-full bg-no-repeat bg-cover bg-center brightness-[0.4] saturate-125 rounded-lg"
+                    :style="`background-image: url(${item.image});`"
+                  ></div>
+                  <span class="pointer-events-none absolute w-full flex justify-center text-3xl text-white lowercase">
+                    {{ item.title }}
+                  </span>
+                </div>
               </li>
             </ul>
           </div>
