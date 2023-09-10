@@ -868,9 +868,9 @@
             </div>
             <hr v-if="iPhone" class="opacity-25" />
             <ul
-              class="pt-4 w-full h-full mt-[64px] bg-black flex flex-col"
-              :style="!iPhone ? '' : `height: ${state.viewportHeight - 64}px`"
-              :class="iPhone ? '!mt-[-48px]' : ''"
+              class="pt-4 w-full mt-[64px] bg-black flex flex-col"
+              :class="iPhone ? '!mt-[12px]' : ''"
+              :style="iPhone ? '' : `height: ${state.viewportHeight - 64}px`"
             >
               <li
                 v-for="(item, itemIndex) in pings.showroom"
