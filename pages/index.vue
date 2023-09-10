@@ -279,6 +279,12 @@
   }
 
   function handleFullscreenReady() {}
+
+  function iPhoneParallax() {
+    // just fade to black using filter brightness
+    if (iPhone)
+      return `filter: brightness(${state.progress / 100 < 0.5 ? 1 - state.progress / 100 : state.progress / 100});`
+  }
 </script>
 
 <template>
@@ -775,7 +781,7 @@
                 "
                 :key="itemIndex"
                 class="w-full h-full flex justify-start items-center px-4 pb-4 rounded-lg"
-                :class="state.lightbox.active ? 'pointer-events-none' : iPhone ? '!h-[200px]' : ''"
+                :class="state.lightbox.active ? 'pointer-events-none' : iPhone ? '!h-[150px]' : ''"
               >
                 <div class="w-full h-full flex justify-center items-center rounded-lg">
                   <div
@@ -857,7 +863,7 @@
                 "
                 :key="itemIndex"
                 class="w-full h-full flex justify-start items-center px-4 pb-4"
-                :class="state.lightbox.active ? 'pointer-events-none' : iPhone ? 'h-[200px]' : ''"
+                :class="state.lightbox.active ? 'pointer-events-none' : iPhone ? 'h-[150px]' : ''"
               >
                 <div
                   class="w-full h-full bg-no-repeat bg-cover bg-center brightness-[0.4] saturate-125 rounded-lg"
