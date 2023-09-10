@@ -293,9 +293,9 @@
 
     <!-- INTRO -------------------------------------------------------------->
 
-    <div class="fixed top-0 left-0 origin-top-left z-[50] duration-[1.4s] pointer-events-none">
+    <!-- <div class="fixed top-0 left-0 origin-top-left z-[50] duration-[1.4s] pointer-events-none">
       <Intro @ready="handleIntroReady" :skip="state.skipIntro" />
-    </div>
+    </div> -->
 
     <!-- LIGHTBOX -------------------------------------------------------------->
 
@@ -306,7 +306,7 @@
           ? 'opacity-100'
           : 'opacity-0'
       "
-      class="w-[100vw] p-8 pb-6 md:p-16 h-[50vh] md:pb-12 flex flex-col justify-end items-start duration-[2s] fixed bottom-0 left-0 pointer-events-none z-[110]"
+      class="w-[100vw] p-8 pb-6 md:p-16 h-[50vh] md:pb-12 flex flex-col justify-end items-start duration-[2s] fixed bottom-0 left-0 !pointer-events-none z-[110]"
       style="background: linear-gradient(transparent, #000000)"
     >
       <div class="font-bold text-4xl md:text-5xl text-white mb-6 podular-sans">
@@ -545,19 +545,6 @@
     </div>
 
     <main class="bg-transparent" v-scroll="handleScroll" style="transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1)">
-      <!-- PROGRESS -->
-
-      <!-- <div
-        v-show="state.ready && isMobile && state.active > 0"
-        class="fixed m-auto left-0 top-[0px] bg-transparent h-[1px] rounded-full w-screen z-50 flex justify-start duration-[2s]"
-        :class="state.progress >= 95 ? 'opacity-0' : 'opacity-1'"
-      >
-        <div
-          class="bg-white h-full rounded-full"
-          :style="`width: ${state.progress}%`"
-        ></div>
-      </div> -->
-
       <!-- PAGES -->
 
       <FullPage
@@ -595,9 +582,9 @@
             >
               <Icon
                 v-if="isMobile"
-                :size="isMobile ? 24 : 32"
                 name="arrow_alt_down"
-                class="animate-bounce pointer-events-none mt-[-16px]"
+                class="animate-bounce pointer-events-none"
+                :class="iPhone ? '!mt-[-120px]' : 'mt-[-64px]'"
               />
             </div>
 
@@ -663,7 +650,7 @@
 
           <!-- backdrop -->
           <video
-            v-if="!isMobile || true"
+            v-if="!iPhone && !isMobile"
             autoplay
             loop
             muted
@@ -671,6 +658,10 @@
             class="w-screen h-screen duration-[2.5s] object-cover"
             :class="animate(0, 'scale-[1.5] -translate-y-[20vh] brightness-[0.4]', 'scale-[1]')"
           />
+          <div
+            v-else
+            class="w-screen h-screen bg-cover bg-center bg-no-repeat bg-[url(https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/portrait_1QZqWJtfen.png?token=)]"
+          ></div>
         </section>
 
         <!-- ABOUT PAGE -------------------------->
@@ -727,7 +718,7 @@
                   />
                 </div>
 
-                <div v-show="isMobile" class="w-6 h-6 hoverable flex justify-start items-center mt-8">
+                <div v-show="isMobile && !iPhone" class="w-6 h-6 hoverable flex justify-start items-center mt-8">
                   <Icon
                     v-if="isMobile"
                     :size="isMobile ? 24 : 32"
@@ -748,6 +739,7 @@
           class="bg-black md:bg-transparent"
           :class="!isMobile ? (overlay() + state.active != 2 ? ' brightness-[0.3]' : ' brightness-1') : ''"
         >
+          <!-- desktop -->
           <div v-if="!isMobile" class="w-full h-full absolute duration-[2s]">
             <div
               @click="goTo('showroom')"
@@ -767,6 +759,7 @@
               image="https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_ao5Xejz8S5.jpg?token="
             />
           </div>
+          <!-- mobile -->
           <div v-else class="w-full h-full">
             <div v-if="iPhone" class="font-normal text-5xl text-white mb-6 mt-24 podular-sans text-left ml-8">
               features
@@ -800,11 +793,6 @@
                   </span>
                 </div>
               </li>
-              <!-- <li class="px-4 pb-4 w-full text-white flex justify-center items-center">
-                <div v-if="isMobile" class="w-6 h-6 hoverable flex justify-start items-center mt-8 mb-4">
-                  <Icon name="arrow_alt_down" class="animate-bounce pointer-events-none" />
-                </div>
-              </li> -->
             </ul>
           </div>
         </section>
@@ -887,11 +875,6 @@
                   {{ item.title }}
                 </span>
               </li>
-              <!-- <li class="px-4 pb-4 w-full text-white flex justify-center items-center">
-                <div v-if="isMobile" class="w-6 h-6 hoverable flex justify-start items-center mt-8 mb-4">
-                  <Icon name="arrow_alt_down" class="animate-bounce pointer-events-none" />
-                </div>
-              </li> -->
             </ul>
           </div>
         </section>

@@ -53,9 +53,9 @@
 </script>
 
 <template>
-  <div class="duration-[2.5s] w-screen h-screen z-100">
+  <div class="duration-[2.5s] w-screen h-screen z-100" style="overflow: hidden !important">
     <main
-      style="margin: auto; left: 0; right: 0; top: 0; bottom: 0"
+      style="margin: auto; left: 0; right: 0; top: 0; bottom: 0; overflow: hidden !important"
       :style="state.skip ? 'transition-duration: 0s !important' : ''"
       class="absolute w-full h-full flex flex-col justify-center items-center duration-[2.5s]"
       :class="`${!state.init ? 'scale-[16]' : 'scale-[1]'}`"

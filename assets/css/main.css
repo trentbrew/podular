@@ -13,17 +13,20 @@
 
 /* ------------ global ------------ */
 
-* {
-  overscroll-behavior: none !important;
+html {
+  overflow-x: hidden !important;
 }
 
 body {
   scroll-behavior: smooth;
+  overscroll-behavior: none !important;
+  overflow-x: hidden !important;
   box-sizing: border-box;
 }
 
 * {
   font-family: 'Nunito Sans', sans-serif;
+  overscroll-behavior: none !important;
 }
 
 .nunito {

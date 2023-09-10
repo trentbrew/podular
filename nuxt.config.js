@@ -6,20 +6,15 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  css: ["~/assets/css/main.css"],
+  css: ['~/assets/css/main.css'],
   postcss: {
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
     },
   },
-  modules: [
-    [
-      "@pinia/nuxt",
-      { autoImports: ["defineStore", ["defineStore", "definePiniaStore"]] },
-    ],
-  ],
+  modules: [['@pinia/nuxt', { autoImports: ['defineStore', ['defineStore', 'definePiniaStore']] }]],
   imports: {
-    dirs: ["stores"],
+    dirs: ['stores'],
   },
-});
+})

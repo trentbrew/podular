@@ -40,6 +40,10 @@
     }
   }
 
+  // window.addEventListener('scroll', event => {
+  //   console.log(event)
+  // })
+
   window.addEventListener('orientationchange', handleOrientationChange)
 
   nuxtApp.hook('page:finish', () => {
@@ -52,10 +56,13 @@
 </script>
 
 <template>
-  <Html data-theme="black" :style="iPhone ? '' : 'overflow: hidden;'">
+  <Html data-theme="black" :style="iPhone ? 'overflow-x: hidden !important;' : 'overflow: hidden !important;'">
     <Head><Title>PODULAR</Title></Head>
-    <Body :style="iPhone ? 'overscroll-behavior: none;' : 'overflow: hidden;'">
-      <div :style="`${iOS() || isSafari || isFirefox ? '' : 'cursor: none !important'}`">
+    <Body :style="iPhone ? 'overscroll-behavior: none !important;' : 'overflow: hidden !important;'">
+      <div
+        style="position: relative; overflow-x: hidden !important"
+        :style="`${iOS() || isSafari || isFirefox ? '' : 'cursor: none !important'}`"
+      >
         <NuxtLayout />
       </div>
     </Body>
