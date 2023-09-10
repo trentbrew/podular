@@ -2,22 +2,19 @@
   const router = useRouter()
   const route = useRoute()
 
-  const isMobile = window.innerWidth < 900
+  const fullpage = ref(null)
 
+  const isMobile = window.innerWidth < 900
   const isSafari =
     /constructor/i.test(window.HTMLElement) ||
     (function (p) {
       return p.toString() === '[object SafariRemoteNotification]'
     })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification))
-
   const isFirefox = typeof InstallTrigger !== 'undefined'
-
   const iOS = () =>
     ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform) ||
     (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
-
   const iPhone = isMobile && iOS()
-
   function isChromeForAndroid() {
     const userAgent = navigator.userAgent.toLowerCase()
     return userAgent.includes('chrome') && userAgent.includes('android')
@@ -26,11 +23,9 @@
   const pingCategory = computed(() => {
     return route.hash?.split('_')[0].substring(1) ?? ''
   })
-
   const pingContext = computed(() => {
     return route.hash?.split('_')[1] ?? ''
   })
-
   const pingDescription = computed(() => {
     if (pings[pingCategory.value]) {
       const ping = pings[pingCategory.value].find(ping => ping.id === pingContext.value)
@@ -38,9 +33,6 @@
     }
     return ''
   })
-
-  const fullpage = ref(null)
-
   const pings = {
     features: [
       {
@@ -146,6 +138,7 @@
     viewportHeight: 0,
     ready: false,
     active: 0,
+    scroll: 0,
     progress: 0,
     direction: 'down',
     featureContext: null,
@@ -197,6 +190,7 @@
 
   function handleScroll(e) {
     state.progress = e.progress
+    state.scroll = e.value
   }
 
   function handleNewSection(e) {
@@ -293,9 +287,9 @@
 
     <!-- INTRO -------------------------------------------------------------->
 
-    <!-- <div class="fixed top-0 left-0 origin-top-left z-[50] duration-[1.4s] pointer-events-none">
+    <div class="fixed top-0 left-0 origin-top-left z-[50] duration-[1.4s] pointer-events-none">
       <Intro @ready="handleIntroReady" :skip="state.skipIntro" />
-    </div> -->
+    </div>
 
     <!-- LIGHTBOX -------------------------------------------------------------->
 
@@ -768,7 +762,7 @@
             <ul
               class="pt-4 w-full mt-[64px] bg-black flex flex-col"
               :class="iPhone ? '!mt-[12px]' : ''"
-              :style="`height: ${state.viewportHeight - 64}px`"
+              :style="iPhone ? '' : `height: ${state.viewportHeight - 64}px`"
             >
               <li
                 v-for="(item, itemIndex) in pings.features"
@@ -781,7 +775,7 @@
                 "
                 :key="itemIndex"
                 class="w-full h-full flex justify-start items-center px-4 pb-4 rounded-lg"
-                :class="state.lightbox.active ? 'pointer-events-none' : ''"
+                :class="state.lightbox.active ? 'pointer-events-none' : iPhone ? '!h-[200px]' : ''"
               >
                 <div class="w-full h-full flex justify-center items-center rounded-lg">
                   <div
@@ -849,7 +843,7 @@
             <hr v-if="iPhone" class="opacity-25" />
             <ul
               class="pt-4 w-full mt-[64px] bg-black flex flex-col"
-              :style="`height: ${state.viewportHeight - 64}px`"
+              :style="!iPhone ? '' : `height: ${state.viewportHeight - 64}px`"
               :class="iPhone ? '!mt-[12px]' : ''"
             >
               <li
@@ -863,7 +857,7 @@
                 "
                 :key="itemIndex"
                 class="w-full h-full flex justify-start items-center px-4 pb-4"
-                :class="state.lightbox.active ? 'pointer-events-none' : ''"
+                :class="state.lightbox.active ? 'pointer-events-none' : iPhone ? 'h-[200px]' : ''"
               >
                 <div
                   class="w-full h-full bg-no-repeat bg-cover bg-center brightness-[0.4] saturate-125 rounded-lg"
