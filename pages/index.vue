@@ -538,18 +538,18 @@
     <!-- MAIN -------------------------------------------------------------->
 
     <div
-      class="fixed bottom-[21vh] left-0 justify-center md:justify-end md:bottom-12 md:right-16 md:left-auto z-[100] flex items-center gap-8 duration-[600ms] text-white w-full md:w-fit delay-[400ms] scale-[0.7]"
+      class="fixed bottom-[21vh] left-0 justify-center md:justify-end md:bottom-12 md:right-16 md:left-auto z-[100] flex items-center gap-8 duration-[600ms] text-white w-full md:w-fit delay-[400ms] scale-[0.8]"
       :class="
         (isMobile ? [0, 1, 2, 3] : [0, 1, 2, 3]).includes(state.active)
           ? 'opacity-0 pointer-events-none'
           : 'opacity-100'
       "
     >
-      <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
+      <!-- <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
         <Icon class="pointer-events-none" name="instagram" />
-      </a>
+      </a> -->
       <a class="hoverable hover:opacity-50 md:opacity-100" href="https://www.facebook.com/PodularOfficial">
-        <Icon class="pointer-events-none" name="facebook_alt" />
+        <Icon class="pointer-events-none" name="facebook" />
       </a>
       <!-- <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
         <Icon class="pointer-events-none" name="twitter" />
