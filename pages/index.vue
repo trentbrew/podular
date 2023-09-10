@@ -548,13 +548,13 @@
       <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
         <Icon class="pointer-events-none" name="instagram" />
       </a>
-      <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
+      <a class="hoverable hover:opacity-50 md:opacity-100" href="https://www.facebook.com/PodularOfficial">
         <Icon class="pointer-events-none" name="facebook_alt" />
       </a>
-      <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
+      <!-- <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
         <Icon class="pointer-events-none" name="twitter" />
-      </a>
-      <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
+      </a> -->
+      <a class="hoverable hover:opacity-50 md:opacity-100" href="https://www.linkedin.com/company/podular-inc/about/">
         <Icon class="pointer-events-none" name="linkedin" />
       </a>
     </div>
