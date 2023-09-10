@@ -421,7 +421,7 @@
         >
           contact
         </li>
-        <a href="https://preorder.podular.us">
+        <a href="https://buy.stripe.com/test_eVa8xOc870ogciQbII">
           <li class="hoverable menu-item podular-sans md:nunito inactive-link">pre-order</li>
         </a>
       </ul>
@@ -517,7 +517,7 @@
         <div class="navbar-end pr-2">
           <a
             v-if="!isMobile"
-            href="https://preorder.podular.us"
+            href="https://buy.stripe.com/test_eVa8xOc870ogciQbII"
             class="scale-[1.08] translate-x-[-4px] btn btn-sm bg-white/80 text-black/60 hover:bg-transparent hover:border-white hoverable border-white/0 border-[1.5px] hover:text-white rounded-full gap-1"
           >
             pre-order
