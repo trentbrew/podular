@@ -174,6 +174,8 @@
   })
 
   function updateViewportHeight(e) {
+    console.clear()
+    console.log('updating viewport height')
     state.viewportHeight = e
   }
 
@@ -285,6 +287,13 @@
     if (iPhone)
       return `filter: brightness(${state.progress / 100 < 0.5 ? 1 - state.progress / 100 : state.progress / 100});`
   }
+
+  watch(
+    () => state.viewportHeight,
+    val => {
+      console.log('viewport height changed', val)
+    }
+  )
 </script>
 
 <template>
@@ -300,6 +309,7 @@
     <!-- LIGHTBOX -------------------------------------------------------------->
 
     <div
+      v-if="!iPhone"
       :class="
         [2, 3].includes(state.active) &&
         (pingContext.length || state.lightbox.context.length || pingContext?.length || pingDescription?.length)
@@ -339,14 +349,13 @@
       >
         <div
           v-if="iPhone"
-          class="w-[100vw] p-8 pb-6 md:p-16 h-[50vh] md:pb-12 flex flex-col justify-end items-start duration-[2s] pointer-events-none z-[110]"
-          :class="iPhone ? '!pb-36' : ''"
-          style="background: linear-gradient(transparent, #000000)"
+          class="w-[100vw] h-[100vh] flex flex-col justify-end items-center p-8 pb-[18dvh] duration-[2s] pointer-events-none z-[110]"
+          style="background: linear-gradient(transparent, #000000bb)"
         >
-          <div class="font-bold text-4xl md:text-5xl text-white mb-6 podular-sans">
-            {{ pingContext ?? state.lightbox.context }}
-          </div>
-          <div class="flex flex-col gap-3 text-white">
+          <div class="flex flex-col gap-3 text-white text-left w-full">
+            <div class="font-bold text-4xl md:text-5xl text-white mb-2 podular-sans w-full text-left">
+              {{ pingContext ?? state.lightbox.context }}
+            </div>
             <span class="md:text-lg w-full md:max-w-[50vw] opacity-100 md:opacity-60">
               {{ pingDescription ?? state.lightbox.description }}
             </span>
@@ -424,7 +433,7 @@
       <div
         class="navbar w-full rounded-none duration-[500ms] border-b-[1.5px]"
         :class="
-          state.active > 0
+          state.active > 0 || iPhone
             ? 'bg-black/[0.2] backdrop-saturate-150 border-white/[0.15] backdrop-blur-2xl'
             : 'bg-transparent border-transparent'
         "
@@ -432,13 +441,19 @@
         <div class="navbar-start pl-[64px]">
           <a
             class="duration-500 text-2xl text-white translate-y-[-1px]"
-            :class="
-              (state.active > 0 && !isMobile) || (isMobile && !iPhone)
-                ? 'opacity-100 delay-[1s]'
-                : 'opacity-0 -translate-x-2'
-            "
+            :class="(state.active > 0 && !isMobile) || isMobile ? 'opacity-100 delay-[1s]' : 'opacity-0 -translate-x-2'"
           >
-            <h1 v-if="!isMobile || iPhone" class="podular-sans">podular</h1>
+            <h1
+              v-if="!isMobile || iPhone"
+              class="podular-sans duration-500"
+              :class="
+                iPhone && state.scroll > state.viewportHeight / 2
+                  ? 'opacity-1 translate-x-[0px]'
+                  : 'opacity-0 translate-x-[-6px]'
+              "
+            >
+              podular
+            </h1>
             <div v-else>
               <h1 v-show="state.active == 0" class="podular-sans"></h1>
               <h1 v-show="state.active == 1" class="podular-sans">about</h1>
@@ -544,7 +559,12 @@
       </a>
     </div>
 
-    <main class="bg-transparent" v-scroll="handleScroll" style="transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1)">
+    <main
+      class="bg-transparent"
+      v-scroll="handleScroll"
+      style="transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1)"
+      :style="state.lightbox.active ? 'overflow: hidden !important;' : ''"
+    >
       <!-- PAGES -->
 
       <FullPage
