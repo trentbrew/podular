@@ -760,7 +760,7 @@
           :class="!isMobile ? (overlay() + state.active != 2 ? ' brightness-[0.3]' : ' brightness-1') : ''"
         >
           <!-- desktop -->
-          <div v-if="!isMobile" class="w-full h-full absolute duration-[2s]">
+          <div v-if="!isMobile" class="w-screen h-screen absolute duration-[2s]">
             <div
               @click="goTo('showroom')"
               class="z-[10] md:absolute md:bottom-8 md:right-8 hoverable justify-center flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-6 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"
@@ -825,7 +825,7 @@
           :class="!isMobile ? (overlay() + state.active != 3 ? ' brightness-[0.3]' : ' brightness-1') : ''"
         >
           <!-- desktop -->
-          <div v-if="!isMobile" class="w-full h-full absolute">
+          <div v-if="!isMobile" class="w-screen h-screen absolute">
             <div
               @click="goTo('contact')"
               class="z-[10] md:absolute md:bottom-8 md:right-8 hoverable justify-center flex gap-2 items-center w-full md:w-fit bg-transparent text-white hover:bg-transparent py-3 px-4 pr-6 mt-6 md:mt-6 rounded-full hover:border-white/40 hover:text-white duration-[300ms] border-[1.5px] border-white md:border-white/0"

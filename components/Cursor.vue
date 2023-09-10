@@ -29,11 +29,8 @@
 
   onMounted(() => {
     document.addEventListener('mouseover', e => {
-      if (e.target.classList.contains('hoverable')) {
-        state.hover = true
-      } else {
-        state.hover = false
-      }
+      if (e.target.classList.contains('hoverable')) state.hover = true
+      else state.hover = false
     })
     document.addEventListener('mousemove', moveCursor)
     document.addEventListener('mouseleave', e => {
@@ -46,13 +43,7 @@
 </script>
 
 <template>
-  <div
-    :class="[
-      'g-cursor',
-      { 'g-cursor_hover': state.hover },
-      { 'g-cursor_hide': state.hideCursor },
-    ]"
-  >
+  <div :class="['g-cursor', { 'g-cursor_hover': state.hover }, { 'g-cursor_hide': state.hideCursor }]">
     <div :style="cursorCircle" class="g-cursor__circle"></div>
     <div class="g-cursor__point" ref="point" :style="cursorPoint"></div>
   </div>
@@ -79,12 +70,11 @@
       height: 36px;
       background: white;
       mix-blend-mode: difference;
-      //background: rgba(white,0.3);
       border-radius: 100%;
       z-index: 5555;
       backface-visibility: hidden;
-      transition: margin 0.6s ease, opacity 0.6s ease, width 0.6s ease,
-        height 0.6s ease;
+      backdrop-filter: contrast(1.5) saturate(1.5);
+      transition: margin 0.6s ease, opacity 0.6s ease, width 0.6s ease, height 0.6s ease;
     }
 
     &__point {
@@ -103,8 +93,7 @@
       z-index: 55555555;
       backface-visibility: hidden;
       will-change: transform;
-      transition: margin 0.4s ease, opacity 0.4s ease, width 0.4s ease,
-        height 0.4s ease;
+      transition: margin 0.4s ease, opacity 0.4s ease, width 0.4s ease, height 0.4s ease;
     }
 
     &_hover {
@@ -118,8 +107,7 @@
         mix-blend-mode: difference;
         background: rgba(white, 1);
         border-color: white;
-        transition: margin 0.4s ease, width 0.4s ease, height 0.4s ease,
-          opacity 0.4s ease, transform 0s;
+        transition: margin 0.4s ease, width 0.4s ease, height 0.4s ease, opacity 0.4s ease, transform 0s;
       }
 
       .g-cursor__circle {
@@ -130,8 +118,7 @@
         margin-top: -24px;
         background: rgba(white, 1);
         border-color: transparent;
-        transition: margin 0.4s ease, width 0.4s ease, height 0.4s ease,
-          opacity 0.4s ease;
+        transition: margin 0.4s ease, width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
       }
     }
   }
