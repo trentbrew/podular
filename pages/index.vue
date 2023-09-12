@@ -57,7 +57,7 @@
       },
       {
         id: 'stove',
-        title: 'Stove',
+        title: 'Cooktop',
         category: 'features',
         description:
           'Popular features a two-burner induction cooktop, expandable with additional units for diverse cooking needs.',
@@ -554,9 +554,9 @@
       <!-- <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
         <Icon class="pointer-events-none" name="twitter" />
       </a> -->
-      <a class="hoverable hover:opacity-50 md:opacity-100" href="https://www.linkedin.com/company/podular-inc/about/">
+      <!-- <a class="hoverable hover:opacity-50 md:opacity-100" href="https://www.linkedin.com/company/podular-inc/about/">
         <Icon class="pointer-events-none" name="linkedin" />
-      </a>
+      </a> -->
     </div>
 
     <main
@@ -962,9 +962,9 @@
               <h1 class="text-3xl md:text-5xl mb-4">Jasna Ostojich</h1>
               <p class="mb-2 text-lg md:text-xl">Founder & Executive President</p>
               <div class="flex flex-col mt-6 justify-start items-center md:items-start">
-                <a class="hoverable underline flex gap-4 items-center justify-center" href="mailto:info@cafebellas.com">
+                <a class="hoverable underline flex gap-4 items-center justify-center" href="mailto:jasna@podular.us">
                   <Icon name="mail" class="opacity-60 md:opacity-100" />
-                  <span class="hoverable opacity-50">info@cafebellas.com</span>
+                  <span class="hoverable opacity-50">jasna@podular.us</span>
                 </a>
                 <span class="font-bold flex justify-start gap-4 items-center">
                   <Icon name="phone" class="opacity-60 md:opacity-100" />
@@ -985,9 +985,9 @@
                   <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
                     <Icon class="pointer-events-none" name="twitter" />
                   </a>
-                  <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
+                  <!-- <a class="hoverable hover:opacity-50 md:opacity-100" href="#">
                     <Icon class="pointer-events-none" name="linkedin" />
-                  </a>
+                  </a> -->
                 </div>
               </div>
             </div>
