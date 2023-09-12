@@ -56,7 +56,7 @@
           'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_storage_tuoSPKJDmp.jpg?token=',
       },
       {
-        id: 'stove',
+        id: 'cooktop',
         title: 'Cooktop',
         category: 'features',
         description:
@@ -1153,12 +1153,12 @@
     left: -360px;
   }
 
-  #stove {
+  #cooktop {
     top: -170px;
     right: -270px;
   }
 
-  #stove2 {
+  #cooktop2 {
     top: -170px;
     right: -270px;
   }
