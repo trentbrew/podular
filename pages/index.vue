@@ -967,10 +967,6 @@
                   <span class="hoverable opacity-50">jasna@podular.us</span>
                 </a>
                 <span class="font-bold flex justify-start gap-4 items-center">
-                  <Icon name="phone" class="opacity-60 md:opacity-100" />
-                  <a href="tel:+18479220061" class="my-2 underline hoverable opacity-50 font-normal">
-                    +1 (847) 922 0061
-                  </a>
                 </span>
                 <div
                   v-if="iPhone"
