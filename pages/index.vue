@@ -83,12 +83,6 @@
         image:
           'https://trentbrew.pockethost.io/api/files/swvnum16u65or8w/z5reo1oqlaznfeo/features_access_ZgNUvMDLWQ.jpg?token=',
       },
-      // {
-      //   id: 'wheels',
-      //   title: 'Wheels',
-      //   category: 'features',
-      //   coordinates: [44, 24],
-      // },
       {
         id: 'led',
         title: 'LED',
@@ -966,8 +960,7 @@
                   <Icon name="mail" class="opacity-60 md:opacity-100" />
                   <span class="hoverable opacity-50">jasna@podular.us</span>
                 </a>
-                <span class="font-bold flex justify-start gap-4 items-center">
-                </span>
+                <span class="font-bold flex justify-start gap-4 items-center"></span>
                 <div
                   v-if="iPhone"
                   class="translate-y-[64px] justify-center md:justify-end md:bottom-12 md:right-16 md:left-auto z-[100] flex items-center gap-8 duration-[600ms] text-white w-full md:w-fit delay-[400ms] scale-[0.7]"
