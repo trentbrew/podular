@@ -77,14 +77,18 @@
     },
     data: {
       landing: {
-        title: 'The Perfect Space Solution',
-        subtitle:
-          'Podular presents a stylish patented modular pod, Patented Restaurant Management Software Tools, swift and uncomplicated solutions that elevate the customer and employee experience in the food and beverage industry',
+        title: '',
+        subtitle: '',
       },
       about: {
-        header: 'PODULAR',
-        subheader:
-          'Urban-inspired food and beverage stands revolutionizing the traditional concept of food service counter',
+        title: '',
+        subtitle: '',
+      },
+      contact: {
+        full_name: '',
+        role: '',
+        email: '',
+        image: '',
       },
       pings: {
         features: [
@@ -196,7 +200,26 @@
 
   async function fetchData() {
     console.log('fetching data...')
-    pb.get('')
+    const homeData = await pb.get('home')
+    console.log('homeData: ', homeData)
+    state.data.landing = {
+      title: homeData[0]?.title,
+      subtitle: homeData[0]?.subtitle,
+    }
+
+    const aboutData = await pb.get('about')
+    state.data.about = {
+      title: aboutData[0]?.title,
+      subtitle: aboutData[0]?.subtitle,
+    }
+
+    const contactData = await pb.get('contact')
+    state.data.contact = {
+      full_name: contactData[0]?.full_name,
+      role: contactData[0]?.role,
+      email: contactData[0]?.email,
+      image: contactData[0]?.image,
+    }
   }
 
   function updateViewportHeight(e) {
@@ -651,7 +674,9 @@
               style="background: linear-gradient(transparent, #000000ef)"
               :class="animate(1, 'opacity-0 h-[60vh] delay-[5s]', 'opacity-100 delay-[1.2s]')"
             >
-              <div class="font-bold text-5xl md:text-5xl text-white mb-6 podular-sans text-left">PODULAR</div>
+              <div class="font-bold text-5xl md:text-5xl text-white mb-6 podular-sans text-left">
+                {{ state.data?.about.title }}
+              </div>
               <!-- <div class="font-bold text-5xl md:text-4xl text-white mb-6 podular-sans text-left">
                 the
                 <br v-if="isMobile" />
@@ -667,7 +692,7 @@
                   class="md:text-lg md:max-w-[45vw] font-normal text-left text-[16px]"
                   :class="iPhone ? 'opacity-100' : 'opacity-60'"
                 >
-                  {{ state.data?.about.subheader }}
+                  {{ state.data?.about.subtitle }}
                 </span>
 
                 <div

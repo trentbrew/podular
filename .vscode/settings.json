@@ -1,5 +1,5 @@
 {
   "nuxt.isNuxtApp": true,
-  "workbench.colorTheme": "Timu macOS dark Theme",
+  "workbench.colorTheme": "Default Material Dark Theme",
   "vue.codeActions.enabled": false
 }
